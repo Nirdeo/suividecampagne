@@ -7,7 +7,7 @@
         Django Atlantis Dark - {% block title %}{% endblock %} | AppSeed
     </title>
 
-	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+	<meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
 	<link href="../static/assets/img/icon.ico" rel="icon" type="image/x-icon"/>
 	<link href="https://appseed.us/admin-dashboards/django-dashboard-atlantis-dark" rel="canonical">
 
@@ -17,7 +17,7 @@
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
 			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
-			urls: ['/static/assets/css/fonts.min.css']},
+			urls: ["../static/assets/css/fonts.min.css"]},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -28,7 +28,7 @@
 	<link href="../static/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../static/assets/css/atlantis.css" rel="stylesheet">
 
-	<!-- CSS Just for demo purpose, don't include it in your project -->
+	<!-- CSS Just for demo purpose, don"t include it in your project -->
 	<link href="../static/assets/css/demo.css" rel="stylesheet">
 
     <!-- Specific Page CSS goes HERE  -->
@@ -39,13 +39,21 @@
 <body data-background-color="dark">
 <div class="wrapper">
 
+        {% include "includes/navigation.html" %}
+
+        {% include "includes/sidebar.html" %}
+
 		<div class="main-panel">
 
 			{% block content %}{% endblock content %}
 
+			{% include "includes/footer.html" %}
+
 		</div>
 
 	</div>
+
+	{% include "includes/scripts.html" %}
 
 <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}
