@@ -3,7 +3,7 @@
 			<div class="sidebar-wrapper scrollbar scrollbar-inner">
 				<div class="sidebar-content">
 
-
+					{% if request.user.is_authenticated %}	
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
 							<img src="https://appsrv1-147a1.kxcdn.com/atlantis-lite/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
@@ -289,7 +289,7 @@
 							</div>
 						</li>
 					</ul>
-
+				{% endif %}	
 				</div>
 			</div>
 		</div>
