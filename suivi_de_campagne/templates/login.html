@@ -1,99 +1,127 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-{% block title %} Login {% endblock title %}
+    <title>
+        Django Atlantis Dark - {% block title %}{% endblock %} | AppSeed
+    </title>
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+    <link rel="icon" href="../static/assets/img/icon.ico" type="image/x-icon"/>
+    <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-atlantis-dark">
 
-{% block content %}
+    <!-- Fonts and icons -->
+    <script src="../static/assets/js/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: {"families": ["Lato:300,400,700,900"]},
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ['../static/assets/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
 
-<div class="page-inner">
-    <div class="page-header">
-        <h4 class="page-title">Login</h4>
-        <ul class="breadcrumbs">
-            <li class="nav-home">
-                <a href="#">
-                    <i class="flaticon-home"></i>
-                </a>
-            </li>
-            <li class="separator">
-                <i class="flaticon-right-arrow"></i>
-            </li>
-            <li class="nav-item">
-                <a href="#">Authentication</a>
-            </li>
-            <li class="separator">
-                <i class="flaticon-right-arrow"></i>
-            </li>
-            <li class="nav-item">
-                <a href="#">Login</a>
-            </li>
-        </ul>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/assets/css/atlantis.css">
 
-                        {% if msg %}
-                        <span class="text-danger">{{ msg | safe }}</span>
-                        {% else %}
-                        <span>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="../static/assets/css/demo.css">
+
+    <!-- Specific Page CSS goes HERE  -->
+    {% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+<body data-background-color="dark">
+<div class="wrapper">
+
+    <div class="container">
+
+        {% block content %}
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Login</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+
+                                    {% if msg %}
+                                        <span class="text-danger">{{ msg | safe }}</span>
+                                    {% else %}
+                                        <span>
                                 Add your credentials
                             </span>
-                        {% endif %}
+                                    {% endif %}
 
-                    </div>
-                </div>
+                                </div>
+                            </div>
 
-                <form method="post" action="">
+                            <form method="post" action="">
 
-                    {% csrf_token %}
+                                {% csrf_token %}
 
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-4">
 
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="icon-user"></i>
                                                 </span>
-                                        </div>
-                                        <input type="email" name="username" class="form-control" aria-describedby="emailHelp" value="{{email}}"placeholder="Votre adresse e-mail">
-                                    </div>
-                                </div>
+                                                    </div>
+                                                    {{ form.username }}
+                                                </div>
+                                            </div>
 
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="icon-lock"></i>
                                                 </span>
+                                                    </div>
+                                                    {{ form.password }}
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <input type="password" name="password" class="form-control" placeholder="Votre mot de passe">
                                     </div>
                                 </div>
+                                <div class="card-action">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <br>
+                                    <span>Forgot Password?</span> Please <a href="{% url 'forgot-password' %}">Reset
+                                    it</a>
+                                </div>
 
-                            </div>
+                            </form>
+
                         </div>
                     </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Submit</button><br>
-
-                        <span>Forgot Password?</span> Please <a href="{% url 'forgot-password' %}">Reset it</a>
-                    </div>
-
-                </form>
-
+                </div>
             </div>
-        </div>
+        {% endblock content %}
+
+        {% include 'includes/footer.html' %}
+
     </div>
+
 </div>
 
-{% endblock content %}
+{% include 'includes/scripts.html' %}
 
-<!-- Specific JS goes HERE -->
+<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
+
+</body>
+</html>

@@ -1,6 +1,8 @@
-from utils.functions import import_configuration, mark, hasher, uid_super_user
-from pymongo import MongoClient
 import datetime
+
+from pymongo import MongoClient
+
+from utils.functions import import_configuration, mark, hasher, uid_super_user
 
 mark("Initialisation de la base de données")
 
@@ -14,42 +16,42 @@ users = database["utilisateurs"]
 users.drop()
 
 registration = {
-    "civilite" : "Mr",
-    "nom" : "Super administrateur",
-    "prenom" : "",
-    "description" : "",
-    "avatar" : "",
-    "email" : import_configuration("superutilisateur"),
-    "password" : hasher("onnejouepasaveclasecurite"),
-    "security_check" : datetime.datetime.now(),
-    "datecreation" : datetime.datetime.now(),
-    "datemodification" : datetime.datetime.now()
+    "civilite": "Mr",
+    "nom": "Super administrateur",
+    "prenom": "",
+    "description": "",
+    "avatar": "",
+    "email": import_configuration("superutilisateur"),
+    "password": hasher("onnejouepasaveclasecurite"),
+    "security_check": datetime.datetime.now(),
+    "datecreation": datetime.datetime.now(),
+    "datemodification": datetime.datetime.now()
 }
 users.insert_one(registration)
 registration = {
-    "civilite" : "Mme",
-    "nom" : "Flamant",
-    "prenom" : "Morgane",
-    "description" : "",
-    "avatar" : "",
-    "email" : "mflamant@neptunemedia.fr",
-    "password" : hasher("onnejouepasaveclasecurite"),
-    "security_check" : datetime.datetime.now(),
-    "datecreation" : datetime.datetime.now(),
-    "datemodification" : datetime.datetime.now()
+    "civilite": "Mme",
+    "nom": "Flamant",
+    "prenom": "Morgane",
+    "description": "",
+    "avatar": "",
+    "email": "mflamant@neptunemedia.fr",
+    "password": hasher("onnejouepasaveclasecurite"),
+    "security_check": datetime.datetime.now(),
+    "datecreation": datetime.datetime.now(),
+    "datemodification": datetime.datetime.now()
 }
 users.insert_one(registration)
 registration = {
-    "civilite" : "Mr",
-    "nom" : "De Domenico",
-    "prenom" : "Victor",
-    "description" : "",
-    "avatar" : "",
-    "email" : "vdomenico@neptunemedia.fr",
-    "password" : hasher("onnejouepasaveclasecurite"),
-    "security_check" : datetime.datetime.now(),
-    "datecreation" : datetime.datetime.now(),
-    "datemodification" : datetime.datetime.now()
+    "civilite": "Mr",
+    "nom": "De Domenico",
+    "prenom": "Victor",
+    "description": "",
+    "avatar": "",
+    "email": "vdomenico@neptunemedia.fr",
+    "password": hasher("onnejouepasaveclasecurite"),
+    "security_check": datetime.datetime.now(),
+    "datecreation": datetime.datetime.now(),
+    "datemodification": datetime.datetime.now()
 }
 users.insert_one(registration)
 
@@ -57,8 +59,8 @@ mark("Création du tracking")
 tracking = database["tracking"]
 tracking.drop()
 enregistrement = {
-    "libelle" : "Initialisation de l'application",
-    "utilisateur" : uid_super_user(),
-    "timestamp" : datetime.datetime.now(),
+    "libelle": "Initialisation de l'application",
+    "utilisateur": uid_super_user(),
+    "timestamp": datetime.datetime.now(),
 }
 tracking.insert_one(enregistrement)

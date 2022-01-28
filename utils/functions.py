@@ -53,36 +53,36 @@ def hasher(string, algorithm="SHA256"):
     return return_value
 
 
-def generate_password(size = 12, chars = string.ascii_letters + string.digits) :
+def generate_password(size=12, chars=string.ascii_letters + string.digits):
     """
     Fonction qui génère un mot de passe aléatoire
     """
     return "".join(random.choice(chars) for _ in range(size))
 
 
-def mark(message = "") :
+def mark(message=""):
     """
     Procédure qui affiche dans la console, et écrit en même temps dans le fichier suividecampagne.log
     """
-    try : 
+    try:
         directory = import_configuration("repertoire", "log")
         absolute_path = directory + "suividecampagne." + datetime.now().strftime("%Y%m%d") + ".log"
         print(message)
-        with open(absolute_path, "a", encoding = "utf8") as log :
+        with open(absolute_path, "a", encoding="utf8") as log:
             log.write(datetime.now().strftime("[%Y-%m-%d %H:%M:%S] ") + message + "\n")
         chmod(absolute_path, 0o777)
         return_value = True
-    except Exception as error :
+    except Exception as error:
         print(" ! Une erreur s'est produite durant 'mark' : {} {}".format(error, type(error)))
         return_value = False
     return return_value
 
 
-def send_email(destinataire, sujet, contenu) :
+def send_email(destinataire, sujet, contenu):
     """
     Fonction qui envoie un e-mail
     """
-    if import_configuration("email", "active") == True :
+    if import_configuration("email", "active") == True:
         server_address = import_configuration("smtp", "host")
         server_port = import_configuration("smtp", "port")
         server_login = import_configuration("smtp", "username")
@@ -95,7 +95,7 @@ def send_email(destinataire, sujet, contenu) :
         html = contenu
         part = MIMEText(html, "html")
         message.attach(part)
-        try :
+        try:
             server = smtplib.SMTP(server_address, server_port, server_address)
             server.starttls()
             server.ehlo()
@@ -103,40 +103,40 @@ def send_email(destinataire, sujet, contenu) :
             server.sendmail(message["From"], destinataire, message.as_string())
             server.quit()
             return_value = True
-        except Exception as error :
+        except Exception as error:
             print(" ! Une erreur s'est produite durant 'envoyer_email' : {} {}".format(error, type(error)))
             return_value = False
-    else :
+    else:
         print(" ! Envoi d'email désactivé")
         return_value = False
     return return_value
 
 
-def tracking(label, user = None) :
+def tracking(label, user=None):
     """
     Fonction qui créé un élément de tracking
     """
     registration = {
-        "libelle" : label,
-        "utilisateur" : user,
-        "timestamp" : datetime.now(),
+        "libelle": label,
+        "utilisateur": user,
+        "timestamp": datetime.now(),
     }
     server = MongoClient(import_configuration("mongodb", "url"))
     database = server["suividecampagne"]
     database["tracking"].insert_one(registration)
 
 
-def uid_super_user() :
+def uid_super_user():
     """
     Fonction qui va chercher l'uid du superutilisateur
     """
-    try :
+    try:
         server = MongoClient(import_configuration("mongodb", "url"))
         database = server["suivicampagne"]
         collection = database["utilisateurs"]
-        data = collection.find_one({"email" : import_configuration("superutilisateur")})
+        data = collection.find_one({"email": import_configuration("superutilisateur")})
         return_value = data["_id"]
-    except Exception as error :
+    except Exception as error:
         print("Une erreur s'est produite durant 'uid_super_utilisateur' : {} {}".format(error, type(error)))
         return_value = ""
     return return_value

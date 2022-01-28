@@ -94,6 +94,12 @@ body {
     color: #575962;
 }
 
+.input-group > ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 a {
     color: #1572E8;
 }
