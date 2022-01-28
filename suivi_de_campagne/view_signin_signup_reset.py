@@ -1,31 +1,32 @@
-from django.shortcuts import render, redirect
-# from django.urls import reverse
-# from django.http import HttpResponseRedirect
-# from django.views import View
-from django.contrib.auth import logout
-from utils import database, functions
-from suivi_de_campagne import forms, emails, messages
 import datetime
+
 from bson import ObjectId
+from django.contrib.auth import logout
+from django.shortcuts import render, redirect
+
+from suivi_de_campagne import forms, emails, messages
+from utils import database, functions
 
 
 def logout_user(request):
     logout(request)
     return redirect('login')
 
+
 def login_view(request):
     form = forms.LoginForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             # Récupération des infos
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
 
             # Connexion à la bdd
             database.mongodb.openConnection()
             if database.mongodb.isAlive():
                 # récupération de l'utilisateur dans mongo avec un find
-                predicate = {"email": username, "password": functions.hasher(password)}
+                predicate = {"email": username,
+                             "password": functions.hasher(password)}
                 projection = {"_id": 1, "email": 1, "password": 1}
                 user = database.mongodb.suivicampagne.utilisateurs.find_one(
                     predicate, projection)
@@ -46,6 +47,7 @@ def login_view(request):
         response = render(request, "login.html", {"form": form})
 
     return response
+
 
 def forgot_password(request):
     context = {}
@@ -98,15 +100,13 @@ def reset_password(request):
                     # Valeur de retour
                     functions.tracking(
                         "Demande réinitialisation mot de passe", ObjectId(user["_id"]))
-                    context = {"message": messages.reset_password + user["email"]}
-                    response = render(request, "login.html", context)
+                    context = {
+                        "message": messages.reset_password + user["email"]}
                 else:
                     # Retour sur la fenêtre de connexion avec erreur
                     context = {"erreur": messages.error_user}
-                    response = render(request, "login.html", context)
             else:
                 # Retour sur la fenêtre de connexion avec erreur
                 context = {"erreur": messages.error_database}
-                response = render(request, "login.html", context)
-
+            response = render(request, "login.html", context)
     return response

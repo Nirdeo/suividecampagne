@@ -1,5 +1,5 @@
 from django.urls import path
-from suivi_de_campagne import view_signin_signup_reset, views
+from suivi_de_campagne import view_partner, view_signin_signup_reset, views
 
 urlpatterns = [
     path("", view_signin_signup_reset.login_view, name="login"),
@@ -9,4 +9,11 @@ urlpatterns = [
          name="forgot-password"),
     path("reset-password/", view_signin_signup_reset.reset_password,
          name="reset-password"),
+    # path("partners/test", view_partner.partner_list, name="partner-list"),
+    path("partner-detail/", view_partner.partner_detail,
+         name="partner-detail"),
+    path("partners/", view_partner.view_partner,
+         name="view-partner"),
+    path("partners-send/", view_partner.create_partner,
+         name="create-partner"),
 ]
