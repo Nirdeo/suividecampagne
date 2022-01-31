@@ -17,8 +17,9 @@ def view_partner(request):
         return render(request, "partner_create.html", {"form": form})
     else:
         # Retour sur la mire de connexion
-        context = {"erreur" : messages.error_database}
+        context = {"erreur": messages.error_database}
         return render(request, "login.html", context)
+
 
 def create_partner(request):
     if database.mongodb.isAlive():
@@ -62,7 +63,7 @@ def create_partner(request):
                     identifiant = str(identifiant)
 
                 # Valeur de retour
-                response = redirect("partner-detail")
+                response = redirect("detail-partner")
             else:
                 msg.add_message(request, msg.ERROR, form.errors)
                 response = HttpResponseRedirect(reverse("create-partner"))
@@ -79,9 +80,22 @@ def create_partner(request):
     return response
 
 
-def partner_list(request):
-    return ""
+def detail_partner(request):
+    return render(request, "partner_detail.html", {})
 
 
-def partner_detail(request):
-    return render(request, "partner-detail.html", {})
+def list_partner(request):
+    if database.mongodb.isAlive():
+        # Contexte générique
+        context = views.context_processor(request)
+        match = {"$match": {}}
+        project = {"$project": {"nom_partenaire": 1, "nom_contact": 1, "prenom": 1, "fonction": 1, "email": 1,
+                                "telephone": 1, "skype": 1, "categories": 1, "siret": 1, "datecreation": 1, "datemodification": 1}}
+        sort = {"$sort": {"nom_partenaire": 1}}
+        context["partenaires"] = database.mongodb.suivicampagne.partenaires.aggregate([match, project, sort])
+        # Valeur de retour
+        return render(request, "partner_list.html", context)
+    else:
+        # Retour sur la mire de connexion
+        context = {"erreur": messages.error_database}
+        return render(request, "login.html", context)

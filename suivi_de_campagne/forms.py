@@ -40,6 +40,6 @@ class PartnerForm(forms.Form):
     categories = forms.CharField(widget=forms.TextInput(
         attrs={"class": "form-control"}), max_length=32, required=False)
     siret = forms.CharField(widget=forms.TextInput(attrs={
-        "class": "form-control"}), min_length=14, max_length=14)
+        "class": "form-control", "onkeyup": "this.value = this.value.toUpperCase();"}), min_length=14, max_length=14)
     nom_partenaire = forms.CharField(widget=forms.TextInput(
         attrs={"class": "form-control"}), max_length=32, required=False)

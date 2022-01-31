@@ -1,9 +1,12 @@
-{% extends "base.html" %}{% block title %} Ajouter un partenaire {% endblock title %}
+{% extends "base.html" %}{% block title %} Login {% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %} {% block content %}
+    <h1>Créer un nouveau partenaire</h1>
     <div class="page-inner">
-        <br><br><br>
+        <div class="page-header">
+            <h4 class="page-title">Partenaire</h4>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -13,7 +16,7 @@
                                 <span class="text-danger">{{ msg | safe }}</span>
                             {% else %}
                                 <span>
-                                Remplissez les champs ci-dessous pour créer un nouveau partenaire
+                                Remplissez les champs ci-dessous pour modifier un partenaire existant
                             </span>
                             {% endif %}
                         </div>
@@ -39,10 +42,10 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                    Nom du partenaire
+                                                    Nom du contact
                                                 </span>
                                             </div>
-                                            {{ form.nom_partenaire }}
+                                            {{ form.nom_contact }}
                                         </div>
                                     </div>
                                 </div>
@@ -53,7 +56,7 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                    Prénom
+                                                    Prenom
                                                 </span>
                                             </div>
                                             {{ form.prenom }}
@@ -143,10 +146,10 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
-                                                    Nom du contact
+                                                    Nom du partenaire
                                                 </span>
                                             </div>
-                                            {{ form.nom_contact }}
+                                            {{ form.nom_partenaire }}
                                         </div>
                                     </div>
                                 </div>
