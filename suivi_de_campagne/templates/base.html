@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
     <title>
-        Django Atlantis Dark - {% block title %}{% endblock %} | AppSeed
+        Suivi de campagnes - {% block title %}{% endblock %}
     </title>
 
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
@@ -46,7 +46,11 @@
 
     <div class="main-panel">
 
-        {% block content %}{% endblock content %}
+        <div class="content">
+            <div class="page-inner">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
 
         {% include 'includes/footer.html' %}
 

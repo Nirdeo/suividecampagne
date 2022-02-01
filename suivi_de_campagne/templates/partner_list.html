@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Listes des partenaires</h4>
+                            <h4 class="card-title">Liste des partenaires</h4>
                             <a href="/partners/" class="btn btn-info btn-round ml-auto">
                                 <i class="fa fa-plus"></i>
                                 Ajouter un nouveau partenaire
@@ -41,9 +41,8 @@
                                                     <td>{{ partenaire.datecreation }}</td>
                                                     <td>{{ partenaire.datemodification }}</td>
                                                     <td>
-                                                        <a class="btn btn-secondary btn-round ml-auto" href="#"><i class="far fa-eye"></i></a>
-                                                        <a class="btn btn-primary btn-round ml-auto" href="#"><i class="far fa-edit"></i></a>
-                                                        <a class="btn btn-danger btn-round ml-auto" href="#"><i class="far fa-window-close"></i></a>
+                                                        <a class="btn btn-secondary btn-round ml-auto" href="{% url 'partner-detail' identifier=partenaire.id %}"><i class="far fa-eye"></i></a>
+                                                        <a class="btn btn-danger btn-round ml-auto" href="{% url 'delete-partner' identifier=partenaire.id %}"><i class="far fa-window-close"></i></a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}

@@ -13,7 +13,7 @@ def logout_user(request):
     return redirect('login')
 
 
-def login_view(request):
+def login_view(request, context=None):
     form = forms.LoginForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -27,12 +27,16 @@ def login_view(request):
                 # récupération de l'utilisateur dans mongo avec un find
                 predicate = {"email": username,
                              "password": functions.hasher(password)}
-                projection = {"_id": 1, "email": 1, "password": 1}
+                projection = {"_id": 1, "email": 1, "password": 1, "nom" : 1, "prenom" : 1}
                 user = database.mongodb.suivicampagne.utilisateurs.find_one(
                     predicate, projection)
-                # Vérif user
+                # Vérif user et enregistrement dans les cookies
                 if user is not None:
                     response = render(request, "home.html")
+                    response.set_cookie("iduser", user["_id"])
+                    response.set_cookie("nom", user["nom"])
+                    response.set_cookie("prenom", user["prenom"])
+                    response.set_cookie("email", user["email"])
                 else:
                     context = {"msg": "Invalid credentials"}
                     response = render(request, "login.html", context)

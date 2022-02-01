@@ -14,17 +14,8 @@ class formulaire_forgot_password(forms.Form):
 class formulaire_reset_password(forms.Form):
     email = forms.CharField(max_length=32)
 
-
-BASES_CHOICES = [
-    ('interne', 'Interne'),
-    ('externe', 'Externe'),
-]
-
-
 class PartnerForm(forms.Form):
-    base = forms.MultipleChoiceField(
-        required=False, widget=forms.CheckboxSelectMultiple(attrs={
-            "class": "form-control"}), choices=BASES_CHOICES, )
+    base = forms.CharField(max_length=7, required=False)
     nom_contact = forms.CharField(widget=forms.TextInput(
         attrs={"class": "form-control"}), max_length=32, required=False)
     prenom = forms.CharField(widget=forms.TextInput(attrs={
