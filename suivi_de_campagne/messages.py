@@ -11,6 +11,8 @@ error_user = "Utilisateur et / ou mot de passe invalide !"
 new_password = "Un nouveau mot de passe a été généré et vous a été envoyé par e-mail !"
 reset_password = "Un email contenant votre nouveau de passe a été envoyé à l'adresse "
 
+not_found = "L'élément demandé n'existe pas."
+
 # Programme principal
 if __name__ == "__main__" :
     print(greetings)

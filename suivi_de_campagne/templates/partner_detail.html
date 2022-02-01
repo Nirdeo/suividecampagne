@@ -1,15 +1,191 @@
-{% extends "base.html" %}{% block title %} Login {% endblock title %}
-{% block stylesheets %}{% endblock stylesheets %} {% block content %}
+{% extends "base.html" %}{% block title %} Partenaire {% endblock title %}
 
-<h1>Partenaire créé</h1>
-    <div class="page-inner">
-        <div class="page-header">
-            <h4 class="page-title">Partenaire créé</h4>
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="page-header">
+        <h4 class="page-title">Détails partenaire</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{% if context.identifier %} {% url 'edit-partner' identifier=context.identifier %} {% else %} {% url 'create-partner' %} {% endif %}">{% csrf_token %}
+                <!-- Partenaire -->
+                <div class="card">
+                    {% if context.identifier %}
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span>
+                                    Partenaire
+                                </span>
+                                {% if msg %}
+                                    <span class="text-danger">{{ msg | safe }}</span>
+                                {% endif %}
+
+                                <a href="{% url 'delete-partner' identifier=context.identifier %}" class="btn btn-danger float-right"><span class="btn-label mr-2"> <i class="fas fa-trash-alt"></i></span>Supprimer</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{context.identifier}}">
+                        <div class="row">
+                            <!-- dénomination -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Dénomination
+                                            </span>
+                                        </div>
+                                        {{ form.nom_partenaire }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Siret -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Siret
+                                            </span>
+                                        </div>
+                                        {{ form.siret }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- base -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Base</label>
+                                    <div class="selectgroup w-100">
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="base" value="interne" class="selectgroup-input" {% if form.base.value == "interne" %}checked{% endif %}>
+                                            <span class="selectgroup-button">Interne</span>
+                                        </label>
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="base" value="externe" class="selectgroup-input" {% if form.base.value == "externe" %}checked{% endif %}>
+                                            <span class="selectgroup-button">Externe</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- categorie -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Categories
+                                            </span>
+                                        </div>
+                                        {{ form.categories }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!--  Contact -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span>
+                                Contact
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- nom -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Nom
+                                            </span>
+                                        </div>
+                                        {{ form.nom_contact }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- prénom -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Prenom
+                                            </span>
+                                        </div>
+                                        {{ form.prenom }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- fonction -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Fonction
+                                            </span>
+                                        </div>
+                                        {{ form.fonction }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- email -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Email
+                                            </span>
+                                        </div>
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tel -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Téléphone
+                                            </span>
+                                        </div>
+                                        {{ form.telephone }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- skype -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Skype
+                                            </span>
+                                        </div>
+                                        {{ form.skype }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
-
-
 {% endblock content %}
+
 <!-- Specific JS goes HERE -->
 {% block javascripts %}{% endblock javascripts %}
