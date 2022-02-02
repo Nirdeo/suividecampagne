@@ -6,8 +6,10 @@ from utils.functions import import_configuration, mark, hasher, uid_super_user
 
 mark("Initialisation de la base de données")
 
+# Connexion au serveur MongoDB
 server = MongoClient(import_configuration("mongodb", "url"))
 database = server["suivicampagne"]
+uid_superuser = uid_super_user()
 
 server.drop_database("suivicampagne")
 
@@ -60,7 +62,22 @@ tracking = database["tracking"]
 tracking.drop()
 enregistrement = {
     "libelle": "Initialisation de l'application",
-    "utilisateur": uid_super_user(),
+    "utilisateur": uid_superuser,
     "timestamp": datetime.datetime.now(),
 }
 tracking.insert_one(enregistrement)
+
+mark("Création des thèmes")
+themes = database.create_collection("themes")
+
+mark("Création de la liste noire des thèmes")
+themes_blacklist = database.create_collection("themes_blacklist")
+
+mark("Création des leviers")
+leviers = database.create_collection("leviers")
+
+mark("Création des partenaires")
+partenaires = database.create_collection("partenaires")
+
+mark("Création des clients")
+clients = database.create_collection("clients")
