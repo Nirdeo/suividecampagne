@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,18 +8,17 @@
         Suivi de campagnes - {% block title %}{% endblock %}
     </title>
 
-    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
-    <link rel="icon" href="../static/assets/img/icon.ico" type="image/x-icon"/>
-    <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-atlantis-dark">
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <link rel="icon" href="{% static '/assets/img/icon.ico' %}" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
-    <script src="../static/assets/js/webfont.min.js"></script>
+    <script src="{% static '/assets/js/webfont.min.js' %}"></script>
     <script>
         WebFont.load({
             google: {"families": ["Lato:300,400,700,900"]},
             custom: {
                 "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
-                urls: ['../static/assets/css/fonts.min.css']
+                urls: ["{% static '/assets/css/fonts.min.css' %}"]
             },
             active: function () {
                 sessionStorage.fonts = true;
@@ -27,11 +27,11 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/assets/css/atlantis.css">
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/css/atlantis.css' %}">
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="../static/assets/css/demo.css">
+    <!-- Fichier CSS -->
+    <link rel="stylesheet" href="{% static '/suivi_de_campagne/css/style.css' %}">
 
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
@@ -59,7 +59,37 @@
 </div>
 
 {% include 'includes/scripts.html' %}
-
+<!-- JS commun à toutes les pages -->
+<script>
+    function supprObject(selecteur, text, debUrl){
+        $(selecteur).on("click", function(e) {
+            identifiant = $(this).data("id");
+            swal({
+                title: "Confirmation de supression",
+                text: text,
+                icon: "warning",
+                buttons:{
+                    confirm: {
+                        text : "Oui, supprimer!",
+                        className : "btn btn-success"
+                    },
+                    cancel: {
+                        text : "Annuler",
+                        visible: true,
+                        className: "btn btn-danger"
+                    }
+                }
+            }).then((Delete) => {
+                if (Delete) {
+                    document.location= debUrl + identifiant
+                } else {
+                    swal.close();
+                }
+            });
+        })
+    }
+    
+</script>
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
 

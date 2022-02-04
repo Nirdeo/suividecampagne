@@ -122,7 +122,7 @@ def tracking(label, user=None):
         "timestamp": datetime.now(),
     }
     server = MongoClient(import_configuration("mongodb", "url"))
-    database = server["suividecampagne"]
+    database = server["suivicampagne"]
     database["tracking"].insert_one(registration)
 
 

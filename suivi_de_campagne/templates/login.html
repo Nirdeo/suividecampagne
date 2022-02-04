@@ -1,24 +1,24 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
     <title>
-        Django Atlantis Dark - {% block title %}{% endblock %} | AppSeed
+        Suivi de campagnes - {% block title %}{% endblock %}
     </title>
 
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
-    <link rel="icon" href="../static/assets/img/icon.ico" type="image/x-icon"/>
-    <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-atlantis-dark">
+    <link rel="icon" href="{% static '/assets/img/icon.ico' %}" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
-    <script src="../static/assets/js/webfont.min.js"></script>
+    <script src="{% static '/assets/js/webfont.min.js' %}"></script>
     <script>
         WebFont.load({
             google: {"families": ["Lato:300,400,700,900"]},
             custom: {
                 "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
-                urls: ['../static/assets/css/fonts.min.css']
+                urls: ["{% static '/assets/css/fonts.min.css' %}"]
             },
             active: function () {
                 sessionStorage.fonts = true;
@@ -27,11 +27,11 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/assets/css/atlantis.css">
+    <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/css/atlantis.css' %}">
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="../static/assets/css/demo.css">
+    <!-- Fichier CSS -->
+    <link rel="stylesheet" href="{% static '/suivi_de_campagne/css/style.css' %}">
 
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
@@ -40,77 +40,60 @@
 <body data-background-color="dark">
 <div class="wrapper">
 
-    <div class="container">
+    <div class="container d-flex h-100 align-items-center justify-content-center">
+        <div class="page-inner">
+            <div class="row justify-content-center">
+                {% include 'includes/messages.html' %}
+                <div class="card loginCard">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span><i class="fas fa-door-open"></i></span>
+                            <span>Connexion</span>
+                        </div>
+                    </div>
 
-        {% block content %}
-            <div class="page-inner">
-                <div class="page-header">
-                    <h4 class="page-title">Login</h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
+                    <form method="post" action="">
 
-                                    {% if msg %}
-                                        <span class="text-danger">{{ msg | safe }}</span>
-                                    {% else %}
-                                        <span>
-                                Add your credentials
-                            </span>
-                                    {% endif %}
+                        {% csrf_token %}
 
+                        <div class="card-body">
+                            <div class="row">
+
+                            <div class="form-group col-12">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="icon-user"></i>
+                                        </span>
+                                    </div>
+                                    {{ form.username }}
                                 </div>
                             </div>
 
-                            <form method="post" action="">
-
-                                {% csrf_token %}
-
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6 col-lg-4">
-
-                                            <div class="form-group">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="icon-user"></i>
-                                                </span>
-                                                    </div>
-                                                    {{ form.username }}
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="icon-lock"></i>
-                                                </span>
-                                                    </div>
-                                                    {{ form.password }}
-                                                </div>
-                                            </div>
-
-                                        </div>
+                            <div class="form-group col-12">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="icon-lock"></i>
+                                </span>
                                     </div>
+                                    {{ form.password }}
                                 </div>
-                                <div class="card-action">
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                    <br>
-                                    <span>Forgot Password?</span> Please <a href="{% url 'forgot-password' %}">Reset
-                                    it</a>
-                                </div>
+                            </div>
 
-                            </form>
-
+                            </div>
                         </div>
-                    </div>
+                        <div class="card-action">
+                            <button type="submit" class="btn btn-success">Connexion</button>
+                            <br>
+                            <span>Mot de passe oublié ?</span> <a href="{% url 'forgot-password' %}">Réinitialiser</a>
+                        </div>
+
+                    </form>
+
                 </div>
             </div>
-        {% endblock content %}
+        </div>
 
         {% include 'includes/footer.html' %}
 
@@ -121,7 +104,8 @@
 {% include 'includes/scripts.html' %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+{% endblock javascripts %}
 
 </body>
 </html>

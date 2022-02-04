@@ -1,31 +1,32 @@
-{% extends "base.html" %}{% block title %} Partenaire {% endblock title %}
+{% extends "base.html" %}{% block title %} Client {% endblock title %}
 
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
     <div class="page-header">
-        <h4 class="page-title">Détails partenaire</h4>
+        <h4 class="page-title">Détails client</h4>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <form method="post" action="{% if identifier %} {% url 'edit-partner' identifier=identifier %} {% else %} {% url 'create-partner' %} {% endif %}">{% csrf_token %}
-                <!-- Partenaire -->
+            <form method="post" action="{% if identifier %} {% url 'edit-customer' identifier=identifier %} {% else %} {% url 'create-customer' %} {% endif %}">{% csrf_token %}
+                <!-- Client -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            <span><i class="fas fa-handshake"></i></span>
+                            <span><i class="fas fa-user-tie"></i></span>
                             <span>
-                                Partenaire
+                                Client
                             </span>
                             {% if msg %}
                                 <span class="text-danger">{{ msg | safe }}</span>
                             {% endif %}
 
                             {% if identifier %}
-                                <a data-id="{{identifier}}" id="supprPartenaire" class="btn btn-danger float-right"><span class="btn-label mr-2"> <i class="fas fa-trash-alt"></i></span>Supprimer</a>
+                                <a data-id="{{identifier}}" id="supprClient" class="btn btn-danger float-right"><span class="btn-label mr-2"> <i class="fas fa-trash-alt"></i></span>Supprimer</a>
                             {% endif %}
                         </div>
                     </div>
+
                     <div class="card-body">
                         <input type="hidden" id="identifier" name="identifier" value="{{identifier}}">
                         <div class="row">
@@ -35,10 +36,10 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-comment-dots"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
-                                        {{ form.nom_partenaire }}
+                                        {{ form.nom_entreprise }}
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +49,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-building"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
                                         {{ form.siret }}
@@ -71,16 +72,68 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- categorie -->
+                            <!-- Code postal -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-stamp"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
-                                        {{ form.categories }}
+                                        {{ form.code_postal }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- leviers -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.leviers }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- thématiques -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.thematiques }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- thématiques blacklistées -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.thematiques_blacklist }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Commentaire -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.commentaire }}
                                     </div>
                                 </div>
                             </div>
@@ -108,10 +161,10 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-users"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
-                                        {{ form.nom_contact }}
+                                        {{ form.nom }}
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +174,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-user"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
                                         {{ form.prenom }}
@@ -134,7 +187,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-user-tie"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
                                         {{ form.fonction }}
@@ -147,43 +200,43 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-at"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
                                         {{ form.email }}
                                     </div>
                                 </div>
                             </div>
-                            <!-- tel -->
+                            <!-- tel fixe -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fas fa-phone"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
-                                        {{ form.telephone }}
+                                        {{ form.telephone_fixe }}
                                     </div>
                                 </div>
                             </div>
-                            <!-- skype -->
+                            <!-- tel mobile -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="fab fa-skype"></i>
+                                                <i class="icon-user"></i>
                                             </span>
                                         </div>
-                                        {{ form.skype }}
+                                        {{ form.telephone_mobile }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-action">
-                        <button type="submit" class="btn btn-success btn-round ml-auto">Envoyer</button>
+                        <button type="submit" class="btn btn-success">Envoyer</button>
                     </div>
                 </div>
             </form>
@@ -194,6 +247,6 @@
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script>
-    supprObject("#supprPartenaire", "Etes vous sur de vouloir supprimer ce partenaire ?", "/delete-partner/")
+    supprObject("#supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
 </script>
 {% endblock javascripts %}

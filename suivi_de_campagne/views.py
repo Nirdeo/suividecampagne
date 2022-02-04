@@ -1,8 +1,17 @@
 from django.shortcuts import render
-
+from . import messages, view_signin_signup_reset
 
 def home(request):
-    return render(request, 'home.html')
+    # Contexte générique
+    context = context_processor(request)
+    # Si utilisateur connecté
+    if context["iduser"] != "" :
+        response = render(request, "home.html", context)
+    else:
+        # Retour sur la mire de connexion
+        context = {"erreur": messages.error_connect}
+        response = view_signin_signup_reset.login_view(request, context)
+    return response
 
 
 def context_processor(request):

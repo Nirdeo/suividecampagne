@@ -2,14 +2,13 @@ import datetime
 
 from pymongo import MongoClient
 
-from utils.functions import import_configuration, mark, hasher, uid_super_user
+from utils.functions import import_configuration, mark, hasher
 
 mark("Initialisation de la base de données")
 
 # Connexion au serveur MongoDB
 server = MongoClient(import_configuration("mongodb", "url"))
 database = server["suivicampagne"]
-uid_superuser = uid_super_user()
 
 server.drop_database("suivicampagne")
 
@@ -29,7 +28,7 @@ registration = {
     "datecreation": datetime.datetime.now(),
     "datemodification": datetime.datetime.now()
 }
-users.insert_one(registration)
+uid_superuser = users.insert_one(registration).inserted_id
 registration = {
     "civilite": "Mme",
     "nom": "Flamant",
@@ -60,13 +59,12 @@ users.insert_one(registration)
 mark("Création du tracking")
 tracking = database["tracking"]
 tracking.drop()
-enregistrement = {
+record = {
     "libelle": "Initialisation de l'application",
     "utilisateur": uid_superuser,
     "timestamp": datetime.datetime.now(),
 }
-tracking.insert_one(enregistrement)
-
+tracking.insert_one(record)
 mark("Création des thèmes")
 themes = database.create_collection("themes")
 
@@ -81,3 +79,4 @@ partenaires = database.create_collection("partenaires")
 
 mark("Création des clients")
 clients = database.create_collection("clients")
+

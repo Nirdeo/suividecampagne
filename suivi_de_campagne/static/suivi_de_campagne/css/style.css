@@ -1,0 +1,12 @@
+/* CSS personnalisé pour suivi campagne */
+
+.loginCard{
+    max-width : 50rem;
+    width: 100%;
+}
+
+@media screen and (min-width:819px) {
+    .loginCard{
+        min-width:  50rem;
+    }
+}
