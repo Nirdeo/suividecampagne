@@ -1,20 +1,32 @@
 import datetime
 
 from bson import ObjectId
-from django.contrib.auth import logout
 from django.shortcuts import render, redirect
-
+from django.urls import reverse
 from suivi_de_campagne import forms, emails, messages
 from utils import database, functions
-
+from django.http import HttpResponseRedirect
+from django.contrib import messages as msg
 
 def logout_user(request):
-    logout(request)
-    return redirect('login')
+    database.mongodb.closeConnection()
+
+    response = HttpResponseRedirect(reverse("login"))
+
+    # Vidage du cookie
+    response.set_cookie("iduser", "")
+    response.set_cookie("nom", "")
+    response.set_cookie("prenom", "")
+    response.set_cookie("email", "")
+
+    return response
 
 
 def login_view(request, context=None):
     form = forms.LoginForm(request.POST or None)
+    if context == None :
+        context = {}
+    context["form"] = form
     if request.method == "POST":
         if form.is_valid():
             # Récupération des infos
@@ -32,23 +44,22 @@ def login_view(request, context=None):
                     predicate, projection)
                 # Vérif user et enregistrement dans les cookies
                 if user is not None:
-                    response = render(request, "home.html")
+                    response = HttpResponseRedirect(reverse("home"))
                     response.set_cookie("iduser", user["_id"])
                     response.set_cookie("nom", user["nom"])
                     response.set_cookie("prenom", user["prenom"])
                     response.set_cookie("email", user["email"])
                 else:
-                    context = {"msg": "Invalid credentials"}
+                    msg.add_message(request, msg.ERROR, messages.error_credentials)
                     response = render(request, "login.html", context)
             else:
-                context = {
-                    "msg": "La base de donnée est déconnectée actuellement"}
+                msg.add_message(request, msg.ERROR, messages.error_database)
                 response = render(request, "login.html", context)
         else:
-            context = {"msg": "Error validating the form"}
+            msg.add_message(request, msg.ERROR, form.errors)
             response = render(request, "login.html", context)
     else:
-        response = render(request, "login.html", {"form": form})
+        response = render(request, "login.html", context)
 
     return response
 
@@ -104,13 +115,12 @@ def reset_password(request):
                     # Valeur de retour
                     functions.tracking(
                         "Demande réinitialisation mot de passe", ObjectId(user["_id"]))
-                    context = {
-                        "message": messages.reset_password + user["email"]}
+                    msg.add_message(request, msg.SUCCESS, messages.reset_password + user["email"])
                 else:
                     # Retour sur la fenêtre de connexion avec erreur
-                    context = {"erreur": messages.error_user}
+                    msg.add_message(request, msg.ERROR, messages.error_user)
             else:
                 # Retour sur la fenêtre de connexion avec erreur
-                context = {"erreur": messages.error_database}
-            response = render(request, "login.html", context)
+                msg.add_message(request, msg.ERROR, messages.error_database)
+            response = HttpResponseRedirect(reverse("login"))
     return response
