@@ -45,7 +45,7 @@
             <div class="row justify-content-center">
                 {% include 'includes/messages.html' %}
                 <div class="card loginCard">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <div class="card-title">
                             <span><i class="fas fa-door-open"></i></span>
                             <span>Connexion</span>
@@ -63,7 +63,7 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            <i class="icon-user"></i>
+                                            <i class="fas fa-user"></i>
                                         </span>
                                     </div>
                                     {{ form.username }}
@@ -74,7 +74,7 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <i class="icon-lock"></i>
+                                    <i class="fas fa-unlock-alt"></i>
                                 </span>
                                     </div>
                                     {{ form.password }}
@@ -83,8 +83,8 @@
 
                             </div>
                         </div>
-                        <div class="card-action">
-                            <button type="submit" class="btn btn-success">Connexion</button>
+                        <div class="card-action text-center">
+                            <button type="submit" class="btn btn-success btn-round ml-auto col-lg-5 mb-2">Connexion</button>
                             <br>
                             <span>Mot de passe oublié ?</span> <a href="{% url 'forgot-password' %}">Réinitialiser</a>
                         </div>
