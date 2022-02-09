@@ -17,11 +17,11 @@ users = database["utilisateurs"]
 users.drop()
 
 registration = {
+    "admin" : True,
     "civilite": "Mr",
     "nom": "Super administrateur",
     "prenom": "",
     "description": "",
-    "avatar": "",
     "email": import_configuration("superutilisateur"),
     "password": hasher("onnejouepasaveclasecurite"),
     "security_check": datetime.datetime.now(),
@@ -30,11 +30,11 @@ registration = {
 }
 uid_superuser = users.insert_one(registration).inserted_id
 registration = {
+    "admin" : True,
     "civilite": "Mme",
     "nom": "Flamant",
     "prenom": "Morgane",
     "description": "",
-    "avatar": "",
     "email": "mflamant@neptunemedia.fr",
     "password": hasher("onnejouepasaveclasecurite"),
     "security_check": datetime.datetime.now(),
@@ -43,11 +43,11 @@ registration = {
 }
 users.insert_one(registration)
 registration = {
+    "admin" : True,
     "civilite": "Mr",
     "nom": "De Domenico",
     "prenom": "Victor",
     "description": "",
-    "avatar": "",
     "email": "vdomenico@neptunemedia.fr",
     "password": hasher("onnejouepasaveclasecurite"),
     "security_check": datetime.datetime.now(),

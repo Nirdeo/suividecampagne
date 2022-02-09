@@ -1,0 +1,140 @@
+{% extends "base.html" %}{% block title %} Partenaire {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="page-header">
+        <h4 class="page-title">Détails utilisateur</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{% if identifier %} {% url 'edit-user' identifier=identifier %} {% else %} {% url 'create-user' %} {% endif %}">{% csrf_token %}
+                <!-- Utilisateur -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span><i class="fas fa-users"></i></span>
+                            <span>
+                                Utilisateur
+                            </span>
+                            {% if msg %}
+                                <span class="text-danger">{{ msg | safe }}</span>
+                            {% endif %}
+
+                            {% if identifier and iduser != identifier %}
+                                <a data-id="{{identifier}}" id="supprPartenaire" class="btn btn-danger float-right"><span class="btn-label mr-2"> <i class="fas fa-trash-alt"></i></span>Supprimer</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{identifier}}">
+                        <div class="row">
+                            <!-- Admin -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="admin" {% if form.admin.value %}checked{% endif %} {% if form.nom.value == "Super administrateur"  %} disabled{% endif %}>
+                                        <span class="form-check-sign">Administrateur</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Civilite -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="form-label col-lg-1 labelInputgroup">Civilité</label>
+                                        <div class="selectgroup w-100 col-lg-11">
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="civilite" value="Mr" class="selectgroup-input" {% if form.civilite.value == "Mr" %}checked{% endif %}>
+                                                <span class="selectgroup-button">Monsieur</span>
+                                            </label>
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="civilite" value="Mme" class="selectgroup-input" {% if form.civilite.value == "Mme" %}checked{% endif %}>
+                                                <span class="selectgroup-button">Madame</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nom -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Nom" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-users"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.nom }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Prénom -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Prénom" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.prenom }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Email -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Email" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-at"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Mot de passe -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Mot de passe" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-key"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" name="mot_de_passe" placeholder="Mot de passe" class="form-control" maxlength="32" id="id_mot_de_passe"{% if not identifier %} disabled{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Description" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-comment"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action text-center">
+                        <button type="submit" class="btn btn-success btn-round ml-auto  col-lg-1">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script>
+    supprObject("#supprPartenaire", "Etes vous sur de vouloir supprimer cet utilisateur ?", "/delete-user/")
+</script>
+{% endblock javascripts %}
