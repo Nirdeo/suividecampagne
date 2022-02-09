@@ -16,6 +16,7 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse("login"))
 
     # Vidage du cookie
+    response.set_cookie("isadmin", "")
     response.set_cookie("iduser", "")
     response.set_cookie("nom", "")
     response.set_cookie("prenom", "")
@@ -41,12 +42,13 @@ def login_view(request, context=None):
                 # récupération de l'utilisateur dans mongo avec un find
                 predicate = {"email": username,
                              "password": functions.hasher(password)}
-                projection = {"_id": 1, "email": 1, "password": 1, "nom": 1, "prenom": 1}
+                projection = {"_id": 1, "email": 1, "password": 1, "nom" : 1, "prenom" : 1, "admin" : 1}
                 user = database.mongodb.suivicampagne.utilisateurs.find_one(
                     predicate, projection)
                 # Vérif user et enregistrement dans les cookies
                 if user is not None:
                     response = HttpResponseRedirect(reverse("home"))
+                    response.set_cookie("isadmin", user["admin"])
                     response.set_cookie("iduser", user["_id"])
                     response.set_cookie("nom", user["nom"])
                     response.set_cookie("prenom", user["prenom"])

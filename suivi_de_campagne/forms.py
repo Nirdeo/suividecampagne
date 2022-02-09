@@ -7,10 +7,8 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={"placeholder": "Mot de passe", "class": "form-control"}))
 
-
 class formulaire_forgot_password(forms.Form):
     email = forms.CharField(max_length=80)
-
 
 class formulaire_reset_password(forms.Form):
     email = forms.CharField(max_length=32)
@@ -87,3 +85,16 @@ class LevierForm(forms.Form):
 class ModeleEconomiqueForm(forms.Form):
     libelle_modele_economique = forms.CharField(widget=forms.TextInput(
         attrs={"class": "form-control"}), max_length=32, required=False)
+class UserForm(forms.Form):
+    admin = forms.BooleanField(required=False)
+    civilite = forms.CharField()
+    nom = forms.CharField(widget=forms.TextInput(
+        attrs={"placeholder": "Nom","class": "form-control"}), max_length=32)
+    prenom = forms.CharField(widget=forms.TextInput(attrs={
+        "placeholder": "Prénom", "class": "form-control"}), max_length=32, required=False)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        "placeholder": "Email","class": "form-control"}), max_length=80)
+    mot_de_passe = forms.CharField(widget=forms.TextInput(
+        attrs={"placeholder": "Mot de passe","class": "form-control"}), max_length=32, required=False)
+    description = forms.CharField(widget=forms.Textarea(
+        attrs={"placeholder": "Description","class": "form-control"}), max_length=2048, required=False)

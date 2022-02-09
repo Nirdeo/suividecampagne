@@ -1,5 +1,5 @@
 from django.urls import path
-from suivi_de_campagne import view_partner, view_customer, view_sidepage, view_signin_signup_reset, views
+from suivi_de_campagne import view_partner, view_customer, view_sidepage, view_user, view_signin_signup_reset, views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,4 +33,10 @@ urlpatterns = [
      path("delete-modele-economique/<str:identifier>", view_sidepage.delete_modele_economique, name="delete-modele-economique"),
      path("sidepages-list/", view_sidepage.list_sidepage, name="list-sidepage"),
 
+     path("user-detail/<str:identifier>", view_user.user_detail, name="user-detail"),
+     path("user-detail/", view_user.user_detail, name="user-detail"),
+     path("create-user/", view_user.create_user, name="create-user"),
+     path("edit-user/<str:identifier>", view_user.edit_user, name="edit-user"),
+     path("delete-user/<str:identifier>", view_user.delete_user, name="delete-user"),
+     path("users-list/", view_user.list_user, name="list-user"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

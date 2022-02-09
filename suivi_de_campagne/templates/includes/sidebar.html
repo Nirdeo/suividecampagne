@@ -91,6 +91,30 @@
                         </ul>
                     </div>
                 </li>
+
+                {% if isadmin == "True" %}
+                    <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                        <a data-toggle="collapse" href="#utilisateurs">
+                            <i class="fas fa-users"></i>
+                            <p>Utilisateurs</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="utilisateurs">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="/users-list/">
+                                        <i class="fas fa-table"></i> Liste des utilisateurs
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/user-detail">
+                                        <i class="fas fa-plus"></i> Ajouter un utilisateur
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
