@@ -1,5 +1,5 @@
 from django.urls import path
-from suivi_de_campagne import view_partner, view_customer, view_signin_signup_reset, views
+from suivi_de_campagne import view_partner, view_customer, view_sidepage, view_signin_signup_reset, views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -21,4 +21,16 @@ urlpatterns = [
      path("edit-customer/<str:identifier>", view_customer.edit_customer, name="edit-customer"),
      path("delete-customer/<str:identifier>", view_customer.delete_customer, name="delete-customer"),
      path("customers-list/", view_customer.list_customer, name="list-customer"),
+
+     path("sidepages/", view_sidepage.view_sidepage, name="view-sidepage"),
+     path("create-theme/", view_sidepage.create_theme, name="create-theme"),
+     path("create-blacklist-theme/", view_sidepage.create_blacklist_theme, name="create-blacklist-theme"),
+     path("create-levier/", view_sidepage.create_levier, name="create-levier"),
+     path("create-modele-economique/", view_sidepage.create_modele_economique, name="create-modele-economique"),
+     path("delete-theme/<str:identifier>", view_sidepage.delete_theme, name="delete-theme"),
+     path("delete-blacklist-theme/<str:identifier>", view_sidepage.delete_blacklist_theme, name="delete-blacklist-theme"),
+     path("delete-levier/<str:identifier>", view_sidepage.delete_levier, name="delete-levier"),
+     path("delete-modele-economique/<str:identifier>", view_sidepage.delete_modele_economique, name="delete-modele-economique"),
+     path("sidepages-list/", view_sidepage.list_sidepage, name="list-sidepage"),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

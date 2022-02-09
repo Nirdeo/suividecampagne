@@ -1,12 +1,14 @@
 import datetime
 
 from bson import ObjectId
-from django.shortcuts import render, redirect
+from django.contrib import messages as msg
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
+
 from suivi_de_campagne import forms, emails, messages
 from utils import database, functions
-from django.http import HttpResponseRedirect
-from django.contrib import messages as msg
+
 
 def logout_user(request):
     database.mongodb.closeConnection()
@@ -24,7 +26,7 @@ def logout_user(request):
 
 def login_view(request, context=None):
     form = forms.LoginForm(request.POST or None)
-    if context == None :
+    if context == None:
         context = {}
     context["form"] = form
     if request.method == "POST":
@@ -39,7 +41,7 @@ def login_view(request, context=None):
                 # récupération de l'utilisateur dans mongo avec un find
                 predicate = {"email": username,
                              "password": functions.hasher(password)}
-                projection = {"_id": 1, "email": 1, "password": 1, "nom" : 1, "prenom" : 1}
+                projection = {"_id": 1, "email": 1, "password": 1, "nom": 1, "prenom": 1}
                 user = database.mongodb.suivicampagne.utilisateurs.find_one(
                     predicate, projection)
                 # Vérif user et enregistrement dans les cookies
