@@ -1,0 +1,194 @@
+{% extends "base.html" %}{% block title %} Sidepage {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="page-header">
+        <h4 class="page-title">Détails outils</h4>
+        <a href="/sidepages/" class="btn btn-info btn-round ml-auto">
+            <i class="fa fa-plus"></i>
+            Ajouter un nouvel élément
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Thèmes</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic
+                                    
+                                    -datatables"
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Libellé</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for theme in themes %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ theme.libelle_theme }}</td>
+                                                <td>{{ theme.datecreation }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-round ml-auto"
+                                                       href="{% url 'delete-theme' identifier=theme.id %}"><i
+                                                            class="far fa-window-close"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Blacklist thèmes</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatables"
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Libellé</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for theme in themes_liste_noire %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ theme.libelle_blacklist_theme }}</td>
+                                                <td>{{ theme.datecreation }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-round ml-auto"
+                                                       href="{% url 'delete-blacklist-theme' identifier=theme.id %}"><i
+                                                            class="far fa-window-close"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Leviers</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatables"
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Libellé</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for levier in leviers %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ levier.libelle_levier }}</td>
+                                                <td>{{ levier.datecreation }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-round ml-auto"
+                                                       href="{% url 'delete-levier' identifier=levier.id %}"><i
+                                                            class="far fa-window-close"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Modèles économiques</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatables"
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Libellé</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for modele_economique in modeles_economiques %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ modele_economique.libelle_modele_economique }}</td>
+                                                <td>{{ modele_economique.datecreation }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-round ml-auto"
+                                                       href="{% url 'delete-modele-economique' identifier=modele_economique.id %}"><i
+                                                            class="far fa-window-close"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

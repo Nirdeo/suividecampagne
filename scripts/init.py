@@ -69,14 +69,16 @@ mark("Création des thèmes")
 themes = database.create_collection("themes")
 
 mark("Création de la liste noire des thèmes")
-themes_blacklist = database.create_collection("themes_blacklist")
+themes_blacklist = database.create_collection("themes_liste_noire")
 
 mark("Création des leviers")
-leviers = database.create_collection("leviers")
+levers = database.create_collection("leviers")
 
 mark("Création des partenaires")
 partenaires = database.create_collection("partenaires")
 
 mark("Création des clients")
-clients = database.create_collection("clients")
+customers = database.create_collection("clients")
 
+mark("Création des modèles économiques")
+economic_models = database.create_collection("modeles_economiques")

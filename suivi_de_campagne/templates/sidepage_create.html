@@ -1,0 +1,144 @@
+{% extends "base.html" %}{% block title %} Sidepage {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="page-header">
+        <h4 class="page-title">Outil</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{% url 'create-theme' %}">{% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Thèmes</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
+                        <div class="row">
+                            <!-- Libellé thème -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Libellé
+                                            </span>
+                                        </div>
+                                        {{ form_theme.libelle_theme }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <form method="post" action="{% url 'create-blacklist-theme' %}">{% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Blacklist thèmes</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
+                        <div class="row">
+                            <!-- Libellé liste noire thème -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Libellé
+                                            </span>
+                                        </div>
+                                        {{ form_blacklist_theme.libelle_blacklist_theme }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" action="{% url 'create-levier' %}">{% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Leviers</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
+                        <div class="row">
+                            <!-- Libellé levier -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Libellé
+                                            </span>
+                                        </div>
+                                        {{ form_levier.libelle_levier }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <form method="post" action="{% url 'create-modele-economique' %}">{% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Modèles économiques</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
+                        <div class="row">
+                            <!-- Libellé modèle économique -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Libellé
+                                            </span>
+                                        </div>
+                                        {{ form_modele_economique.libelle_modele_economique }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}
