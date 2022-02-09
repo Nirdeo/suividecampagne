@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            <span><i class="fas fa-user-tie"></i></span>
+                            <span><i class="fas fa-address-book"></i></span>
                             <span>
                                 Client
                             </span>
@@ -22,7 +22,7 @@
                             {% endif %}
 
                             {% if identifier %}
-                                <a data-id="{{identifier}}" id="supprClient" class="btn btn-danger float-right"><span class="btn-label mr-2"> <i class="fas fa-trash-alt"></i></span>Supprimer</a>
+                                <a data-id="{{identifier}}" id="supprClient" class="btn btn-danger btn-round ml-auto col-lg-1 float-right col-lg-1">Supprimer</a>
                             {% endif %}
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-building"></i>
                                             </span>
                                         </div>
                                         {{ form.nom_entreprise }}
@@ -49,7 +49,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-search"></i>
                                             </span>
                                         </div>
                                         {{ form.siret }}
@@ -59,16 +59,18 @@
                             <!-- base -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label class="form-label">Base</label>
-                                    <div class="selectgroup w-100">
-                                        <label class="selectgroup-item">
-                                            <input type="radio" name="base" value="interne" class="selectgroup-input" {% if form.base.value == "interne" %}checked{% endif %}>
-                                            <span class="selectgroup-button">Interne</span>
-                                        </label>
-                                        <label class="selectgroup-item">
-                                            <input type="radio" name="base" value="externe" class="selectgroup-input" {% if form.base.value == "externe" %}checked{% endif %}>
-                                            <span class="selectgroup-button">Externe</span>
-                                        </label>
+                                    <div class="row">
+                                        <label class="form-label col-lg-1 labelInputgroup">Base</label>
+                                        <div class="selectgroup w-100 col-lg-11">
+                                            <label class="selectgroup-item">
+                                                <input type="checkbox" name="bases" value="interne" class="selectgroup-input" {% if "interne" in form.bases.value %}checked{% endif %}>
+                                                <span class="selectgroup-button">Interne</span>
+                                            </label>
+                                            <label class="selectgroup-item">
+                                                <input type="checkbox" name="bases" value="externe" class="selectgroup-input" {% if "externe" in form.bases.value %}checked{% endif %}>
+                                                <span class="selectgroup-button">Externe</span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +80,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-map-marker-alt"></i>
                                             </span>
                                         </div>
                                         {{ form.code_postal }}
@@ -91,7 +93,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-bullhorn"></i>
                                             </span>
                                         </div>
                                         {{ form.leviers }}
@@ -104,7 +106,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fab fa-affiliatetheme"></i>
                                             </span>
                                         </div>
                                         {{ form.thematiques }}
@@ -117,7 +119,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fab fa-affiliatetheme"></i>
                                             </span>
                                         </div>
                                         {{ form.thematiques_blacklist }}
@@ -130,7 +132,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-comment"></i>
                                             </span>
                                         </div>
                                         {{ form.commentaire }}
@@ -146,7 +148,7 @@
                     <div class="card-header">
                         <div class="card-title">
                             <span>
-                                <i class="icon-user"></i>
+                                <i class="fas fa-user"></i>
                             </span>
                             <span>
                                 Contact
@@ -161,7 +163,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-users"></i>
                                             </span>
                                         </div>
                                         {{ form.nom }}
@@ -174,7 +176,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-user"></i>
                                             </span>
                                         </div>
                                         {{ form.prenom }}
@@ -187,7 +189,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-user-tie"></i>
                                             </span>
                                         </div>
                                         {{ form.fonction }}
@@ -200,7 +202,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-at"></i>
                                             </span>
                                         </div>
                                         {{ form.email }}
@@ -213,7 +215,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-phone"></i>
                                             </span>
                                         </div>
                                         {{ form.telephone_fixe }}
@@ -226,7 +228,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
-                                                <i class="icon-user"></i>
+                                                <i class="fas fa-mobile-alt"></i>
                                             </span>
                                         </div>
                                         {{ form.telephone_mobile }}
@@ -235,8 +237,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Envoyer</button>
+                    <div class="card-action text-center">
+                        <button type="submit" class="btn btn-success btn-round ml-auto col-lg-1">Envoyer</button>
                     </div>
                 </div>
             </form>

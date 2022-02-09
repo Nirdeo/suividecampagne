@@ -91,7 +91,7 @@ def create_customer(request):
                 form = forms.CustomerForm(request.POST)
                 if form.is_valid():
                     # Récupération des données
-                    base = form.cleaned_data["base"]
+                    bases = form.cleaned_data["bases"]
                     contact_name = form.cleaned_data["nom"]
                     firstname = form.cleaned_data["prenom"]
                     function = form.cleaned_data["fonction"]
@@ -108,7 +108,7 @@ def create_customer(request):
                     record = {
                         "siret": siret,
                         "nom_entreprise": customer_name,
-                        "base": base,
+                        "bases": bases,
                         "nom": contact_name,
                         "prenom": firstname,
                         "fonction": function,
@@ -157,7 +157,7 @@ def edit_customer(request, identifier):
                 form = forms.CustomerForm(request.POST)
                 if form.is_valid():
                     # Récupération des données
-                    base = form.cleaned_data["base"]
+                    bases = form.cleaned_data["bases"]
                     contact_name = form.cleaned_data["nom"]
                     firstname = form.cleaned_data["prenom"]
                     function = form.cleaned_data["fonction"]
@@ -177,7 +177,7 @@ def edit_customer(request, identifier):
                         "$set": {
                             "siret": siret,
                             "nom_entreprise": customer_name,
-                            "base": base,
+                            "bases": bases,
                             "nom": contact_name,
                             "prenom": firstname,
                             "fonction": function,

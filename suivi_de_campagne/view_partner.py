@@ -61,7 +61,6 @@ def partner_detail(request, identifier=None):
                         values[key] = value
                     form = forms.PartnerForm(initial=values)
                     context["form"] = form
-                    print(context["identifier"])
                     response = render(request, "partner_detail.html", context)
                 else:
                     form = forms.PartnerForm()
@@ -95,7 +94,7 @@ def create_partner(request):
                 form = forms.PartnerForm(request.POST)
                 if form.is_valid():
                     # Récupération des données
-                    base = form.cleaned_data["base"]
+                    bases = form.cleaned_data["bases"]
                     contact_name = form.cleaned_data["nom_contact"]
                     firstname = form.cleaned_data["prenom"]
                     function = form.cleaned_data["fonction"]
@@ -107,7 +106,7 @@ def create_partner(request):
                     partner_name = form.cleaned_data["nom_partenaire"]
 
                     record = {
-                        "base": base,
+                        "bases": bases,
                         "nom_contact": contact_name,
                         "prenom": firstname,
                         "fonction": function,
@@ -155,7 +154,7 @@ def edit_partner(request, identifier):
                 form = forms.PartnerForm(request.POST)
                 if form.is_valid():
                     # Récupération des données
-                    base = form.cleaned_data["base"]
+                    bases = form.cleaned_data["bases"]
                     contact_name = form.cleaned_data["nom_contact"]
                     firstname = form.cleaned_data["prenom"]
                     function = form.cleaned_data["fonction"]
@@ -166,10 +165,10 @@ def edit_partner(request, identifier):
                     siret = form.cleaned_data["siret"]
                     partner_name = form.cleaned_data["nom_partenaire"]
 
-                    filter = {"_id": ObjectId(identifier)}
-                    update = {
-                        "$set": {
-                            "base": base,
+                    filter = { "_id" : ObjectId(identifier) }
+                    update = { 
+                        "$set" : {
+                            "bases": bases,
                             "nom_contact": contact_name,
                             "prenom": firstname,
                             "fonction": function,

@@ -2,55 +2,52 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %} {% block content %}
-    <div class="page-inner">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex align-items-center">
-                            <h4 class="card-title">
-                                <i class="fas fa-user-tie"></i>
-                                Liste des clients
-                            </h4>
-                            <a href="/customer-detail/" class="btn btn-info btn-round ml-auto">
-                                <i class="fa fa-plus"></i>
-                                Ajouter un nouveau client
-                            </a>
-                        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">
+                            <i class="fas fa-address-book"></i>
+                            Liste des clients
+                        </h4>
+                        <a href="/customer-detail/" class="btn btn-info btn-round ml-auto">
+                            Ajouter un nouveau client
+                        </a>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table id="basic-datatables"
-                                               class="display table table-striped table-hover dataTable" role="grid"
-                                               aria-describedby="basic-datatables_info">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col" class="siret">Siret</th>
-                                                <th scope="col">Nom du client</th>
-                                                <th scope="col">Date de création</th>
-                                                <th scope="col">Date de modification</th>
-                                                <th scope="col">Action</th>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatables"
+                                            class="display table table-striped table-hover dataTable" role="grid"
+                                            aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="siret">Siret</th>
+                                            <th scope="col">Nom du client</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Date de modification</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for client in clients %}
+                                            <tr role="row" class="odd">
+                                                <td class="siret">{{ client.siret }}</td>
+                                                <td>{{ client.nom_entreprise }}</td>
+                                                <td>{{ client.datecreation|date:"d/m/Y H:i" }}</td>
+                                                <td>{{ client.datemodification|date:"d/m/Y H:i" }}</td>
+                                                <td>
+                                                    <a class="btn btn-secondary btn-round ml-auto" href="{% url 'customer-detail' identifier=client.id %}"><i class="fas fa-pen-alt"></i></a>
+                                                    <button class="btn btn-danger btn-round ml-auto supprClient" data-id="{{ client.id }}"><i class="fas fa-trash-alt"></i></button>
+                                                </td>
                                             </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for client in clients %}
-                                                <tr role="row" class="odd">
-                                                    <td class="siret">{{ client.siret }}</td>
-                                                    <td>{{ client.nom_entreprise }}</td>
-                                                    <td>{{ client.datecreation|date:"d/m/Y H:i" }}</td>
-                                                    <td>{{ client.datemodification|date:"d/m/Y H:i" }}</td>
-                                                    <td>
-                                                        <a class="btn btn-secondary btn-round ml-auto" href="{% url 'customer-detail' identifier=client.id %}"><i class="far fa-eye"></i></a>
-                                                        <button class="btn btn-danger btn-round ml-auto supprClient" data-id="{{ client.id }}"><i class="far fa-window-close"></i></button>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
