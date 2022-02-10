@@ -13,7 +13,7 @@ from . import messages
 from . import views
 
 
-def view_sidepage(request):
+def view_tool(request):
     if database.mongodb.isAlive():
         # Affichage de la page principale
         form_theme = forms.ThemeForm(request.POST)
@@ -21,7 +21,7 @@ def view_sidepage(request):
         form_levier = forms.LevierForm(request.POST)
         form_modele_economique = forms.ModeleEconomiqueForm(request.POST)
         response = render(
-            request, "sidepage_create.html",
+            request, "tool_create.html",
             {"form_theme": form_theme, "form_blacklist_theme": form_blacklist_theme, "form_levier": form_levier,
              "form_modele_economique": form_modele_economique})
     else:
@@ -46,7 +46,7 @@ def create_theme(request):
                 # Création du thème
                 theme = {
                     "libelle_theme": libelle_theme,
-                    "date_creation": datetime.now(),
+                    "datecreation": datetime.now(),
                 }
 
                 # Insertion des données dans la base de données
@@ -55,7 +55,7 @@ def create_theme(request):
                 identifier_theme = str(identifier_theme)
 
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("list-sidepage"))
+                response = HttpResponseRedirect(reverse("list-tool"))
             else:
                 msg.add_message(request, msg.ERROR, form_theme.errors)
                 response = HttpResponseRedirect(reverse("create-theme"))
@@ -94,7 +94,7 @@ def create_blacklist_theme(request):
                 identifier_blacklist_theme = str(identifier_blacklist_theme)
 
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("list-sidepage"))
+                response = HttpResponseRedirect(reverse("list-tool"))
             else:
                 msg.add_message(request, msg.ERROR,
                                 form_blacklist_theme.errors)
@@ -134,7 +134,7 @@ def create_levier(request):
                 identifier_levier = str(identifier_levier)
 
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("list-sidepage"))
+                response = HttpResponseRedirect(reverse("list-tool"))
             else:
                 msg.add_message(request, msg.ERROR, form_levier.errors)
                 response = HttpResponseRedirect(reverse("create-levier"))
@@ -174,7 +174,7 @@ def create_modele_economique(request):
                     identifier_modele_economique)
 
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("list-sidepage"))
+                response = HttpResponseRedirect(reverse("list-tool"))
             else:
                 msg.add_message(request, msg.ERROR,
                                 form_modele_economique.errors)
@@ -195,7 +195,7 @@ def delete_theme(request, identifier):
     if database.mongodb.isAlive():
         database.mongodb.suivicampagne.themes.delete_one(
             {"_id": ObjectId(identifier)})
-        response = HttpResponseRedirect(reverse("list-sidepage"))
+        response = HttpResponseRedirect(reverse("list-tool"))
     else:
         # Retour sur la mire de connexion
         context = {"erreur": messages.error_database}
@@ -207,7 +207,7 @@ def delete_blacklist_theme(request, identifier):
     if database.mongodb.isAlive():
         database.mongodb.suivicampagne.themes_liste_noire.delete_one(
             {"_id": ObjectId(identifier)})
-        response = HttpResponseRedirect(reverse("list-sidepage"))
+        response = HttpResponseRedirect(reverse("list-tool"))
     else:
         # Retour sur la mire de connexion
         context = {"erreur": messages.error_database}
@@ -219,7 +219,7 @@ def delete_levier(request, identifier):
     if database.mongodb.isAlive():
         database.mongodb.suivicampagne.leviers.delete_one(
             {"_id": ObjectId(identifier)})
-        response = HttpResponseRedirect(reverse("list-sidepage"))
+        response = HttpResponseRedirect(reverse("list-tool"))
     else:
         # Retour sur la mire de connexion
         context = {"erreur": messages.error_database}
@@ -231,7 +231,7 @@ def delete_modele_economique(request, identifier):
     if database.mongodb.isAlive():
         database.mongodb.suivicampagne.modeles_economiques.delete_one(
             {"_id": ObjectId(identifier)})
-        response = HttpResponseRedirect(reverse("list-sidepage"))
+        response = HttpResponseRedirect(reverse("list-tool"))
     else:
         # Retour sur la mire de connexion
         context = {"erreur": messages.error_database}
@@ -239,7 +239,7 @@ def delete_modele_economique(request, identifier):
     return response
 
 
-def list_sidepage(request):
+def list_tool(request):
     if database.mongodb.isAlive():
         # Contexte générique
         context = views.context_processor(request)
@@ -285,7 +285,7 @@ def list_sidepage(request):
             modele_economique["id"] = modele_economique["_id"]
             modeles_economiques.append(modele_economique)
         context["modeles_economiques"] = modeles_economiques
-        response = render(request, "sidepage_list.html", context)
+        response = render(request, "tool_list.html", context)
     else:
         # Retour sur la mire de connexion
         context = {"erreur": messages.error_database}

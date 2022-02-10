@@ -19,6 +19,11 @@
                     <div class="collapse" id="collapseProfil">
                         <ul class="nav nav-collapse">
                             <li class="nav-item">
+                                <a href="/profile/{{ iduser }}">
+                                    <i class="fas fa-address-card"></i> Mon profil
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="/logout/">
                                     <i class="fas fa-door-closed"></i> Se déconnecter
                                 </a>
@@ -71,20 +76,20 @@
                     </div>
                 </li>
                 <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
-                    <a data-toggle="collapse" href="#sidepages">
+                    <a data-toggle="collapse" href="#tools">
                         <i class="fas fa-layer-group"></i>
                         <p>Outils</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="sidepages">
+                    <div class="collapse" id="tools">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="/sidepages-list/">
+                                <a href="/tools-list/">
                                     <i class="fas fa-table"></i> Liste des outils
                                 </a>
                             </li>
                             <li>
-                                <a href="/sidepages/">
+                                <a href="/tools/">
                                     <i class="fas fa-plus"></i> Ajouter un outil
                                 </a>
                             </li>
