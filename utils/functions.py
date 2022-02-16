@@ -2,16 +2,19 @@
     Bibliothèque de fonctions génériques pour le projet suivi de campagnes
     Dernière modification : 2022-01-24 (MF)
 """
-import json
 import hashlib
-import string
+import json
 import random
 import smtplib
+import string
 from datetime import datetime
-from os import chmod
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from os import chmod
+
+import requests
 from pymongo import MongoClient
+
 from utils import database
 
 
@@ -67,14 +70,17 @@ def mark(message=""):
     """
     try:
         directory = import_configuration("repertoire", "log")
-        absolute_path = directory + "suividecampagne." + datetime.now().strftime("%Y%m%d") + ".log"
+        absolute_path = directory + "suividecampagne." + \
+                        datetime.now().strftime("%Y%m%d") + ".log"
         print(message)
         with open(absolute_path, "a", encoding="utf8") as log:
-            log.write(datetime.now().strftime("[%Y-%m-%d %H:%M:%S] ") + message + "\n")
+            log.write(datetime.now().strftime(
+                "[%Y-%m-%d %H:%M:%S] ") + message + "\n")
         chmod(absolute_path, 0o777)
         return_value = True
     except Exception as error:
-        print(" ! Une erreur s'est produite durant 'mark' : {} {}".format(error, type(error)))
+        print(" ! Une erreur s'est produite durant 'mark' : {} {}".format(
+            error, type(error)))
         return_value = False
     return return_value
 
@@ -105,7 +111,8 @@ def send_email(destinataire, sujet, contenu):
             server.quit()
             return_value = True
         except Exception as error:
-            print(" ! Une erreur s'est produite durant 'envoyer_email' : {} {}".format(error, type(error)))
+            print(" ! Une erreur s'est produite durant 'envoyer_email' : {} {}".format(
+                error, type(error)))
             return_value = False
     else:
         print(" ! Envoi d'email désactivé")
@@ -135,55 +142,78 @@ def uid_super_user():
         server = MongoClient(import_configuration("mongodb", "url"))
         database = server["suivicampagne"]
         collection = database["utilisateurs"]
-        data = collection.find_one({"email": import_configuration("superutilisateur")})
+        data = collection.find_one(
+            {"email": import_configuration("superutilisateur")})
         return_value = data["_id"]
     except Exception as error:
-        print("Une erreur s'est produite durant 'uid_super_utilisateur' : {} {}".format(error, type(error)))
+        print("Une erreur s'est produite durant 'uid_super_utilisateur' : {} {}".format(
+            error, type(error)))
         return_value = ""
     return return_value
 
-def calculs_campagne(key, campaign) :
+
+def calculs_campagne(key, campaign):
     # TODO : récupérer résultats tradedoubler
     count_leads = 100
     count_clicks = 236
     count_affiliates = 34
 
-    model_eco = database.mongodb.suivicampagne.modeles_economiques.find_one({"_id": campaign["modele_eco"]})
+    model_eco = database.mongodb.suivicampagne.modeles_economiques.find_one(
+        {"_id": campaign["modele_eco"]})
     # Calculs
-    if campaign["prix_vendu"] != None and campaign["prix_defini"] != None :
-        if model_eco["libelle"] == "CTL" :
+    if campaign["prix_vendu"] != None and campaign["prix_defini"] != None:
+        if model_eco["libelle"] == "CTL":
             ca = count_leads * campaign["prix_vendu"]
             marge = count_leads * campaign["prix_defini"]
-        elif model_eco["libelle"] == "CPL" :
+        elif model_eco["libelle"] == "CPL":
             ca = count_leads * campaign["prix_vendu"]
             marge = count_leads * campaign["prix_defini"]
-        elif model_eco["libelle"] == "CPC" :
+        elif model_eco["libelle"] == "CPC":
             ca = count_clicks * campaign["prix_vendu"]
             marge = count_clicks * campaign["prix_defini"]
-        elif model_eco["libelle"] == "CPA" :
+        elif model_eco["libelle"] == "CPA":
             ca = count_affiliates * campaign["prix_vendu"]
             marge = count_affiliates * campaign["prix_defini"]
-    else :
+    else:
         ca = 0
         marge = 0
 
-    if key == "nb_jours" :
+    if key == "nb_jours":
         nb_jours = campaign["date_fin"] - campaign["date_debut"]
         nb_jours_str = str(nb_jours.days) + " jours"
         return nb_jours_str
-    elif key == "pourcentage_atteinte" :
-        if campaign["objectif_mensuel"] != None and campaign["objectif_mensuel"] != 0 :
+    elif key == "pourcentage_atteinte":
+        if campaign["objectif_mensuel"] != None and campaign["objectif_mensuel"] != 0:
             return round(campaign["trend_fin_mois"] / campaign["objectif_mensuel"], 2)
-        else :
+        else:
             return 0
 
-    elif key == "ca_campagne" :
+    elif key == "ca_campagne":
         return ca
 
-    elif key == "achat_realise" :
+    elif key == "achat_realise":
         return marge
 
     elif key == "marge" and campaign["prix_achat"] is not None:
         return ca - campaign["prix_achat"]
-    else :
+    else:
         return "clef non trouvée"
+
+
+# test fonctionnel de l'appel api avec l'url à modifier en fonction des données souhaitées
+# url = import_configuration("tradedoubler")
+# payload = {}
+# headers = {}
+# response = requests.request("GET", url, headers=headers, data=payload)
+# print(response.text)
+
+# fonction qui prend en paramètre la méthode get, l'url, les headers et les données et renvoit la réponse sous forme de texte
+def get_response(method, url, headers, data):
+    try:
+        response = requests.request(method, url, headers=headers, data=data)
+        return_value = response.text
+    except Exception as error:
+        print("Une erreur s'est produite durant 'get_response' : {} {}".format(
+            error, type(error)))
+        return_value = ""
+    return return_value

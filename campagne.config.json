@@ -20,5 +20,6 @@
     "administrateur": "dsi@neptunemedia.fr",
     "active": true
   },
-  "superutilisateur": "dsi@neptunemedia.fr"
+  "superutilisateur": "dsi@neptunemedia.fr",
+  "tradedoubler": "http://reports.Tradedoubler.com/pan/aReport3Key.action?reportName=rResellerActivitySummaryReport&columns=organizationName&columns=activityCountry&columns=activityName&columns=impNrOf&columns=clickNrOf&columns=clickRate&columns=uvNrOf&startDate=14/01/22&endDate=15/02/22&metric1.lastOperator=/&interval=MONTHS&currencyId=EUR&metric1.summaryType=NONE&metric1.operator1=/&latestDayToExecute=0&reportTitleTextKey=REPORT3_SERVICE_REPORTS_RRESELLERACTIVITYSUMMARYREPORT_TITLE&metric1.columnName1=organizationId&setColumns=true&metric1.columnName2=organizationId&decorator=popupDecorator&metric1.midOperator=/&tabMenuName=N/A&allPrograms=false&customKeyMetricCount=0&applyNamedDecorator=true&programIds=325576,309213,316671,322919,323364,319274,323304,322918,310747,317797,322170,314265,323451,323363,317070,323619,326046,317270,324399,325508,307200,321532,322887,320282,326015,326460,323414,322688,317521,325981,326416,311048,314675,322524,325496,325575,324779,321619,322884,322883,320274,320280,322463,317162,322750,321834,311288,320914,308699,310111,308554,323386,316881,316545,319831,317940,320013,320473,321584,307301,318474,323621,323620,311823,311259&key=640aae6b412f2611bd555087c381c887&format=CSV"
 }
