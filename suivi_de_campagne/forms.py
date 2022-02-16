@@ -1,5 +1,5 @@
 from django import forms
-
+from django.contrib.postgres.forms import SimpleArrayField
 
 class LoginForm(forms.Form):
     username = forms.CharField(
@@ -72,37 +72,71 @@ class CustomerForm(forms.Form):
     code_postal = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Code postal", "class": "form-control"}), max_length=5, required=False)
 
-
-class ThemeForm(forms.Form):
-    libelle_theme = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
-
-
-class BlacklistThemeForm(forms.Form):
-    libelle_blacklist_theme = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
-
-
-class LevierForm(forms.Form):
-    libelle_levier = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
-
-
-class ModeleEconomiqueForm(forms.Form):
-    libelle_modele_economique = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
-
-
 class UserForm(forms.Form):
     admin = forms.BooleanField(required=False)
     civilite = forms.CharField()
     nom = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Nom", "class": "form-control"}), max_length=32)
+        attrs={"placeholder": "Nom","class": "form-control"}), max_length=32)
     prenom = forms.CharField(widget=forms.TextInput(attrs={
         "placeholder": "Prénom", "class": "form-control"}), max_length=32, required=False)
     email = forms.EmailField(widget=forms.EmailInput(attrs={
-        "placeholder": "Email", "class": "form-control"}), max_length=80)
+        "placeholder": "Email","class": "form-control"}), max_length=80)
     mot_de_passe = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Mot de passe", "class": "form-control"}), max_length=32, required=False)
+        attrs={"placeholder": "Mot de passe","class": "form-control"}), max_length=32, required=False)
     description = forms.CharField(widget=forms.Textarea(
-        attrs={"placeholder": "Description", "class": "form-control"}), max_length=2048, required=False)
+        attrs={"placeholder": "Description","class": "form-control"}), max_length=2048, required=False)
+
+class ThemeForm(forms.Form):
+    libelle = forms.CharField(widget=forms.TextInput(
+        attrs={"class": "form-control"}), max_length=32, required=False)
+
+
+class BlacklistThemeForm(forms.Form):
+    libelle = forms.CharField(widget=forms.TextInput(
+        attrs={"class": "form-control"}), max_length=32, required=False)
+
+
+class LevierForm(forms.Form):
+    libelle = forms.CharField(widget=forms.TextInput(
+        attrs={"class": "form-control"}), max_length=32, required=False)
+
+
+class ModeleEconomiqueForm(forms.Form):
+    libelle = forms.CharField(widget=forms.TextInput(
+        attrs={"class": "form-control"}), max_length=32, required=False)
+
+class CampaignForm(forms.Form):
+    libelle = forms.CharField(widget=forms.TextInput(
+        attrs={"placeholder": "Libellé","class": "form-control"}), max_length=32)
+    client = forms.CharField(max_length=32)
+    partenaires = SimpleArrayField(forms.CharField(), required=False)
+    traffic_manager = forms.CharField(max_length=32)
+    reporter = forms.CharField(max_length=32)
+    commercial = forms.CharField(max_length=32)
+    statut = forms.CharField(max_length=32)
+    date_debut = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Date de début", "class": "form-control"}), required=False)
+    date_fin = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Date de fin", "class": "form-control"}), required=False)
+    levier = forms.CharField(widget=forms.TextInput(
+        attrs={"placeholder": "Levier", "class": "form-control"}), max_length=32, required=False)
+    modele_eco = forms.CharField(widget=forms.TextInput(
+        attrs={"placeholder": "Modèle économique", "class": "form-control"}), max_length=32)
+    tarif = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Tarif", "class": "form-control"}))
+    prix_vendu = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Prix de vente", "class": "form-control"}), required=False)
+    prix_defini = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Prix défini", "class": "form-control"}), required=False)
+    prix_achat = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Prix d'achat", "class": "form-control"}), required=False)
+    objectif_mensuel = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Objectif mensuel", "class": "form-control"}), required=False)
+    objectif_ca_mois = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Objectif CA mois en cours", "class": "form-control"}), required=False)
+    trend = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Trend", "class": "form-control"}), required=False)
+    trend_fin_mois = forms.FloatField(widget=forms.NumberInput(
+        attrs={"placeholder": "Trend fin de mois", "class": "form-control"}), required=False)
+    jour_reporting = forms.CharField(max_length=32)
+    ca_realise = forms.BooleanField(required=False)
+    achat_realise = forms.BooleanField(required=False)
+    marge_realise = forms.BooleanField(required=False)

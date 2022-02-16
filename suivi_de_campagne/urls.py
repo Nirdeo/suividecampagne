@@ -1,5 +1,5 @@
 from django.urls import path
-from suivi_de_campagne import view_partner, view_customer, view_profile, view_tool, view_user, view_signin_signup_reset, views
+from suivi_de_campagne import view_partner, view_profile, view_tool, view_customer, view_user, view_signin_signup_reset, view_campaign, views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,6 +23,12 @@ urlpatterns = [
      path("edit-customer/<str:identifier>", view_customer.edit_customer, name="edit-customer"),
      path("delete-customer/<str:identifier>", view_customer.delete_customer, name="delete-customer"),
      path("customers-list/", view_customer.list_customer, name="list-customer"),
+     path("user-detail/<str:identifier>", view_user.user_detail, name="user-detail"),
+     path("user-detail/", view_user.user_detail, name="user-detail"),
+     path("create-user/", view_user.create_user, name="create-user"),
+     path("edit-user/<str:identifier>", view_user.edit_user, name="edit-user"),
+     path("delete-user/<str:identifier>", view_user.delete_user, name="delete-user"),
+     path("users-list/", view_user.list_user, name="list-user"),
 
      path("tools/", view_tool.view_tool, name="view-tool"),
      path("create-theme/", view_tool.create_theme, name="create-theme"),
@@ -35,12 +41,12 @@ urlpatterns = [
      path("delete-modele-economique/<str:identifier>", view_tool.delete_modele_economique, name="delete-modele-economique"),
      path("tools-list/", view_tool.list_tool, name="list-tool"),
 
-     path("user-detail/<str:identifier>", view_user.user_detail, name="user-detail"),
-     path("user-detail/", view_user.user_detail, name="user-detail"),
-     path("create-user/", view_user.create_user, name="create-user"),
-     path("edit-user/<str:identifier>", view_user.edit_user, name="edit-user"),
-     path("delete-user/<str:identifier>", view_user.delete_user, name="delete-user"),
-     path("users-list/", view_user.list_user, name="list-user"),
+     path("campaign-detail/<str:identifier>", view_campaign.campaign_detail, name="campaign-detail"),
+     path("campaign-detail/", view_campaign.campaign_detail, name="campaign-detail"),
+     path("create-campaign/", view_campaign.create_campaign, name="create-campaign"),
+     path("edit-campaign/<str:identifier>", view_campaign.edit_campaign, name="edit-campaign"),
+     path("delete-campaign/<str:identifier>", view_campaign.delete_campaign, name="delete-campaign"),
+     path("campaigns-list/", view_campaign.list_campaign, name="list-campaign"),
 
      path("profile/<str:identifier>",view_profile.profile_detail, name="profile-detail"),
      path("profile/", view_profile.profile_detail, name="profile-detail"),

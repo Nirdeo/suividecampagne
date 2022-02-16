@@ -78,7 +78,79 @@ mark("Création des partenaires")
 partenaires = database.create_collection("partenaires")
 
 mark("Création des clients")
-customers = database.create_collection("clients")
+customers = database["clients"]
+# Jeu d'essai client
+registration = {
+    "siret": "47931411400022",
+    "nom_entreprise": "Neptune Media",
+    "bases": "interne",
+    "nom": "DRIANCOURT",
+    "prenom": "Nicolas",
+    "fonction": "Responsable du service informatique",
+    "email": "ndriancourt@neptunemedia.fr",
+    "telephone_mobile": "",
+    "telephone_fixe": "01 44 52 84 17",
+    "leviers": "",
+    "thematiques": "",
+    "thematiques_blacklist": "",
+    "code_postal": "75010",
+    "commentaires": "",
+    "datecreation": datetime.datetime.now(),
+    "datemodification": datetime.datetime.now()
+}
+client_jeu = customers.insert_one(registration).inserted_id
 
 mark("Création des modèles économiques")
-economic_models = database.create_collection("modeles_economiques")
+# Jeu d'essai modèles écos
+economic_models = database["modeles_economiques"]
+economic_models.drop()
+registration = {
+    "libelle" : "CPL",
+    "datecreation" : datetime.datetime.now(),
+}
+modele_jeu = economic_models.insert_one(registration).inserted_id
+registrations = [
+    {
+    "libelle" : "CPC",
+    "datecreation" : datetime.datetime.now(),
+    },
+    {
+    "libelle" : "CPA",
+    "datecreation" : datetime.datetime.now(),
+    },
+]
+economic_models.insert_many(registrations)
+
+mark("Création des campagnes")
+campaigns = database["campagnes"]
+campaigns.drop()
+
+# Jeu d'essai campagne
+registration = {
+    "libelle" : "Campagne numéro 1",
+    "client" : client_jeu,
+    "partenaires" : [],
+    "traffic_manager": uid_superuser,
+    "reporter": uid_superuser,
+    "commercial": uid_superuser,
+    "statut": "SETUP",
+    "date_debut": datetime.datetime.now(),
+    "date_fin": datetime.datetime.now(),
+    "levier": "",
+    "modele_eco": modele_jeu,
+    "tarif": 1389,
+    "prix_defini" : 1200,
+    "prix_vendu" : 1388,
+    "prix_achat" : 200,
+    "objectif_mensuel": 1200,
+    "objectif_ca_mois": 200,
+    "trend": 1000,
+    "trend_fin_mois" : 0,
+    "jour_reporting": "vendredi",
+    "ca_realise" : False,
+    "achat_realise" : False,
+    "marge_realise" : False,
+    "datecreation": datetime.datetime.now(),
+    "datemodification": datetime.datetime.now()
+}
+campaigns.insert_one(registration)
