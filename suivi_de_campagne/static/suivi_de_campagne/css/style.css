@@ -18,3 +18,27 @@
         min-width:  50rem;
     }
 }
+
+.divChiffres{
+    border-top: 1px solid rgba(181, 181, 181, 0.1);
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+}
+
+/* Datepicker */
+.datepicker-dropdown{
+    color : white;
+    background-color: #1a2035;
+}
+.datepicker-dropdown td.day:hover, .datepicker-dropdown span:hover, .datepicker-dropdown th.datepicker-switch:hover{
+    background: rgba(199, 199, 199, 0.2) !important;
+}
+.datepicker-dropdown .active{
+    background: #1572e8 !important;
+}
+.datepicker-dropdown .focused{
+    background: rgba(199, 199, 199, 0.53) !important;
+}
+.datepicker{
+    padding: 0.6rem 1rem !important;
+}

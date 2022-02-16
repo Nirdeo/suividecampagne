@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="page-header">
-        <h4 class="page-title">Outil</h4>
+        <h4 class="page-title"><i class="fas fa-layer-group"></i> Ajout d'un outil</h4>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -12,7 +12,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Thèmes</h4>
+                            <div class="card-title">
+                                <span><i class="fab fa-affiliatetheme"></i></span>
+                                <span>
+                                    Thèmes
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -27,7 +32,7 @@
                                                 Libellé
                                             </span>
                                         </div>
-                                        {{ form_theme.libelle_theme }}
+                                        {{ form_theme.libelle }}
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +49,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Blacklist thèmes</h4>
+                            <div class="card-title">
+                                <span><i class="fab fa-affiliatetheme"></i></span>
+                                <span>
+                                    Blacklist thèmes
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -59,7 +69,7 @@
                                                 Libellé
                                             </span>
                                         </div>
-                                        {{ form_blacklist_theme.libelle_blacklist_theme }}
+                                        {{ form_blacklist_theme.libelle }}
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +88,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Leviers</h4>
+                            <div class="card-title">
+                                <span><i class="fas fa-rocket"></i></span>
+                                <span>
+                                    Leviers
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -93,7 +108,7 @@
                                                 Libellé
                                             </span>
                                         </div>
-                                        {{ form_levier.libelle_levier }}
+                                        {{ form_levier.libelle }}
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +125,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="card-title">Modèles économiques</h4>
+                            <div class="card-title">
+                                <span><i class="fas fa-chart-line"></i></span>
+                                <span>
+                                    Modèles économiques
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -125,7 +145,7 @@
                                                 Libellé
                                             </span>
                                         </div>
-                                        {{ form_modele_economique.libelle_modele_economique }}
+                                        {{ form_modele_economique.libelle }}
                                     </div>
                                 </div>
                             </div>

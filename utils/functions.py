@@ -12,6 +12,7 @@ from os import chmod
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pymongo import MongoClient
+from utils import database
 
 
 def import_configuration(section, key=""):
@@ -140,3 +141,49 @@ def uid_super_user():
         print("Une erreur s'est produite durant 'uid_super_utilisateur' : {} {}".format(error, type(error)))
         return_value = ""
     return return_value
+
+def calculs_campagne(key, campaign) :
+    # TODO : récupérer résultats tradedoubler
+    count_leads = 100
+    count_clicks = 236
+    count_affiliates = 34
+
+    model_eco = database.mongodb.suivicampagne.modeles_economiques.find_one({"_id": campaign["modele_eco"]})
+    # Calculs
+    if campaign["prix_vendu"] != None and campaign["prix_defini"] != None :
+        if model_eco["libelle"] == "CTL" :
+            ca = count_leads * campaign["prix_vendu"]
+            marge = count_leads * campaign["prix_defini"]
+        elif model_eco["libelle"] == "CPL" :
+            ca = count_leads * campaign["prix_vendu"]
+            marge = count_leads * campaign["prix_defini"]
+        elif model_eco["libelle"] == "CPC" :
+            ca = count_clicks * campaign["prix_vendu"]
+            marge = count_clicks * campaign["prix_defini"]
+        elif model_eco["libelle"] == "CPA" :
+            ca = count_affiliates * campaign["prix_vendu"]
+            marge = count_affiliates * campaign["prix_defini"]
+    else :
+        ca = 0
+        marge = 0
+
+    if key == "nb_jours" :
+        nb_jours = campaign["date_fin"] - campaign["date_debut"]
+        nb_jours_str = str(nb_jours.days) + " jours"
+        return nb_jours_str
+    elif key == "pourcentage_atteinte" :
+        if campaign["objectif_mensuel"] != None and campaign["objectif_mensuel"] != 0 :
+            return round(campaign["trend_fin_mois"] / campaign["objectif_mensuel"], 2)
+        else :
+            return 0
+
+    elif key == "ca_campagne" :
+        return ca
+
+    elif key == "achat_realise" :
+        return marge
+
+    elif key == "marge" and campaign["prix_achat"] is not None:
+        return ca - campaign["prix_achat"]
+    else :
+        return "clef non trouvée"

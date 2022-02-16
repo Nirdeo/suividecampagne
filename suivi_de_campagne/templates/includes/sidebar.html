@@ -75,28 +75,6 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
-                    <a data-toggle="collapse" href="#tools">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Outils</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="tools">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="/tools-list/">
-                                    <i class="fas fa-table"></i> Liste des outils
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/tools/">
-                                    <i class="fas fa-plus"></i> Ajouter un outil
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
                 {% if isadmin == "True" %}
                     <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
                         <a data-toggle="collapse" href="#utilisateurs">
@@ -120,6 +98,49 @@
                         </div>
                     </li>
                 {% endif %}
+                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                    <a data-toggle="collapse" href="#campagnes">
+                        <i class="fas fa-bullhorn"></i>
+                        <p>Campagnes</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="campagnes">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/campaigns-list/">
+                                    <i class="fas fa-table"></i> Liste des campagnes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/campaign-detail/">
+                                    <i class="fas fa-plus"></i> Ajouter une campagne
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                    <a data-toggle="collapse" href="#tools">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Outils</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="tools">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/tools-list/">
+                                    <i class="fas fa-table"></i> Liste des outils
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/tools/">
+                                    <i class="fas fa-plus"></i> Ajouter un outil
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
     </div>
