@@ -57,7 +57,7 @@ def create_theme(request):
                     # Création du thème
                     theme = {
                         "libelle": libelle,
-                        "date_creation": datetime.now(),
+                        "datecreation": datetime.now(),
                     }
 
                     # Insertion des données dans la base de données

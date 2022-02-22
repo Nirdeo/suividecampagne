@@ -13,6 +13,7 @@ from email.mime.text import MIMEText
 from os import chmod
 
 import requests
+from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
 from utils import database
@@ -73,7 +74,7 @@ def mark(message=""):
         absolute_path = directory + "suividecampagne." + \
                         datetime.now().strftime("%Y%m%d") + ".log"
         print(message)
-        with open(absolute_path, "a", encoding="utf8") as log:
+        with open(absolute_path, "a", encoding="UTF8") as log:
             log.write(datetime.now().strftime(
                 "[%Y-%m-%d %H:%M:%S] ") + message + "\n")
         chmod(absolute_path, 0o777)
@@ -153,7 +154,18 @@ def uid_super_user():
 
 
 def calculs_campagne(key, campaign):
-    # TODO : récupérer résultats tradedoubler
+    url = import_configuration("tradedoubler", "nbclicks")
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    nb_click = soup.find_all("td", class_="bS aR")
+    nb_clicks_total = nb_click[-1].string
+
+    url = import_configuration("tradedoubler", "nbclicksunique")
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    nb_click_unique = soup.find_all("td", class_="bS aR")
+    nb_clicks_unique_total = nb_click_unique[-1].string
+
     count_leads = 100
     count_clicks = 236
     count_affiliates = 34
@@ -198,22 +210,3 @@ def calculs_campagne(key, campaign):
         return ca - campaign["prix_achat"]
     else:
         return "clef non trouvée"
-
-
-# test fonctionnel de l'appel api avec l'url à modifier en fonction des données souhaitées
-# url = import_configuration("tradedoubler")
-# payload = {}
-# headers = {}
-# response = requests.request("GET", url, headers=headers, data=payload)
-# print(response.text)
-
-# fonction qui prend en paramètre la méthode get, l'url, les headers et les données et renvoit la réponse sous forme de texte
-def get_response(method, url, headers, data):
-    try:
-        response = requests.request(method, url, headers=headers, data=data)
-        return_value = response.text
-    except Exception as error:
-        print("Une erreur s'est produite durant 'get_response' : {} {}".format(
-            error, type(error)))
-        return_value = ""
-    return return_value
