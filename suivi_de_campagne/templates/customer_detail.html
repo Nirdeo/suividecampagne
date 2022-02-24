@@ -3,9 +3,6 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="page-header">
-        <h4 class="page-title">Détails client</h4>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <form method="post" action="{% if identifier %} {% url 'edit-customer' identifier=identifier %} {% else %} {% url 'create-customer' %} {% endif %}">{% csrf_token %}
@@ -22,7 +19,7 @@
                             {% endif %}
 
                             {% if identifier %}
-                                <a data-id="{{identifier}}" id="supprClient" class="btn btn-danger btn-round ml-auto col-lg-1 float-right col-lg-1">Supprimer</a>
+                                <a data-id="{{identifier}}" id="supprClient" class="btn btn-danger btn-round ml-auto float-right">Supprimer</a>
                             {% endif %}
                         </div>
                     </div>
@@ -60,8 +57,8 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="form-label col-lg-1 labelInputgroup">Base</label>
-                                        <div class="selectgroup w-100 col-lg-11">
+                                        <label class="form-label col-lg-2 labelInputgroup">Base</label>
+                                        <div class="selectgroup w-100 col-lg-10">
                                             <label class="selectgroup-item">
                                                 <input type="checkbox" name="bases" value="interne" class="selectgroup-input" {% if "interne" in form.bases.value %}checked{% endif %}>
                                                 <span class="selectgroup-button">Interne</span>
@@ -238,7 +235,7 @@
                         </div>
                     </div>
                     <div class="card-action text-center">
-                        <button type="submit" class="btn btn-success btn-round ml-auto col-lg-1">Envoyer</button>
+                        <button type="submit" class="btn btn-success btn-round ml-auto">Envoyer</button>
                     </div>
                 </div>
             </form>
@@ -250,5 +247,6 @@
 {% block javascripts %}
 <script>
     supprObject("#supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
+    $("#nav-customers").addClass("active")
 </script>
 {% endblock javascripts %}

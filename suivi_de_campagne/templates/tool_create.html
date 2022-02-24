@@ -3,11 +3,8 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="page-header">
-        <h4 class="page-title"><i class="fas fa-layer-group"></i> Ajout d'un outil</h4>
-    </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <form method="post" action="{% url 'create-theme' %}">{% csrf_token %}
                 <div class="card">
                     <div class="card-header">
@@ -24,7 +21,7 @@
                         <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
                         <div class="row">
                             <!-- Libellé thème -->
-                            <div class="col-12 col-md-6">
+                            <div class="col-9">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -36,15 +33,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-success btn-round ml-auto mt-2">Envoyer</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Envoyer</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <form method="post" action="{% url 'create-blacklist-theme' %}">{% csrf_token %}
                 <div class="card">
                     <div class="card-header">
@@ -61,7 +58,7 @@
                         <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
                         <div class="row">
                             <!-- Libellé liste noire thème -->
-                            <div class="col-12 col-md-6">
+                            <div class="col-9">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -73,17 +70,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-success btn-round ml-auto mt-2">Envoyer</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Envoyer</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <form method="post" action="{% url 'create-levier' %}">{% csrf_token %}
                 <div class="card">
                     <div class="card-header">
@@ -100,7 +97,7 @@
                         <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
                         <div class="row">
                             <!-- Libellé levier -->
-                            <div class="col-12 col-md-6">
+                            <div class="col-9">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -112,15 +109,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-success btn-round ml-auto mt-2">Envoyer</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Envoyer</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <form method="post" action="{% url 'create-modele-economique' %}">{% csrf_token %}
                 <div class="card">
                     <div class="card-header">
@@ -137,7 +134,7 @@
                         <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
                         <div class="row">
                             <!-- Libellé modèle économique -->
-                            <div class="col-12 col-md-6">
+                            <div class="col-9">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -149,10 +146,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-success btn-round ml-auto mt-2">Envoyer</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-action">
-                        <button type="submit" class="btn btn-success">Envoyer</button>
                     </div>
                 </div>
             </form>
@@ -161,4 +158,8 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+    $("#nav-tools").addClass("active")
+</script>
+{% endblock javascripts %}

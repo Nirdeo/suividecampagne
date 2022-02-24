@@ -3,9 +3,6 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="page-header">
-        <h4 class="page-title">Détails utilisateur</h4>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <form method="post" action="{% if identifier %} {% url 'edit-user' identifier=identifier %} {% else %} {% url 'create-user' %} {% endif %}">{% csrf_token %}
@@ -22,7 +19,7 @@
                             {% endif %}
 
                             {% if identifier and iduser != identifier %}
-                                <a data-id="{{identifier}}" id="supprPartenaire" class="btn btn-danger float-right"><span class="btn-label mr-2"> <i class="fas fa-trash-alt"></i></span>Supprimer</a>
+                                <a data-id="{{identifier}}" id="supprPartenaire" class="btn btn-danger btn-round ml-auto float-right">Supprimer</a>
                             {% endif %}
                         </div>
                     </div>
@@ -42,8 +39,8 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="form-label col-lg-1 labelInputgroup">Civilité</label>
-                                        <div class="selectgroup w-100 col-lg-11">
+                                        <label class="form-label col-lg-2 labelInputgroup">Civilité</label>
+                                        <div class="selectgroup w-100 col-lg-10">
                                             <label class="selectgroup-item">
                                                 <input type="radio" name="civilite" value="Mr" class="selectgroup-input" {% if form.civilite.value == "Mr" %}checked{% endif %}>
                                                 <span class="selectgroup-button">Monsieur</span>
@@ -124,7 +121,7 @@
                         </div>
                     </div>
                     <div class="card-action text-center">
-                        <button type="submit" class="btn btn-success btn-round ml-auto  col-lg-1">Envoyer</button>
+                        <button type="submit" class="btn btn-success btn-round ml-auto">Envoyer</button>
                     </div>
                 </div>
             </form>
@@ -136,5 +133,6 @@
 {% block javascripts %}
 <script>
     supprObject("#supprPartenaire", "Etes vous sur de vouloir supprimer cet utilisateur ?", "/delete-user/")
+    $("#nav-users").addClass("active")
 </script>
 {% endblock javascripts %}

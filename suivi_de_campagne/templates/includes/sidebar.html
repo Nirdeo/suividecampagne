@@ -33,7 +33,7 @@
                 </div>
             </div>
             <ul class="nav nav-primary">
-                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                <li class="nav-item" id="nav-partners">
                     <a data-toggle="collapse" href="#partenaires">
                         <i class="fas fa-handshake"></i>
                         <p>Partenaires</p>
@@ -54,7 +54,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                <li class="nav-item" id="nav-customers">
                     <a data-toggle="collapse" href="#clients">
                         <i class="fas fa-address-book"></i>
                         <p>Clients</p>
@@ -76,7 +76,7 @@
                     </div>
                 </li>
                 {% if isadmin == "True" %}
-                    <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                    <li class="nav-item" id="nav-users">
                         <a data-toggle="collapse" href="#utilisateurs">
                             <i class="fas fa-users"></i>
                             <p>Utilisateurs</p>
@@ -98,7 +98,7 @@
                         </div>
                     </li>
                 {% endif %}
-                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                <li class="nav-item" id="nav-campaigns">
                     <a data-toggle="collapse" href="#campagnes">
                         <i class="fas fa-bullhorn"></i>
                         <p>Campagnes</p>
@@ -119,7 +119,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item {% if 'tables' in segment %} active {% endif %}">
+                <li class="nav-item" id="nav-tools">
                     <a data-toggle="collapse" href="#tools">
                         <i class="fas fa-layer-group"></i>
                         <p>Outils</p>

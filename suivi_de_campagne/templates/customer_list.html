@@ -11,10 +11,6 @@
                             <i class="fas fa-address-book"></i>
                             Liste des clients
                         </h4>
-                        <a href="/customer-detail/" class="btn btn-info btn-round ml-auto">
-                            <i class="fa fa-plus"></i>
-                            Ajouter un nouveau client
-                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -63,5 +59,6 @@
 {% block javascripts %}
 <script>
     supprObject(".supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
+    $("#nav-customers").addClass("active")
 </script>
 {% endblock javascripts %}

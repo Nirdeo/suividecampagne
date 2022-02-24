@@ -3,13 +3,6 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="page-header">
-        <h4 class="page-title"><i class="fas fa-layer-group"></i> Outils</h4>
-        <a href="/tools/" class="btn btn-info btn-round ml-auto">
-            <i class="fa fa-plus"></i>
-            Ajouter un nouvel outil
-        </a>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -46,7 +39,7 @@
                                                 <td>
                                                     <a class="btn btn-danger btn-round ml-auto"
                                                        href="{% url 'delete-theme' identifier=theme.id %}"><i
-                                                            class="far fa-window-close"></i></a>
+                                                            class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -94,7 +87,7 @@
                                                 <td>
                                                     <a class="btn btn-danger btn-round ml-auto"
                                                        href="{% url 'delete-blacklist-theme' identifier=theme.id %}"><i
-                                                            class="far fa-window-close"></i></a>
+                                                            class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -144,7 +137,7 @@
                                                 <td>
                                                     <a class="btn btn-danger btn-round ml-auto"
                                                        href="{% url 'delete-levier' identifier=levier.id %}"><i
-                                                            class="far fa-window-close"></i></a>
+                                                            class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -192,7 +185,7 @@
                                                 <td>
                                                     <a class="btn btn-danger btn-round ml-auto"
                                                        href="{% url 'delete-modele-economique' identifier=modele_economique.id %}"><i
-                                                            class="far fa-window-close"></i></a>
+                                                            class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -209,4 +202,8 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+    $("#nav-tools").addClass("active")
+</script>
+{% endblock javascripts %}

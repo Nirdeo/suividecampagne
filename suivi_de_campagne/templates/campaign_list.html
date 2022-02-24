@@ -11,9 +11,6 @@
                             <i class="fas fa-bullhorn"></i>
                             Liste des campagnes
                         </h4>
-                        <a href="/campaign-detail/" class="btn btn-info btn-round ml-auto">
-                            Ajouter une nouvelle campagne
-                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -66,5 +63,6 @@
 {% block javascripts %}
 <script>
     supprObject(".supprCampagne", "Etes vous sur de vouloir supprimer ce campagne ?", "/delete-campaign/")
+    $("#nav-campaigns").addClass("active")
 </script>
 {% endblock javascripts %}

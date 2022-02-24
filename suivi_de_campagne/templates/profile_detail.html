@@ -3,9 +3,6 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="page-header">
-        <h4 class="page-title">Mon profil</h4>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <form method="post" action="{% url 'edit-profile' identifier=identifier %}">{% csrf_token %}

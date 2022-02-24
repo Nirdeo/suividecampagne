@@ -4,9 +4,6 @@
 
 {% block content %}
 {% load humanize %}
-    <div class="page-header">
-        <h4 class="page-title">Détails campagne</h4>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <form method="post" action="{% if identifier %} {% url 'edit-campaign' identifier=identifier %} {% else %} {% url 'create-campaign' %} {% endif %}">{% csrf_token %}
@@ -16,14 +13,14 @@
                         <div class="card-title">
                             <span><i class="fas fa-bullhorn"></i></span>
                             <span>
-                                Campagne généralités
+                                Campagne
                             </span>
                             {% if msg %}
                                 <span class="text-danger">{{ msg | safe }}</span>
                             {% endif %}
 
                             {% if identifier %}
-                                <a data-id="{{identifier}}" id="supprCampagne" class="btn btn-danger btn-round ml-auto col-lg-1 float-right col-lg-1">Supprimer</a><span class="h4 float-right text-muted mt-2 mr-3">Dernière modification le {{datemodification|date:'d/m/Y à H:i'}}</span>
+                                <a data-id="{{identifier}}" id="supprCampagne" class="btn btn-danger btn-round ml-auto float-right">Supprimer</a><span class="h4 float-right text-muted mt-2 mr-3">Dernière modification le {{datemodification|date:'d/m/Y à H:i'}}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -544,6 +541,6 @@
             }
         }
     })
-
+    $("#nav-campaigns").addClass("active")
 </script>
 {% endblock javascripts %}
