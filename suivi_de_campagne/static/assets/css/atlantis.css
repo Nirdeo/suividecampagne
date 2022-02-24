@@ -1158,8 +1158,6 @@ a:before {
 .sidebar .nav-collapse,
 .sidebar[data-background-color="white"] .nav-collapse {
     margin-top: 0px;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
     padding-top: 10px;
 }
 
@@ -3098,7 +3096,7 @@ p {
 .nav
 .nav-item.active
 > a[data-toggle="collapse"][aria-expanded="true"] {
-    background: #fff !important;
+    background: #b9babf  !important;
     color: #1a2035 !important;
 }
 
@@ -3233,7 +3231,7 @@ p {
 .nav
 .nav-item.active
 > a[data-toggle="collapse"][aria-expanded="true"] {
-    background: #fff !important;
+    background: #b9babf  !important;
     color: #1f283e !important;
 }
 
