@@ -14,13 +14,18 @@ from . import views
 import pymongo
 
 
-def list_campaign(request):
+def list_campaign(request, archived = 0):
     if database.mongodb.isAlive():
         # Contexte générique
         context = views.context_processor(request)
         # Si utilisateur connecté
         if context["iduser"] != "":
-            match = {"$match": {}}
+            context["archived"] = 0
+            if archived == 1 :
+                match = {"$match": {"statut" : "STOP"}}
+                context["archived"] = 1
+            else :
+                match = {"$match": {"statut" : {"$ne" : "STOP"}}}
             project = {"$project": {"libelle": 1, "statut": 1, "traffic_manager" : 1, "client" : 1, "datecreation": 1, "datemodification": 1}}
             sort = {"$sort": {"libelle": 1}}
             lookup_uti = {"$lookup" : {"from" : "utilisateurs", "localField" : "traffic_manager", "foreignField" : "_id", "as" : "traffic_manager"}}
@@ -279,6 +284,50 @@ def edit_campaign(request, identifier):
             else:
                 # Valeur de retour
                 response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
+        else:
+            # Retour sur la mire de connexion
+            msg.add_message(request, msg.ERROR, messages.error_connect)
+            response = view_signin_signup_reset.login_view(request, context)
+    else:
+        # Retour sur la mire de connexion
+        msg.add_message(request, msg.ERROR, messages.error_database)
+        response = view_signin_signup_reset.login_view(request)
+
+    # Fin de fonction
+    return response
+
+def campaign_restore(request, identifier):
+    if database.mongodb.isAlive():
+        # Contexte générique
+        context = views.context_processor(request)
+        # Si utilisateur connecté
+        if context["iduser"] != "":
+            # Restauration de la campagne
+            filter = {"_id": ObjectId(identifier)}
+            update = {
+                "$set": {
+                    "statut" : "LIVE",
+                    "datemodification": datetime.now()
+                }
+            }
+            database.mongodb.suivicampagne.campagnes.update_one(filter, update)
+
+            # Récupération de la liste des campagnes non archivées
+            match = {"$match": {"statut" : {"$ne" : "STOP"}}}
+            project = {"$project": {"libelle": 1, "statut": 1, "traffic_manager" : 1, "client" : 1, "datecreation": 1, "datemodification": 1}}
+            sort = {"$sort": {"libelle": 1}}
+            lookup_uti = {"$lookup" : {"from" : "utilisateurs", "localField" : "traffic_manager", "foreignField" : "_id", "as" : "traffic_manager"}}
+            unwind_uti = {"$unwind" : {"path" : "$traffic_manager", "preserveNullAndEmptyArrays": True}}
+            lookup_client = {"$lookup" : {"from" : "clients", "localField" : "client", "foreignField" : "_id", "as" : "client"}}
+            unwind_client = {"$unwind" : {"path" : "$client", "preserveNullAndEmptyArrays": True}}
+            campaigns_mongo = database.mongodb.suivicampagne.campagnes.aggregate([match, project, lookup_uti, lookup_client, unwind_uti, unwind_client, sort])
+            campaigns = []
+            for campaign in campaigns_mongo:
+                campaign["id"] = campaign["_id"]
+                campaigns.append(campaign)
+
+            context["campagnes"] = campaigns
+            response = render(request, "campaign_list.html", context)
         else:
             # Retour sur la mire de connexion
             msg.add_message(request, msg.ERROR, messages.error_connect)

@@ -44,9 +44,11 @@ urlpatterns = [
      path("campaign-detail/<str:identifier>", view_campaign.campaign_detail, name="campaign-detail"),
      path("campaign-detail/", view_campaign.campaign_detail, name="campaign-detail"),
      path("create-campaign/", view_campaign.create_campaign, name="create-campaign"),
+     path("campaign-restore/<str:identifier>", view_campaign.campaign_restore, name="campaign-restore"),
      path("edit-campaign/<str:identifier>", view_campaign.edit_campaign, name="edit-campaign"),
      path("delete-campaign/<str:identifier>", view_campaign.delete_campaign, name="delete-campaign"),
      path("campaigns-list/", view_campaign.list_campaign, name="list-campaign"),
+     path("campaigns-list/<int:archived>", view_campaign.list_campaign, name="list-campaign"),
 
      path("profile/<str:identifier>",view_profile.profile_detail, name="profile-detail"),
      path("profile/", view_profile.profile_detail, name="profile-detail"),

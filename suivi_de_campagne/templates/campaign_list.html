@@ -9,7 +9,7 @@
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">
                             <i class="fas fa-bullhorn"></i>
-                            Liste des campagnes
+                            Liste des campagnes {% if archived == 1 %}archivées{% endif %}
                         </h4>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                                                 <td>{{ campagne.datecreation|date:"d/m/Y H:i" }}</td>
                                                 <td>{{ campagne.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>
-                                                    <a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-detail' identifier=campagne.id %}"><i class="fas fa-pen-alt"></i></a>
+                                                    {% if archived == 1 %}<a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-restore' identifier=campagne.id %}"><i class="fas fa-window-restore"></i></a>{% else %}<a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-detail' identifier=campagne.id %}"><i class="fas fa-pen-alt"></i></a>{% endif %}
                                                     <button class="btn btn-danger btn-round ml-auto supprCampagne" data-id="{{ campagne.id }}"><i class="fas fa-trash-alt"></i></button>
                                                 </td>
                                             </tr>
