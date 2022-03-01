@@ -50,6 +50,8 @@ def partner_detail(request, identifier=None):
         # Si utilisateur connecté
         if context["iduser"] != "":
             context["identifier"] = identifier
+            # Récupération de la liste des catégories
+            context["categories"] = list(database.mongodb.suivicampagne.categories.find({}, {"id" : "$_id", "libelle" : 1}).sort("libelle"))
 
             # Partenaire existant
             if identifier:
@@ -101,7 +103,11 @@ def create_partner(request):
                     email = form.cleaned_data["email"]
                     mobile = form.cleaned_data["telephone"]
                     skype = form.cleaned_data["skype"]
-                    categories = form.cleaned_data["categories"]
+                    categories = request.POST.getlist("categories")
+                    collections = []
+                    for categorie in categories :
+                        if categorie != "" :
+                            collections.append(ObjectId(categorie))
                     siret = form.cleaned_data["siret"]
                     partner_name = form.cleaned_data["nom_partenaire"]
 
@@ -113,7 +119,7 @@ def create_partner(request):
                         "email": email,
                         "telephone": mobile,
                         "skype": skype,
-                        "categories": categories,
+                        "categories": collections,
                         "siret": siret,
                         "nom_partenaire": partner_name,
                         "datecreation": datetime.now(),
@@ -161,7 +167,12 @@ def edit_partner(request, identifier):
                     email = form.cleaned_data["email"]
                     mobile = form.cleaned_data["telephone"]
                     skype = form.cleaned_data["skype"]
-                    categories = form.cleaned_data["categories"]
+                    categories = request.POST.getlist("categories")
+                    collections = []
+                    for categorie in categories :
+                        if categorie != "" :
+                            collections.append(ObjectId(categorie))
+                    siret = form.cleaned_data["siret"]
                     siret = form.cleaned_data["siret"]
                     partner_name = form.cleaned_data["nom_partenaire"]
 
@@ -175,7 +186,7 @@ def edit_partner(request, identifier):
                             "email": email,
                             "telephone": mobile,
                             "skype": skype,
-                            "categories": categories,
+                            "categories": collections,
                             "siret": siret,
                             "nom_partenaire": partner_name,
                             "datemodification": datetime.now()

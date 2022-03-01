@@ -43,7 +43,7 @@
                                                 <td>{{ campagne.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>
                                                     {% if archived == 1 %}<a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-restore' identifier=campagne.id %}"><i class="fas fa-window-restore"></i></a>{% else %}<a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-detail' identifier=campagne.id %}"><i class="fas fa-pen-alt"></i></a>{% endif %}
-                                                    <button class="btn btn-danger btn-round ml-auto supprCampagne" data-id="{{ campagne.id }}"><i class="fas fa-trash-alt"></i></button>
+                                                    <button class="btn btn-danger btn-round ml-auto supprCampagne" data-id="{{ campagne.id }}"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         {% endfor %}

@@ -39,7 +39,7 @@
                                                 <td>{{ partenaire.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>
                                                     <a class="btn btn-secondary btn-round ml-auto" href="{% url 'partner-detail' identifier=partenaire.id %}"><i class="fas fa-pen-alt"></i></a>
-                                                    <button class="btn btn-danger btn-round ml-auto supprPartenaire" data-id="{{ partenaire.id }}"><i class="fas fa-trash-alt"></i></button>
+                                                    <button class="btn btn-danger btn-round ml-auto supprPartenaire" data-id="{{ partenaire.id }}"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         {% endfor %}

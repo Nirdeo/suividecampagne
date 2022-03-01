@@ -154,6 +154,43 @@
                 </div>
             </form>
         </div>
+        <div class="col-md-6">
+            <form method="post" action="{% url 'create-categorie' %}">{% csrf_token %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <div class="card-title">
+                                <span><i class="fas fa-stamp"></i></span>
+                                <span>
+                                    Catégories
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ context.identifier }}">
+                        <div class="row">
+                            <!-- Libellé modèle économique -->
+                            <div class="col-9">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                Libellé
+                                            </span>
+                                        </div>
+                                        {{ form_categorie.libelle }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-success btn-round ml-auto mt-2">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock content %}
 
