@@ -1,4 +1,68 @@
-{% extends 'base.html' %}
-{% block content %}
-    <p>Vous êtes connecté !</p>
+{% extends "base.html" %}{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">
+                            <i class="fas fa-bullhorn"></i>
+                            Dashboard
+                        </h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatables"
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Libellé</th>
+                                            <th scope="col">Client</th>
+                                            <th scope="col">Chiffre d'affaires</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Trend</th>
+                                            <th scope="col">Pourcentage atteint</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for campagne in campagnes %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ campagne.libelle }}</td>
+                                                <td>{{ campagne.client.nom_entreprise }}</td>
+                                                <td>{{ campagne.ca_realise }}</td>
+                                                <td style="color:#729D2C">{{ campagne.statut }}</td>
+                                                <td>{{ campagne.trend }}</td>
+                                                <td>{{ campagne.pourcentage_atteinte }} %</td>
+                                                <td>
+                                                    <a class="btn btn-secondary btn-round ml-auto"
+                                                       href="{% url 'campaign-detail' identifier=campagne.id %}"><i
+                                                            class="fas fa-pen-alt"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+    <script>
+        $("#nav-dashboard").addClass("active")
+    </script>
+{% endblock javascripts %}

@@ -1,11 +1,11 @@
 from django.urls import path
-from suivi_de_campagne import view_partner, view_profile, view_tool, view_customer, view_user, view_signin_signup_reset, view_campaign, views
+from suivi_de_campagne import view_dashboard, view_partner, view_profile, view_tool, view_customer, view_user, view_signin_signup_reset, view_campaign, views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
      path("", view_signin_signup_reset.login_view, name="login"),
-     path("home/", views.home, name="home"),
+     path("home/", view_dashboard.home, name="home"),
      path("logout/", view_signin_signup_reset.logout_user, name="logout"),
      path("forgot-password/", view_signin_signup_reset.forgot_password, name="forgot-password"),
      path("reset-password/", view_signin_signup_reset.reset_password, name="reset-password"),
@@ -55,4 +55,5 @@ urlpatterns = [
      path("profile/<str:identifier>",view_profile.profile_detail, name="profile-detail"),
      path("profile/", view_profile.profile_detail, name="profile-detail"),
      path("edit-profile/<str:identifier>", view_profile.edit_profile, name="edit-profile"),
+     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
