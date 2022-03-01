@@ -5,6 +5,8 @@ from utils.functions import import_configuration
 
 class mongodb(object):
 
+    suivicampagne = None
+
     def openConnection(self=None):
         try:
             uri = import_configuration("mongodb", "url")
