@@ -39,7 +39,7 @@
                                                 <td>{{ client.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>
                                                     <a class="btn btn-secondary btn-round ml-auto" href="{% url 'customer-detail' identifier=client.id %}"><i class="fas fa-pen-alt"></i></a>
-                                                    <button class="btn btn-danger btn-round ml-auto supprClient" data-id="{{ client.id }}"><i class="fas fa-trash-alt"></i></button>
+                                                    <button class="btn btn-danger btn-round ml-auto supprClient" data-id="{{ client.id }}"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         {% endfor %}

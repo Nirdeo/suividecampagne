@@ -33,8 +33,7 @@ class PartnerForm(forms.Form):
         attrs={"placeholder": "Téléphone", "class": "form-control"}), max_length=14, required=False)
     skype = forms.CharField(widget=forms.TextInput(attrs={
         "placeholder": "Skype", "class": "form-control"}), max_length=32, required=False)
-    categories = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Catégories", "class": "form-control"}), max_length=32, required=False)
+    categories = SimpleArrayField(forms.CharField(widget=forms.TextInput(), required=False))
     siret = forms.CharField(widget=forms.TextInput(attrs={
         "placeholder": "Siret", "class": "form-control", "onkeyup": "this.value = this.value.toUpperCase();"}),
         min_length=14, max_length=14)
@@ -88,22 +87,28 @@ class UserForm(forms.Form):
 
 class ThemeForm(forms.Form):
     libelle = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
+        attrs={"class": "form-control"}), max_length=32)
 
 
 class BlacklistThemeForm(forms.Form):
     libelle = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
+        attrs={"class": "form-control"}), max_length=32)
 
 
 class LevierForm(forms.Form):
     libelle = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
+        attrs={"class": "form-control"}), max_length=32)
 
 
 class ModeleEconomiqueForm(forms.Form):
     libelle = forms.CharField(widget=forms.TextInput(
-        attrs={"class": "form-control"}), max_length=32, required=False)
+        attrs={"class": "form-control"}), max_length=32)
+
+
+class CategorieForm(forms.Form):
+    libelle = forms.CharField(widget=forms.TextInput(
+        attrs={"class": "form-control"}), max_length=32)
+
 
 class CampaignForm(forms.Form):
     libelle = forms.CharField(widget=forms.TextInput(

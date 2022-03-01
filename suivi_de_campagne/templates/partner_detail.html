@@ -79,7 +79,11 @@
                                                 <i class="fas fa-stamp"></i>
                                             </span>
                                         </div>
-                                        {{ form.categories }}
+                                        <select multiple="" class="form-control" id="selectCategorie" name="categories">
+                                            {% for categorie in categories %}
+                                                <option value="{{categorie.id}}" {% if form.categorie.value == categorie.id %} selected{% endif %}>{{categorie.libelle}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </div>

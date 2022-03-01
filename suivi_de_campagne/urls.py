@@ -35,10 +35,12 @@ urlpatterns = [
      path("create-blacklist-theme/", view_tool.create_blacklist_theme, name="create-blacklist-theme"),
      path("create-levier/", view_tool.create_levier, name="create-levier"),
      path("create-modele-economique/", view_tool.create_modele_economique, name="create-modele-economique"),
+     path("create-categorie/", view_tool.create_categorie, name="create-categorie"),
      path("delete-theme/<str:identifier>", view_tool.delete_theme, name="delete-theme"),
      path("delete-blacklist-theme/<str:identifier>", view_tool.delete_blacklist_theme, name="delete-blacklist-theme"),
      path("delete-levier/<str:identifier>", view_tool.delete_levier, name="delete-levier"),
      path("delete-modele-economique/<str:identifier>", view_tool.delete_modele_economique, name="delete-modele-economique"),
+     path("delete-categorie/<str:identifier>", view_tool.delete_categorie, name="delete-categorie"),
      path("tools-list/", view_tool.list_tool, name="list-tool"),
 
      path("campaign-detail/<str:identifier>", view_campaign.campaign_detail, name="campaign-detail"),

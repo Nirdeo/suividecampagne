@@ -24,10 +24,12 @@ def view_tool(request):
             form_blacklist_theme = forms.BlacklistThemeForm(request.POST)
             form_levier = forms.LevierForm(request.POST)
             form_modele_economique = forms.ModeleEconomiqueForm(request.POST)
+            form_categorie = forms.CategorieForm(request.POST)
             context["form_theme"] = form_theme
             context["form_blacklist_theme"] = form_blacklist_theme
             context["form_levier"] = form_levier
             context["form_modele_economique"] = form_modele_economique
+            context["form_categorie"] = form_categorie
             response = render(request, "tool_create.html", context)
         else:
             # Retour sur la mire de connexion
@@ -227,6 +229,56 @@ def create_modele_economique(request):
         response = view_signin_signup_reset.login_view(request)
     return response
 
+def create_categorie(request):
+    if database.mongodb.isAlive():
+        # Contexte générique
+        context = views.context_processor(request)
+        # Si utilisateur connecté
+        if context["iduser"] != "":
+            if request.method == "POST":
+                # Validation du formulaire
+                form_categorie = forms.CategorieForm(request.POST)
+                if form_categorie.is_valid():
+                    # Contexte générique
+                    context = views.context_processor(request)
+
+                    # Récupération des données
+                    libelle = form_categorie.cleaned_data[
+                        "libelle"]
+
+                    # Création d'une catégorie
+                    categorie = {
+                        "libelle": libelle,
+                        "datecreation": datetime.now(),
+                    }
+
+                    # Insertion des données dans la base de données
+                    identifier_categorie = database.mongodb.suivicampagne.categories.insert_one(
+                        categorie).inserted_id
+                    identifier_categorie = str(
+                        identifier_categorie)
+
+                    # Valeur de retour
+                    response = HttpResponseRedirect(reverse("list-tool"))
+                else:
+                    msg.add_message(request, msg.ERROR,
+                                    form_categorie.errors)
+                    response = HttpResponseRedirect(
+                        reverse("createcategorie"))
+            else:
+                # Valeur de retour
+                response = HttpResponseRedirect(
+                    reverse("createcategorie"))
+        else:
+            # Retour sur la mire de connexion
+            msg.add_message(request, msg.ERROR, messages.error_connect)
+            response = view_signin_signup_reset.login_view(request, context)
+    else:
+       # Retour sur la mire de connexion
+        msg.add_message(request, msg.ERROR, messages.error_database)
+        response = view_signin_signup_reset.login_view(request)
+    return response
+
 
 def delete_theme(request, identifier):
     if database.mongodb.isAlive():
@@ -267,6 +319,17 @@ def delete_levier(request, identifier):
 def delete_modele_economique(request, identifier):
     if database.mongodb.isAlive():
         database.mongodb.suivicampagne.modeles_economiques.delete_one(
+            {"_id": ObjectId(identifier)})
+        response = HttpResponseRedirect(reverse("list-tool"))
+    else:
+        # Retour sur la mire de connexion
+        context = {"erreur": messages.error_database}
+        response = view_signin_signup_reset.login_view(request, context)
+    return response
+
+def delete_categorie(request, identifier):
+    if database.mongodb.isAlive():
+        database.mongodb.suivicampagne.categories.delete_one(
             {"_id": ObjectId(identifier)})
         response = HttpResponseRedirect(reverse("list-tool"))
     else:
@@ -322,6 +385,17 @@ def list_tool(request):
             modele_economique["id"] = modele_economique["_id"]
             modeles_economiques.append(modele_economique)
         context["modeles_economiques"] = modeles_economiques
+        match = {"$match": {}}
+        project = {"$project": {
+            "libelle": 1, "datecreation": 1}}
+        sort = {"$sort": {"datecreation": 1}}
+        categories_mongo = database.mongodb.suivicampagne.categories.aggregate(
+            [match, project, sort])
+        categories = []
+        for categorie in categories_mongo:
+            categorie["id"] = categorie["_id"]
+            categories.append(categorie)
+        context["categories"] = categories
         response = render(request, "tool_list.html", context)
     else:
         # Retour sur la mire de connexion

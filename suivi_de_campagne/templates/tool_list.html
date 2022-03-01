@@ -198,6 +198,54 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <div class="card-title">
+                            <span><i class="fas fa-stamp"></i></span>
+                            <span>
+                                Catégories
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="basic-datatables_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="basic-datatables"
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Libellé</th>
+                                            <th scope="col">Date de création</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for categorie in categories %}
+                                            <tr role="row" class="odd">
+                                                <td>{{ categorie.libelle }}</td>
+                                                <td>{{ categorie.datecreation }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-round ml-auto"
+                                                       href="{% url 'delete-categorie' identifier=categorie.id %}"><i
+                                                            class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
 
