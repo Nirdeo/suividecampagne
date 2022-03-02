@@ -48,6 +48,10 @@ def customer_detail(request, identifier=None):
         # Si utilisateur connecté
         if context["iduser"] != "":
             context["identifier"] = identifier
+            # Récupération des listes
+            context["leviers"] = list(database.mongodb.suivicampagne.leviers.find({}, {"id" : "$_id", "libelle" : 1}).sort("libelle"))
+            context["themes"] = list(database.mongodb.suivicampagne.themes.find({}, {"id" : "$_id", "libelle" : 1}).sort("libelle"))
+            context["themes_bl"] = list(database.mongodb.suivicampagne.themes_liste_noire.find({}, {"id" : "$_id", "libelle" : 1}).sort("libelle"))
             # Client existant
             if identifier:
                 customer = database.mongodb.suivicampagne.clients.find_one({"_id": ObjectId(identifier)})
@@ -98,13 +102,26 @@ def create_customer(request):
                     email = form.cleaned_data["email"]
                     mobile = form.cleaned_data["telephone_mobile"]
                     phone = form.cleaned_data["telephone_fixe"]
-                    levers = form.cleaned_data["leviers"]
-                    themes = form.cleaned_data["thematiques"]
-                    themes_blacklist = form.cleaned_data["thematiques_blacklist"]
+                    levers = request.POST.getlist("leviers")
+                    levers_tab = []
+                    for lever in levers :
+                        if lever != "" :
+                            levers_tab.append(ObjectId(lever))
+                    themes = request.POST.getlist("thematiques")
+                    themes_tab = []
+                    for theme in themes :
+                        if theme != "" :
+                            themes_tab.append(ObjectId(theme))
+                    themes_blacklist = request.POST.getlist("thematiques_blacklist")
+                    themes_blacklist_tab = []
+                    for theme_bl in themes_blacklist :
+                        if theme_bl != "" :
+                            themes_blacklist_tab.append(ObjectId(theme_bl))
                     siret = form.cleaned_data["siret"]
                     customer_name = form.cleaned_data["nom_entreprise"]
                     comments = form.cleaned_data["commentaire"]
                     postal_code = form.cleaned_data["code_postal"]
+                    skype = form.cleaned_data["skype"]
                     record = {
                         "siret": siret,
                         "nom_entreprise": customer_name,
@@ -115,9 +132,10 @@ def create_customer(request):
                         "email": email,
                         "telephone_mobile": mobile,
                         "telephone_fixe": phone,
-                        "leviers": levers,
-                        "thematiques": themes,
-                        "thematiques_blacklist": themes_blacklist,
+                        "skype" : skype,
+                        "leviers": levers_tab,
+                        "thematiques": themes_tab,
+                        "thematiques_blacklist": themes_blacklist_tab,
                         "code_postal": postal_code,
                         "commentaires": comments,
                         "datecreation": datetime.now(),
@@ -164,13 +182,26 @@ def edit_customer(request, identifier):
                     email = form.cleaned_data["email"]
                     mobile = form.cleaned_data["telephone_mobile"]
                     phone = form.cleaned_data["telephone_fixe"]
-                    levers = form.cleaned_data["leviers"]
-                    themes = form.cleaned_data["thematiques"]
-                    themes_blacklist = form.cleaned_data["thematiques_blacklist"]
+                    levers = request.POST.getlist("leviers")
+                    levers_tab = []
+                    for lever in levers :
+                        if lever != "" :
+                            levers_tab.append(ObjectId(lever))
+                    themes = request.POST.getlist("thematiques")
+                    themes_tab = []
+                    for theme in themes :
+                        if theme != "" :
+                            themes_tab.append(ObjectId(theme))
+                    themes_blacklist = request.POST.getlist("thematiques_blacklist")
+                    themes_blacklist_tab = []
+                    for theme_bl in themes_blacklist :
+                        if theme_bl != "" :
+                            themes_blacklist_tab.append(ObjectId(theme_bl))
                     siret = form.cleaned_data["siret"]
                     customer_name = form.cleaned_data["nom_entreprise"]
                     comments = form.cleaned_data["commentaire"]
                     postal_code = form.cleaned_data["code_postal"]
+                    skype = form.cleaned_data["skype"]
 
                     filter = {"_id": ObjectId(identifier)}
                     update = {
@@ -184,9 +215,10 @@ def edit_customer(request, identifier):
                             "email": email,
                             "telephone_mobile": mobile,
                             "telephone_fixe": phone,
-                            "leviers": levers,
-                            "thematiques": themes,
-                            "thematiques_blacklist": themes_blacklist,
+                            "skype" : skype,
+                            "leviers": levers_tab,
+                            "thematiques": themes_tab,
+                            "thematiques_blacklist": themes_blacklist_tab,
                             "code_postal": postal_code,
                             "commentaires": comments,
                             "datemodification": datetime.now()
@@ -197,6 +229,7 @@ def edit_customer(request, identifier):
                     response = HttpResponseRedirect(reverse("customer-detail", kwargs={"identifier": identifier}))
                 else:
                     msg.add_message(request, msg.ERROR, form.errors)
+                    print(form.errors)
                     response = HttpResponseRedirect(reverse("customer-detail", kwargs={"identifier": identifier}))
             else:
                 # Valeur de retour

@@ -80,11 +80,14 @@ def campaign_detail(request, identifier=None):
 
                     # Informations et calculs
                     context["datemodification"] = campaign["datemodification"]
-                    context["nb_jours"] = functions.calculs_campagne("nb_jours", campaign)
-                    context["ca_campagne"] = functions.calculs_campagne("ca_campagne", campaign)
-                    context["achat_realise"] = functions.calculs_campagne("achat_realise", campaign)
-                    context["pourcentage_atteinte"] = functions.calculs_campagne("pourcentage_atteinte", campaign)
-                    context["marge"] = functions.calculs_campagne("marge", campaign)
+                    values_campaign = functions.calculs_campagne(campaign)
+                    context["nb_jours"] = values_campaign["nb_jours"]
+                    context["ca_campagne"] = values_campaign["ca_campagne"]
+                    context["achat_realise"] = values_campaign["achat_realise"]
+                    context["pourcentage_atteinte"] = values_campaign["pourcentage_atteinte"]
+                    context["marge"] = values_campaign["marge"]
+                    if "tradedoubler_values" in values_campaign.keys() :
+                        context["tradedoubler_values"] = values_campaign["tradedoubler_values"]
                     response = render(request, "campaign_detail.html", context)
                 else:
                     form = forms.CampaignForm()
@@ -119,6 +122,7 @@ def create_campaign(request):
                 if form.is_valid():
                     # Récupération des données
                     name = form.cleaned_data["libelle"]
+                    id_tradedoubler = form.cleaned_data["id_tradedoubler"]
                     client = form.cleaned_data["client"]
                     partners = request.POST.getlist("partenaires")
                     collections = []
@@ -135,55 +139,69 @@ def create_campaign(request):
                     date_begin = datetime.strptime(date_begin, "%d/%m/%Y")
                     date_end = datetime.strptime(date_end,"%d/%m/%Y")
 
-                    lever = form.cleaned_data["levier"]
-                    if lever != "" :
-                        lever = ObjectId(lever)
-                    modele_eco = form.cleaned_data["modele_eco"]
-                    rate = form.cleaned_data["tarif"]
-                    price_selling = form.cleaned_data["prix_vendu"]
-                    price_set = form.cleaned_data["prix_defini"]
-                    price_buying = form.cleaned_data["prix_achat"]
-                    goal_monthly = form.cleaned_data["objectif_mensuel"]
-                    goal_ca_month = form.cleaned_data["objectif_ca_mois"]
-                    trend = form.cleaned_data["trend"]
-                    trend_end_month = form.cleaned_data["trend_fin_mois"]
-                    reporting_day = form.cleaned_data["jour_reporting"]
-                    ca_achieved = form.cleaned_data["ca_realise"]
-                    buying_achieved = form.cleaned_data["achat_realise"]
-                    margin_achieved = form.cleaned_data["marge_realise"]
-                    record = {
-                        "libelle" : name,
-                        "client" : ObjectId(client),
-                        "partenaires" : collections,
-                        "traffic_manager": ObjectId(traffic_manager),
-                        "reporter": ObjectId(reporter),
-                        "commercial": ObjectId(commercial),
-                        "statut": status,
-                        "date_debut": date_begin,
-                        "date_fin": date_end,
-                        "levier": lever,
-                        "modele_eco": ObjectId(modele_eco),
-                        "tarif": rate,
-                        "prix_defini": price_set,
-                        "prix_vendu" : price_selling,
-                        "prix_achat" : price_buying,
-                        "objectif_mensuel": goal_monthly,
-                        "objectif_ca_mois": goal_ca_month,
-                        "trend": trend,
-                        "trend_fin_mois" : trend_end_month,
-                        "jour_reporting": reporting_day,
-                        "ca_realise" : ca_achieved,
-                        "achat_realise" : buying_achieved,
-                        "marge_realise" : margin_achieved,
-                        "datecreation": datetime.now(),
-                        "datemodification": datetime.now()
-                    }
-                    identifier = database.mongodb.suivicampagne.campagnes.insert_one(
-                        record).inserted_id
-                    identifier = str(identifier)
+                    # Vérification des dates
+                    if date_begin > date_end :
+                        msg.add_message(request, msg.ERROR, messages.error_date)
+                        response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
+                    else :
+                        lever = form.cleaned_data["levier"]
+                        if lever != "" :
+                            lever = ObjectId(lever)
+                        modele_eco = form.cleaned_data["modele_eco"]
+                        rate = form.cleaned_data["tarif"]
+                        price_selling = form.cleaned_data["prix_vendu"]
+                        price_buying = form.cleaned_data["prix_achat"]
+                        goal_monthly = form.cleaned_data["objectif_mensuel"]
+                        goal_ca_month = form.cleaned_data["objectif_ca_mois"]
+                        nb_leads = form.cleaned_data["nb_leads"]
+                        nb_cliques = form.cleaned_data["nb_cliques"]
+                        nb_cliques_uniques = form.cleaned_data["nb_cliques_uniques"]
+                        nb_ventes = form.cleaned_data["nb_ventes"]
+                        nb_affiliates = form.cleaned_data["nb_affiliates"]
+                        trend = form.cleaned_data["trend"]
+                        trend_end_month = form.cleaned_data["trend_fin_mois"]
+                        reporting_day = form.cleaned_data["jour_reporting"]
+                        ca_achieved = form.cleaned_data["ca_realise"]
+                        buying_achieved = form.cleaned_data["achat_realise"]
+                        margin_achieved = form.cleaned_data["marge_realise"]
+                        record = {
+                            "libelle" : name,
+                            "id_tradedoubler" : id_tradedoubler,
+                            "client" : ObjectId(client),
+                            "partenaires" : collections,
+                            "traffic_manager": ObjectId(traffic_manager),
+                            "reporter": ObjectId(reporter),
+                            "commercial": ObjectId(commercial),
+                            "statut": status,
+                            "date_debut": date_begin,
+                            "date_fin": date_end,
+                            "levier": lever,
+                            "modele_eco": ObjectId(modele_eco),
+                            "tarif": rate,
+                            "prix_vendu" : price_selling,
+                            "prix_achat" : price_buying,
+                            "objectif_mensuel": goal_monthly,
+                            "objectif_ca_mois": goal_ca_month,
+                            "nb_leads" : nb_leads,
+                            "nb_cliques" : nb_cliques,
+                            "nb_cliques_uniques" : nb_cliques_uniques,
+                            "nb_ventes" : nb_ventes,
+                            "nb_affiliates" : nb_affiliates,
+                            "trend": trend,
+                            "trend_fin_mois" : trend_end_month,
+                            "jour_reporting": reporting_day,
+                            "ca_realise" : ca_achieved,
+                            "achat_realise" : buying_achieved,
+                            "marge_realise" : margin_achieved,
+                            "datecreation": datetime.now(),
+                            "datemodification": datetime.now()
+                        }
+                        identifier = database.mongodb.suivicampagne.campagnes.insert_one(
+                            record).inserted_id
+                        identifier = str(identifier)
 
-                    # Valeur de retour
-                    response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
+                        # Valeur de retour
+                        response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
                 else:
                     msg.add_message(request, msg.ERROR, form.errors)
                     response = HttpResponseRedirect(reverse("campaign-detail"))
@@ -213,6 +231,7 @@ def edit_campaign(request, identifier):
                 if form.is_valid():
                     # Récupération des données
                     name = form.cleaned_data["libelle"]
+                    id_tradedoubler = form.cleaned_data["id_tradedoubler"]
                     client = form.cleaned_data["client"]
                     partners = request.POST.getlist("partenaires")
                     collections = []
@@ -228,56 +247,67 @@ def edit_campaign(request, identifier):
                     # MAJ format dates pour mongo
                     date_begin = datetime.strptime(date_begin, "%d/%m/%Y")
                     date_end = datetime.strptime(date_end,"%d/%m/%Y")
+                    # Vérification des dates
+                    if date_begin > date_end :
+                        msg.add_message(request, msg.ERROR, messages.error_date)
+                        response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
+                    else :
+                        lever = form.cleaned_data["levier"]
+                        if lever != "" :
+                            lever = ObjectId(lever)
+                        rate = form.cleaned_data["tarif"]
+                        price_selling = form.cleaned_data["prix_vendu"]
+                        price_buying = form.cleaned_data["prix_achat"]
+                        goal_monthly = form.cleaned_data["objectif_mensuel"]
+                        goal_ca_month = form.cleaned_data["objectif_ca_mois"]
+                        nb_leads = form.cleaned_data["nb_leads"]
+                        nb_cliques = form.cleaned_data["nb_cliques"]
+                        nb_cliques_uniques = form.cleaned_data["nb_cliques_uniques"]
+                        nb_ventes = form.cleaned_data["nb_ventes"]
+                        nb_affiliates = form.cleaned_data["nb_affiliates"]
+                        trend = form.cleaned_data["trend"]
+                        trend_end_month = form.cleaned_data["trend_fin_mois"]
+                        reporting_day = form.cleaned_data["jour_reporting"]
+                        ca_achieved = form.cleaned_data["ca_realise"]
+                        buying_achieved = form.cleaned_data["achat_realise"]
+                        margin_achieved = form.cleaned_data["marge_realise"]
 
-                    lever = form.cleaned_data["levier"]
-                    if lever != "" :
-                        lever = ObjectId(lever)
-                    modele_eco = form.cleaned_data["modele_eco"]
-                    rate = form.cleaned_data["tarif"]
-                    price_selling = form.cleaned_data["prix_vendu"]
-                    price_set = form.cleaned_data["prix_defini"]
-                    price_buying = form.cleaned_data["prix_achat"]
-                    goal_monthly = form.cleaned_data["objectif_mensuel"]
-                    goal_ca_month = form.cleaned_data["objectif_ca_mois"]
-                    trend = form.cleaned_data["trend"]
-                    trend_end_month = form.cleaned_data["trend_fin_mois"]
-                    reporting_day = form.cleaned_data["jour_reporting"]
-                    ca_achieved = form.cleaned_data["ca_realise"]
-                    buying_achieved = form.cleaned_data["achat_realise"]
-                    margin_achieved = form.cleaned_data["marge_realise"]
-
-                    filter = {"_id": ObjectId(identifier)}
-                    update = {
-                        "$set": {
-                            "libelle" : name,
-                            "client" : ObjectId(client),
-                            "partenaires" : collections,
-                            "traffic_manager": ObjectId(traffic_manager),
-                            "reporter": ObjectId(reporter),
-                            "commercial": ObjectId(commercial),
-                            "statut": status,
-                            "date_debut": date_begin,
-                            "date_fin": date_end,
-                            "levier": lever,
-                            "modele_eco": ObjectId(modele_eco),
-                            "tarif": rate,
-                            "prix_defini" : price_set,
-                            "prix_vendu" : price_selling,
-                            "prix_achat" : price_buying,
-                            "objectif_mensuel": goal_monthly,
-                            "objectif_ca_mois": goal_ca_month,
-                            "trend": trend,
-                            "trend_fin_mois" : trend_end_month,
-                            "jour_reporting": reporting_day,
-                            "ca_realise" : ca_achieved,
-                            "achat_realise" : buying_achieved,
-                            "marge_realise" : margin_achieved,
-                            "datemodification": datetime.now()
+                        filter = {"_id": ObjectId(identifier)}
+                        update = {
+                            "$set": {
+                                "libelle" : name,
+                                "id_tradedoubler" : id_tradedoubler,
+                                "client" : ObjectId(client),
+                                "partenaires" : collections,
+                                "traffic_manager": ObjectId(traffic_manager),
+                                "reporter": ObjectId(reporter),
+                                "commercial": ObjectId(commercial),
+                                "statut": status,
+                                "date_debut": date_begin,
+                                "date_fin": date_end,
+                                "levier": lever,
+                                "tarif": rate,
+                                "prix_vendu" : price_selling,
+                                "prix_achat" : price_buying,
+                                "objectif_mensuel": goal_monthly,
+                                "objectif_ca_mois": goal_ca_month,
+                                "nb_leads" : nb_leads,
+                                "nb_cliques" : nb_cliques,
+                                "nb_cliques_uniques" : nb_cliques_uniques,
+                                "nb_ventes" : nb_ventes,
+                                "nb_affiliates" : nb_affiliates,
+                                "trend": trend,
+                                "trend_fin_mois" : trend_end_month,
+                                "jour_reporting": reporting_day,
+                                "ca_realise" : ca_achieved,
+                                "achat_realise" : buying_achieved,
+                                "marge_realise" : margin_achieved,
+                                "datemodification": datetime.now()
+                            }
                         }
-                    }
-                    database.mongodb.suivicampagne.campagnes.update_one(filter, update)
+                        database.mongodb.suivicampagne.campagnes.update_one(filter, update)
 
-                    response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
+                        response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))
                 else:
                     msg.add_message(request, msg.ERROR, form.errors)
                     response = HttpResponseRedirect(reverse("campaign-detail", kwargs={"identifier": identifier}))

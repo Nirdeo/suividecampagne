@@ -71,10 +71,10 @@ def create_theme(request):
                     response = HttpResponseRedirect(reverse("list-tool"))
                 else:
                     msg.add_message(request, msg.ERROR, form_theme.errors)
-                    response = HttpResponseRedirect(reverse("create-theme"))
+                    response = HttpResponseRedirect(reverse("view-tool"))
             else:
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("create-theme"))
+                response = HttpResponseRedirect(reverse("view-tool"))
         else:
             # Retour sur la mire de connexion
             msg.add_message(request, msg.ERROR, messages.error_connect)
@@ -118,10 +118,10 @@ def create_blacklist_theme(request):
                     msg.add_message(request, msg.ERROR,
                                     form_blacklist_theme.errors)
                     response = HttpResponseRedirect(
-                        reverse("create-blacklist-theme"))
+                        reverse("view-tool"))
             else:
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("create-blacklist-theme"))
+                response = HttpResponseRedirect(reverse("view-tool"))
         else:
             # Retour sur la mire de connexion
             msg.add_message(request, msg.ERROR, messages.error_connect)
@@ -164,10 +164,10 @@ def create_levier(request):
                     response = HttpResponseRedirect(reverse("list-tool"))
                 else:
                     msg.add_message(request, msg.ERROR, form_levier.errors)
-                    response = HttpResponseRedirect(reverse("create-levier"))
+                    response = HttpResponseRedirect(reverse("view-tool"))
             else:
                 # Valeur de retour
-                response = HttpResponseRedirect(reverse("create-levier"))
+                response = HttpResponseRedirect(reverse("view-tool"))
         else:
             # Retour sur la mire de connexion
             msg.add_message(request, msg.ERROR, messages.error_connect)
@@ -214,11 +214,11 @@ def create_modele_economique(request):
                     msg.add_message(request, msg.ERROR,
                                     form_modele_economique.errors)
                     response = HttpResponseRedirect(
-                        reverse("create-modele-economique"))
+                        reverse("view-tool"))
             else:
                 # Valeur de retour
                 response = HttpResponseRedirect(
-                    reverse("create-modele-economique"))
+                    reverse("view-tool"))
         else:
             # Retour sur la mire de connexion
             msg.add_message(request, msg.ERROR, messages.error_connect)
@@ -264,11 +264,11 @@ def create_categorie(request):
                     msg.add_message(request, msg.ERROR,
                                     form_categorie.errors)
                     response = HttpResponseRedirect(
-                        reverse("createcategorie"))
+                        reverse("view-tool"))
             else:
                 # Valeur de retour
                 response = HttpResponseRedirect(
-                    reverse("createcategorie"))
+                    reverse("view-tool"))
         else:
             # Retour sur la mire de connexion
             msg.add_message(request, msg.ERROR, messages.error_connect)

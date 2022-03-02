@@ -90,6 +90,7 @@ registration = {
     "email": "ndriancourt@neptunemedia.fr",
     "telephone_mobile": "",
     "telephone_fixe": "01 44 52 84 17",
+    "skype" : "",
     "leviers": "",
     "thematiques": "",
     "thematiques_blacklist": "",
@@ -118,6 +119,10 @@ registrations = [
     "libelle" : "CPA",
     "datecreation" : datetime.datetime.now(),
     },
+    {
+    "libelle" : "CPM",
+    "datecreation" : datetime.datetime.now(),
+    },
 ]
 economic_models.insert_many(registrations)
 
@@ -128,6 +133,7 @@ campaigns.drop()
 # Jeu d'essai campagne
 registration = {
     "libelle" : "Campagne numéro 1",
+    "id_tradedoubler" : 320282,
     "client" : client_jeu,
     "partenaires" : [],
     "traffic_manager": uid_superuser,
@@ -139,11 +145,15 @@ registration = {
     "levier": "",
     "modele_eco": modele_jeu,
     "tarif": 1389,
-    "prix_defini" : 1200,
     "prix_vendu" : 1388,
     "prix_achat" : 200,
     "objectif_mensuel": 1200,
     "objectif_ca_mois": 200,
+    "nb_leads" : None,
+    "nb_cliques" : None,
+    "nb_cliques_uniques" : None,
+    "nb_ventes" : None,
+    "nb_affiliates" : None,
     "trend": 1000,
     "trend_fin_mois" : 0,
     "jour_reporting": "vendredi",

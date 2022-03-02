@@ -20,9 +20,7 @@ def list_partner(request):
         # Si utilisateur connecté
         if context["iduser"] != "":
             match = {"$match": {}}
-            project = {"$project": {"nom_partenaire": 1, "nom_contact": 1, "prenom": 1, "fonction": 1, "email": 1,
-                                    "telephone": 1, "skype": 1, "categories": 1, "siret": 1, "datecreation": 1,
-                                    "datemodification": 1}}
+            project = {"$project": {"nom_partenaire": 1, "nom_contact": 1, "prenom": 1, "siret": 1, "datecreation": 1, "datemodification": 1}}
             sort = {"$sort": {"nom_partenaire": 1}}
             partners_mongo = database.mongodb.suivicampagne.partenaires.aggregate([match, project, sort])
             partners = []

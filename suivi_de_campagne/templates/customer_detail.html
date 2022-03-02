@@ -5,6 +5,9 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
+            <div class="row justify-content-center">
+                {% include 'includes/messages.html' %}
+            </div>
             <form method="post" action="{% if identifier %} {% url 'edit-customer' identifier=identifier %} {% else %} {% url 'create-customer' %} {% endif %}">{% csrf_token %}
                 <!-- Client -->
                 <div class="card">
@@ -93,7 +96,12 @@
                                                 <i class="fas fa-rocket"></i>
                                             </span>
                                         </div>
-                                        {{ form.leviers }}
+                                        <select multiple="" class="form-control selectize-multiple" id="selectLevier" name="leviers">
+                                            <option value=""></option>
+                                            {% for un_levier in leviers %}
+                                                <option value="{{un_levier.id}}">{{un_levier.libelle}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +114,12 @@
                                                 <i class="fab fa-affiliatetheme"></i>
                                             </span>
                                         </div>
-                                        {{ form.thematiques }}
+                                        <select multiple="" class="form-control selectize-multiple" id="selectThematique" name="thematiques">
+                                            <option value=""></option>
+                                            {% for un_theme in themes %}
+                                                <option value="{{un_theme.id}}">{{un_theme.libelle}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +132,12 @@
                                                 <i class="fab fa-affiliatetheme"></i>
                                             </span>
                                         </div>
-                                        {{ form.thematiques_blacklist }}
+                                        <select multiple="" class="form-control selectize-multiple" id="selectThemeBL" name="thematiques_blacklist">
+                                            <option value=""></option>
+                                            {% for un_theme_bl in themes_bl %}
+                                                <option value="{{un_theme_bl.id}}">{{un_theme_bl.libelle}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -232,6 +250,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- skype -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Skype" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fab fa-skype"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.skype }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-action text-center">
@@ -248,5 +279,47 @@
 <script>
     supprObject("#supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
     $("#nav-customers").addClass("active")
+
+    //Valeurs leviers
+    leviers = "{{form.leviers.value}}"
+    leviers = leviers.split(",")
+    $("#selectLevier option").each(function() {
+        for(var i = 0 ; i < leviers.length ; i++){
+            if(leviers[i] == $(this).val()){
+                $(this).attr("selected", true)
+            }
+        }
+    })
+    //Valeurs themes
+    thematiques = "{{form.thematiques.value}}"
+    thematiques = thematiques.split(",")
+    $("#selectThematique option").each(function() {
+        for(var i = 0 ; i < thematiques.length ; i++){
+            if(thematiques[i] == $(this).val()){
+                $(this).attr("selected", true)
+            }
+        }
+    })
+    //Valeurs themes_bl
+    thematiques_blacklist = "{{form.thematiques_blacklist.value}}"
+    thematiques_blacklist = thematiques_blacklist.split(",")
+    $("#selectThemeBL option").each(function() {
+        for(var i = 0 ; i < thematiques_blacklist.length ; i++){
+            if(thematiques_blacklist[i] == $(this).val()){
+                $(this).attr("selected", true)
+            }
+        }
+    })
+
+    // Selectized
+    $(".selectize-multiple").selectize({
+        plugins: ['remove_button'],
+        valueField: 'value',
+        labelField: 'text',
+        searchField: ['text'],
+        delimiter: ',',
+        persist: false,
+        create: false
+    });
 </script>
 {% endblock javascripts %}

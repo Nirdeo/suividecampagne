@@ -11,6 +11,7 @@ error_connect = "Veuillez vous connecter afin d'accéder à cette fonctionnalit�
 error_credentials = "Identifiants invalides"
 new_password = "Un nouveau mot de passe a été généré et vous a été envoyé par e-mail !"
 reset_password = "Un email contenant votre nouveau de passe a été envoyé à l'adresse "
+error_date = "La date de début doit se trouver avant la date de fin !"
 
 not_found = "L'élément demandé n'existe pas."
 
