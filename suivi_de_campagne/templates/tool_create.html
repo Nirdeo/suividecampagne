@@ -3,6 +3,9 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+    <div class="row justify-content-center">
+        {% include 'includes/messages.html' %}
+    </div>
     <div class="row">
         <div class="col-md-6">
             <form method="post" action="{% url 'create-theme' %}">{% csrf_token %}

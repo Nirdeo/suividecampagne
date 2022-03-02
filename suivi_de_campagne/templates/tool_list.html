@@ -37,8 +37,7 @@
                                                 <td>{{ theme.libelle }}</td>
                                                 <td>{{ theme.datecreation }}</td>
                                                 <td>
-                                                    <a class="btn btn-danger btn-round ml-auto"
-                                                       href="{% url 'delete-theme' identifier=theme.id %}"><i
+                                                    <a data-id="{{theme.id}}" class="btn btn-danger btn-round ml-auto supprTheme"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -85,8 +84,7 @@
                                                 <td>{{ theme.libelle }}</td>
                                                 <td>{{ theme.datecreation }}</td>
                                                 <td>
-                                                    <a class="btn btn-danger btn-round ml-auto"
-                                                       href="{% url 'delete-blacklist-theme' identifier=theme.id %}"><i
+                                                    <a data-id="{{theme.id}}" class="btn btn-danger btn-round ml-auto supprThemeBL"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -135,8 +133,7 @@
                                                 <td>{{ levier.libelle }}</td>
                                                 <td>{{ levier.datecreation }}</td>
                                                 <td>
-                                                    <a class="btn btn-danger btn-round ml-auto"
-                                                       href="{% url 'delete-levier' identifier=levier.id %}"><i
+                                                    <a data-id="{{levier.id}}" class="btn btn-danger btn-round ml-auto supprLevier"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -183,8 +180,7 @@
                                                 <td>{{ modele_economique.libelle }}</td>
                                                 <td>{{ modele_economique.datecreation }}</td>
                                                 <td>
-                                                    <a class="btn btn-danger btn-round ml-auto"
-                                                       href="{% url 'delete-modele-economique' identifier=modele_economique.id %}"><i
+                                                    <a data-id="{{modele_economique.id}}" class="btn btn-danger btn-round ml-auto supprModele"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -231,8 +227,7 @@
                                                 <td>{{ categorie.libelle }}</td>
                                                 <td>{{ categorie.datecreation }}</td>
                                                 <td>
-                                                    <a class="btn btn-danger btn-round ml-auto"
-                                                       href="{% url 'delete-categorie' identifier=categorie.id %}"><i
+                                                    <a data-id="{{categorie.id}}" class="btn btn-danger btn-round ml-auto supprCategorie"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -252,6 +247,11 @@
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script>
+    supprObject(".supprTheme", "Etes vous sur de vouloir supprimer ce thème ?", "/delete-theme/")
+    supprObject(".supprThemeBL", "Etes vous sur de vouloir supprimer ce blacklist thème ?", "/delete-blacklist-theme/")
+    supprObject(".supprLevier", "Etes vous sur de vouloir supprimer ce levier ?", "/delete-levier/")
+    supprObject(".supprModele", "Etes vous sur de vouloir supprimer ce modèle économique ?", "/delete-modele-economique/")
+    supprObject(".supprCategorie", "Etes vous sur de vouloir supprimer cette catégorie ?", "/delete-categorie/")
     $("#nav-tools").addClass("active")
 </script>
 {% endblock javascripts %}

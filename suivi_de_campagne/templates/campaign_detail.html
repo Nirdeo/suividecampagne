@@ -6,7 +6,10 @@
 {% load humanize %}
     <div class="row">
         <div class="col-md-12">
-            <form method="post" action="{% if identifier %} {% url 'edit-campaign' identifier=identifier %} {% else %} {% url 'create-campaign' %} {% endif %}">{% csrf_token %}
+            <div class="row justify-content-center">
+                {% include 'includes/messages.html' %}
+            </div>
+            <form method="post" action="{% if identifier %} {% url 'edit-campaign' identifier=identifier %} {% else %} {% url 'create-campaign' %} {% endif %}" id="formCampaign">{% csrf_token %}
                 <!-- Campagne -->
                 <div class="card">
                     <div class="card-header">
@@ -20,6 +23,13 @@
                             {% endif %}
 
                             {% if identifier %}
+                                <!-- statut affichage -->
+                                <div class="selectgroup selectgroup-pills ml-2">
+                                    <label class="selectgroup-item">
+                                        <span class="selectgroup-button text-dark {% if form.statut.value == 'LIVE' %}bg-success{% elif form.statut.value == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{form.statut.value}}</span>
+                                    </label>
+                                </div>
+                                <!-- Supression -->
                                 <a data-id="{{identifier}}" id="supprCampagne" class="btn btn-danger btn-round ml-auto float-right">Supprimer</a><span class="h4 float-right text-muted mt-2 mr-3">Dernière modification le {{datemodification|date:'d/m/Y à H:i'}}</span>
                             {% endif %}
                         </div>
@@ -41,6 +51,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- id_tradedoubler -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend" title="Identifiant tradedoubler" data-toggle="tooltip">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-hashtag"></i>
+                                            </span>
+                                        </div>
+                                        {{ form.id_tradedoubler }}
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Client -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
@@ -50,7 +73,8 @@
                                                 <i class="fas fa-address-book"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectClient" name="client">
+                                        <select class="form-control selectize" id="selectClient" name="client" required>
+                                            <option value=""></option>
                                             {% for un_client in clients %}
                                                 <option value="{{un_client.id}}" {% if form.client.value == un_client.id %} selected{% endif %}>{{un_client.nom_entreprise}}</option>
                                             {% endfor %}
@@ -85,7 +109,8 @@
                                                 <i class="fas fa-users"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectTraffic" name="traffic_manager">
+                                        <select class="form-control selectize" id="selectTraffic" name="traffic_manager" required>
+                                            <option value=""></option>
                                             {% for un_uti in utilisateurs %}
                                                 <option value="{{un_uti.id}}" {% if form.traffic_manager.value == un_uti.id %} selected{% endif %}>{{un_uti.nom}} {{un_uti.prenom}}</option>
                                             {% endfor %}
@@ -102,7 +127,8 @@
                                                 <i class="fas fa-users"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectReporter" name="reporter">
+                                        <select class="form-control selectize" id="selectReporter" name="reporter" required>
+                                            <option value=""></option>
                                             {% for un_uti in utilisateurs %}
                                                 <option value="{{un_uti.id}}" {% if form.reporter.value == un_uti.id %} selected{% endif %}>{{un_uti.nom}} {{un_uti.prenom}}</option>
                                             {% endfor %}
@@ -119,7 +145,8 @@
                                                 <i class="fas fa-users"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectCommercial" name="commercial">
+                                        <select class="form-control selectize" id="selectCommercial" name="commercial" required>
+                                            <option value=""></option>
                                             {% for un_uti in utilisateurs %}
                                                 <option value="{{un_uti.id}}" {% if form.commercial.value == un_uti.id %} selected{% endif %}>{{un_uti.nom}} {{un_uti.prenom}}</option>
                                             {% endfor %}
@@ -136,15 +163,15 @@
                                                 <i class="fas fa-eye"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectStatut" name="statut">
+                                        <select class="form-control selectize" id="selectStatut" name="statut" required>
+                                            <option value=""></option>
                                             {% for un_statut in statuts %}
-                                                <option value="{{un_statut}}" {% if form.statut.value == un_statut %} selected{% endif %}>{{un_statut}}</option>
+                                                <option value="{{un_statut}}" {% if form.statut.value == un_statut or un_statut == 'SETUP' and not identifier %} selected{% endif %}>{{un_statut}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6"></div>
                             <!-- date deb -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
@@ -180,7 +207,7 @@
                                                 <i class="fas fa-rocket"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectLevier" name="levier">
+                                        <select class="form-control selectize" id="selectLevier" name="levier">
                                             <option value=""></option>
                                             {% for un_levier in leviers %}
                                                 <option value="{{un_levier.id}}" {% if form.levier.value == un_levier.id %} selected{% endif %}>{{un_levier.libelle}}</option>
@@ -198,7 +225,7 @@
                                                 <i class="fas fa-chart-line"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectModEco" name="modele_eco" required>
+                                        <select class="form-control selectize" id="selectModEco" name="modele_eco" required {% if identifier %} disabled{% endif %}>
                                             <option value=""></option>
                                             {% for un_modele in modeles_eco %}
                                                 <option value="{{un_modele.id}}" {% if form.modele_eco.value == un_modele.id %} selected{% endif %}>{{un_modele.libelle}}</option>
@@ -209,35 +236,36 @@
                             </div>
 
                             <!-- nb jours -->
-                            <div class="col-12 col-md-6">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-success bubble-shadow-small">
-                                                    <i class="flaticon-time"></i>
+                            {% if identifier %}
+                                <div class="col-12 col-md-6">
+                                    <div class="card card-stats card-round">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-icon">
+                                                    <div class="icon-big text-center icon-success bubble-shadow-small">
+                                                        <i class="flaticon-time"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col col-stats ml-3 ml-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Nombre de jours campagne</p>
-                                                    <h4 class="card-title">{{nb_jours}}</h4>
+                                                <div class="col col-stats ml-3 ml-sm-0">
+                                                    <div class="numbers">
+                                                        <p class="card-category">Nombre de jours campagne</p>
+                                                        <h4 class="card-title">{{nb_jours}}</h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
 
                 <!--  Comptabilité -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
                             <span>
-                                <i class="fas fa-user"></i>
+                                <i class="fas fa-calculator"></i>
                             </span>
                             <span>
                                 Comptabilité
@@ -256,19 +284,6 @@
                                             </span>
                                         </div>
                                         {{ form.tarif }}
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- prix_defini -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Prix défini" data-toggle="tooltip">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-hand-holding-usd"></i>
-                                            </span>
-                                        </div>
-                                        {{ form.prix_defini }}
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +348,7 @@
                                                 <i class="fas fa-file-alt"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control" id="selectJourReport" name="jour_reporting" required>
+                                        <select class="form-control selectize" id="selectJourReport" name="jour_reporting" required>
                                             <option value=""></option>
                                             {% for un_jour in jours_semaine %}
                                                 <option value="{{un_jour}}" {% if form.jour_reporting.value == un_jour %} selected{% endif %}>{{un_jour}}</option>
@@ -342,7 +357,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6"></div>
                             <!-- Trend -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
@@ -397,89 +411,223 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="divChiffres row">
-                            <!-- Marge-->
-                            <div class="col-12 col-md-6">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-info bubble-shadow-small">
-                                                    <i class="flaticon-coins"></i>
+                        {% if identifier %}
+                            <!-- Valeurs tradedoubler -->
+                            <div class="row divChiffres">
+                                <label class="col-12 mb-3 mt-3"> Valeurs Tradedoubler</label>
+                                {% for un_modele in modeles_eco %}
+                                    {% if form.modele_eco.value == un_modele.id %}
+                                        {% if un_modele.libelle == "CPL" or un_modele.libelle == "CTL" %}
+                                            <!-- Nombre de leads -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre de leads" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        {{ form.nb_leads }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col col-stats ml-3 ml-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Marge</p>
-                                                    <h4 class="card-title">{{marge|intcomma}} €</h4>
+                                            <!-- Nombre de leads Tradedoubler -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre de leads tradedoubler" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" value="{{tradedoubler_values.count_leads_tradedoubler}}" placeholder="Nombre de leads tradedoubler" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% elif un_modele.libelle == "CPC" %}
+                                            <!-- Nombre de cliques -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre de cliques" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        {{ form.nb_cliques }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Nombre de cliques Tradedoubler -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre de cliques Tradedoubler" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" value="{{tradedoubler_values.count_clicks_tradedoubler}}" placeholder="Nombre de cliques Tradedoubler" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Nombre de cliques uniques -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre de cliques uniques" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        {{ form.nb_cliques_uniques }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Nombre de cliques unique tradedoubler -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Objectif mensuel" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" value="{{tradedoubler_values.count_unique_clicks_tradedoubler}}" placeholder="Nombre de cliques uniques tradedoubler" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% elif un_modele.libelle == "CPM" %}
+                                            <!-- Nombre ventes -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre ventes" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        {{ form.nb_ventes }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Nombre ventes tradedoubler -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre ventes tradedoubler" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" value="{{tradedoubler_values.count_mille_tradedoubler}}" placeholder="Nombre ventes tradedoubler" class="form-control" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% elif un_modele.libelle == "CPA" %}
+                                            <!-- Nombre d'affilations -->
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend" title="Nombre d'affilations" data-toggle="tooltip">
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-calculator"></i>
+                                                            </span>
+                                                        </div>
+                                                        {{ form.nb_affiliates }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <!-- Chiffres calculés -->
+                            <div class="divChiffres row">
+                                <!-- Marge-->
+                                <div class="col-12 col-md-6">
+                                    <div class="card card-stats card-round">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-icon">
+                                                    <div class="icon-big text-center icon-info bubble-shadow-small">
+                                                        <i class="flaticon-coins"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-stats ml-3 ml-sm-0">
+                                                    <div class="numbers">
+                                                        <p class="card-category">Marge</p>
+                                                        <h4 class="card-title">{{marge|intcomma}} €</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- pourcentage atteinte -->
+                                <div class="col-12 col-md-6">
+                                    <div class="card card-stats card-round">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-icon">
+                                                    <div class="icon-big text-center icon-success bubble-shadow-small">
+                                                        <i class="flaticon-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-stats ml-3 ml-sm-0">
+                                                    <div class="numbers">
+                                                        <p class="card-category">Poucentage d'atteinte</p>
+                                                        <h4 class="card-title">{{pourcentage_atteinte}} %</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- CA -->
+                                <div class="col-12 col-md-6">
+                                    <div class="card card-stats card-round">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-icon">
+                                                    <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                                        <i class="flaticon-chart-pie"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-stats ml-3 ml-sm-0">
+                                                    <div class="numbers">
+                                                        <p class="card-category">CA</p>
+                                                        <h4 class="card-title">{{ca_campagne|intcomma}} €</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- achat réalisé -->
+                                <div class="col-12 col-md-6">
+                                    <div class="card card-stats card-round">
+                                        <div class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col-icon">
+                                                    <div class="icon-big text-center icon-warning bubble-shadow-small">
+                                                        <i class="flaticon-cart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col col-stats ml-3 ml-sm-0">
+                                                    <div class="numbers">
+                                                        <p class="card-category">Achats réalisés</p>
+                                                        <h4 class="card-title">{{achat_realise|intcomma}} €</h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- pourcentage atteinte -->
-                            <div class="col-12 col-md-6">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-success bubble-shadow-small">
-                                                    <i class="flaticon-success"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ml-3 ml-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Poucentage d'atteinte</p>
-                                                    <h4 class="card-title">{{pourcentage_atteinte}} %</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- CA -->
-                            <div class="col-12 col-md-6">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                                    <i class="flaticon-chart-pie"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ml-3 ml-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">CA</p>
-                                                    <h4 class="card-title">{{ca_campagne|intcomma}} €</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- achat réalisé -->
-                            <div class="col-12 col-md-6">
-                                <div class="card card-stats card-round">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-icon">
-                                                <div class="icon-big text-center icon-warning bubble-shadow-small">
-                                                    <i class="flaticon-cart"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col col-stats ml-3 ml-sm-0">
-                                                <div class="numbers">
-                                                    <p class="card-category">Achats réalisés</p>
-                                                    <h4 class="card-title">{{achat_realise|intcomma}} €</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endif %}
                     </div>
+                    <!-- Action -->
                     <div class="card-action text-center">
                         <button type="submit" class="btn btn-success btn-round ml-auto col-lg-1">Envoyer</button>
                     </div>
@@ -517,14 +665,12 @@
     {% endif %}
     //datefin
     {% if form.date_fin.value != "" %}
-    console.log("{{form.date_fin.value}}")
         $("#date_fin").datepicker('setDate', "{{form.date_fin.value|date:'d/m/Y'}}")
         valeur = $("#date_fin").val()
         $("#date_fin").attr("value", valeur)
     {% endif %}
 
     $('.datepicker').datepicker().on("changeDate", function(e) {
-        // `e` here contains the extra attributes
         valeur = $(this).val()
         $(this).attr("value", valeur)
     });
@@ -532,8 +678,6 @@
     //Valeurs partenaires
     partenaires = "{{form.partenaires.value}}"
     partenaires = partenaires.split(",")
-    console.log(partenaires)
-   
     $("#selectPart option").each(function() {
         for(var i = 0 ; i < partenaires.length ; i++){
             if(partenaires[i] == $(this).val()){
@@ -541,6 +685,28 @@
             }
         }
     })
+    // Selectized partenaires
+    $("#selectPart").selectize({
+        plugins: ['remove_button'],
+        valueField: 'value',
+        labelField: 'text',
+        searchField: ['text'],
+        delimiter: ',',
+        persist: false,
+        create: false
+    });
+    // Selectize simple
+    $(".selectize").selectize({
+        valueField: 'value',
+        labelField: 'text',
+        searchField: ['text'],
+        delimiter: ',',
+        persist: false,
+        create: false,
+        hideSelected : true
+    });
+
+
     $("#nav-campaigns").addClass("active")
 </script>
 {% endblock javascripts %}

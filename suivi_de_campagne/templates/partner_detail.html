@@ -5,6 +5,9 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
+            <div class="row justify-content-center">
+                {% include 'includes/messages.html' %}
+            </div>
             <form method="post" action="{% if identifier %} {% url 'edit-partner' identifier=identifier %} {% else %} {% url 'create-partner' %} {% endif %}">{% csrf_token %}
                 <!-- Partenaire -->
                 <div class="card">
@@ -198,6 +201,27 @@
 {% block javascripts %}
 <script>
     supprObject("#supprPartenaire", "Etes vous sur de vouloir supprimer ce partenaire ?", "/delete-partner/")
+
+    //Valeurs categories
+    categories = "{{form.categories.value}}"
+    categories = categories.split(",")
+    $("#selectCategorie option").each(function() {
+        for(var i = 0 ; i < categories.length ; i++){
+            if(categories[i] == $(this).val()){
+                $(this).attr("selected", true)
+            }
+        }
+    })
+    // Selectized categories
+    $("#selectCategorie").selectize({
+        plugins: ['remove_button'],
+        valueField: 'value',
+        labelField: 'text',
+        searchField: ['text'],
+        delimiter: ',',
+        persist: false,
+        create: false
+    });
     $("#nav-partners").addClass("active")
 </script>
 {% endblock javascripts %}

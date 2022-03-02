@@ -153,60 +153,115 @@ def uid_super_user():
     return return_value
 
 
-def calculs_campagne(key, campaign):
-    url = import_configuration("tradedoubler", "nbclicks")
+def get_value_tradedoubler(url) :
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    nb_click = soup.find_all("td", class_="bS aR")
-    nb_clicks_total = nb_click[-1].string
+    value = soup.find_all("td", class_="bS aR")
+    value = int(value[-1].string.replace('\xa0', ''))
+    return value
 
-    url = import_configuration("tradedoubler", "nbclicksunique")
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    nb_click_unique = soup.find_all("td", class_="bS aR")
-    nb_clicks_unique_total = nb_click_unique[-1].string
+def get_all_values_tradedoubler(id_tradedoubler, date_debut, date_fin) :
+    # Généralités
+    url = import_configuration("tradedoubler", "url")
+    values = {}
+    parameters_campaign = ""
+    parameters_campaign += "&startDate=" + date_debut.strftime("%d/%m/%y")
+    parameters_campaign += "&endDate=" + date_fin.strftime("%d/%m/%y")
+    parameters_campaign += "&programId=" + str(id_tradedoubler)
+    parameters_campaign += "&metric1.lastOperator=/&interval=MONTHS&currencyId=EUR&run_as_organization_id=2294738&metric1.summaryType=NONE&latestDayToExecute=0&metric1.operator1=/&reportTitleTextKey=REPORT3_SERVICE_REPORTS_MMERCHANTOVERVIEWREPORT_TITLE&metric1.columnName1=siteId&setColumns=true&metric1.columnName2=siteId&decorator=popupDecorator&metric1.midOperator=/&viewType=1&tabMenuName=TABMENU_MERCHANT_PROGRAM_REPORTS_OVERVIEW&allPrograms=false&customKeyMetricCount=0&applyNamedDecorator=true&programIds=" + str(id_tradedoubler) + "&key=640aae6b412f2611bd555087c381c887&format=HTML"
 
-    count_leads = 100
-    count_clicks = 236
-    count_affiliates = 34
+    # nb clicks
+    url_nbclicks = url + "&columns=clickNrOf" + parameters_campaign
+    values["count_clicks_tradedoubler"] = get_value_tradedoubler(url_nbclicks)
 
+    # nb clicks unique
+    url_nbclicks_uniques = url + "&columns=uvNrOf" + parameters_campaign
+    values["count_unique_clicks_tradedoubler"] = get_value_tradedoubler(url_nbclicks_uniques)
+
+    # Leads
+    url_leads = url + "&columns=leadNrOf" + parameters_campaign
+    values["count_leads_tradedoubler"] = get_value_tradedoubler(url_leads)
+
+    # Mille
+    url_mille = url + "&columns=saleNrOf" + parameters_campaign
+    values["count_mille_tradedoubler"] = get_value_tradedoubler(url_mille)
+
+    return values
+
+def calculs_campagne(campaign):
+    campaign_calc = {}
     model_eco = database.mongodb.suivicampagne.modeles_economiques.find_one(
         {"_id": campaign["modele_eco"]})
-    # Calculs
-    if campaign["prix_vendu"] != None and campaign["prix_defini"] != None:
+    # Récupération des informations de tradedoubler si id tradedoubler
+    values = {
+        "count_clicks" : campaign["nb_cliques"],
+        "count_unique_clicks" : campaign["nb_cliques_uniques"],
+        "count_leads" : campaign["nb_leads"],
+        "count_affiliates" : campaign["nb_affiliates"],
+        "count_mille" : campaign["nb_ventes"]
+    }
+    if campaign["id_tradedoubler"] != None :
+        tradedoubler_values = get_all_values_tradedoubler(campaign["id_tradedoubler"], campaign["date_debut"], campaign["date_fin"])
+        values.update(tradedoubler_values)
+        campaign_calc["tradedoubler_values"] = tradedoubler_values
+
+    ca = 0
+    achats = 0
+
+    # Calculs CA / achats / marge
+    if campaign["prix_vendu"] != None and campaign["prix_achat"] != None :
         if model_eco["libelle"] == "CTL":
-            ca = count_leads * campaign["prix_vendu"]
-            marge = count_leads * campaign["prix_defini"]
+            # Valeurs manuelles
+            if "count_leads" in values and values["count_leads"] != None :
+                ca = values["count_leads"] * campaign["prix_vendu"]
+                achats = values["count_leads"] * campaign["prix_achat"]
+            # Valeurs tradedoubler
+            elif "count_leads_tradedoubler" in values and values["count_leads_tradedoubler"] != None :
+                ca = values["count_leads_tradedoubler"] * campaign["prix_vendu"]
+                achats = values["count_leads_tradedoubler"] * campaign["prix_achat"]
         elif model_eco["libelle"] == "CPL":
-            ca = count_leads * campaign["prix_vendu"]
-            marge = count_leads * campaign["prix_defini"]
+           # Valeurs manuelles
+            if "count_leads" in values and values["count_leads"] != None :
+                ca = values["count_leads"] * campaign["prix_vendu"]
+                achats = values["count_leads"] * campaign["prix_achat"]
+            # Valeurs tradedoubler
+            elif "count_leads_tradedoubler" in values and values["count_leads_tradedoubler"] != None :
+                ca = values["count_leads_tradedoubler"] * campaign["prix_vendu"]
+                achats = values["count_leads_tradedoubler"] * campaign["prix_achat"]
         elif model_eco["libelle"] == "CPC":
-            ca = count_clicks * campaign["prix_vendu"]
-            marge = count_clicks * campaign["prix_defini"]
+            # Valeurs manuelles
+            if "count_unique_clicks" in values and values["count_unique_clicks"] != None :
+                ca = values["count_unique_clicks"] * campaign["prix_vendu"]
+                achats = values["count_unique_clicks"] * campaign["prix_achat"]
+            # Valeurs tradedoubler
+            elif "count_unique_clicks_tradedoubler" in values and values["count_unique_clicks_tradedoubler"] != None  :
+                ca = values["count_unique_clicks_tradedoubler"] * campaign["prix_vendu"]
+                achats = values["count_unique_clicks_tradedoubler"] * campaign["prix_achat"]
         elif model_eco["libelle"] == "CPA":
-            ca = count_affiliates * campaign["prix_vendu"]
-            marge = count_affiliates * campaign["prix_defini"]
+            # Valeurs manuelles
+            ca = values["count_affiliates"] * campaign["prix_vendu"]
+            achats = values["count_affiliates"] * campaign["prix_achat"]
+        elif model_eco["libelle"] == "CPM":
+            # Valeurs manuelles
+            if "count_mille" in values and values["count_mille"] != None :
+                ca = values["count_mille"] * campaign["prix_vendu"]
+                achats = values["count_mille"] * campaign["prix_achat"]
+            # Valeurs tradedoubler
+            elif "count_mille_tradedoubler" in values and values["count_mille_tradedoubler"] != None :
+                ca = values["count_mille_tradedoubler"] * campaign["prix_vendu"]
+                achats = values["count_mille_tradedoubler"] * campaign["prix_achat"]
+
+    campaign_calc["ca_campagne"] = ca
+    campaign_calc["achat_realise"] = achats
+    campaign_calc["marge"] = ca - achats
+
+    # nb jours
+    nb_jours = campaign["date_fin"] - campaign["date_debut"]
+    campaign_calc["nb_jours"] = str(nb_jours.days) + " jours"
+    # poucentage d'atteinte
+    if campaign["objectif_mensuel"] != None and campaign["objectif_mensuel"] != 0:
+        campaign_calc["pourcentage_atteinte"] = round(campaign["trend_fin_mois"] / campaign["objectif_mensuel"], 2)
     else:
-        ca = 0
-        marge = 0
+        campaign_calc["pourcentage_atteinte"] = 0
 
-    if key == "nb_jours":
-        nb_jours = campaign["date_fin"] - campaign["date_debut"]
-        nb_jours_str = str(nb_jours.days) + " jours"
-        return nb_jours_str
-    elif key == "pourcentage_atteinte":
-        if campaign["objectif_mensuel"] != None and campaign["objectif_mensuel"] != 0:
-            return round(campaign["trend_fin_mois"] / campaign["objectif_mensuel"], 2)
-        else:
-            return 0
-
-    elif key == "ca_campagne":
-        return ca
-
-    elif key == "achat_realise":
-        return marge
-
-    elif key == "marge" and campaign["prix_achat"] is not None:
-        return ca - campaign["prix_achat"]
-    else:
-        return "clef non trouvée"
+    return campaign_calc

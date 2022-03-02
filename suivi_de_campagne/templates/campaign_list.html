@@ -38,7 +38,13 @@
                                                 <td>{{ campagne.libelle }}</td>
                                                 <td>{{ campagne.client.nom_entreprise }}</td>
                                                 <td>{{ campagne.traffic_manager.nom }} {{ campagne.traffic_manager.prenom }}</td>
-                                                <td>{{ campagne.statut }}</td>
+                                                <td class="tdStatuts">
+                                                    <div class="selectgroup selectgroup-pills">
+                                                        <label class="selectgroup-item">
+                                                            <span class="selectgroup-button text-dark {% if campagne.statut == 'LIVE' %}bg-success{% elif campagne.statut == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{campagne.statut}}</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
                                                 <td>{{ campagne.datecreation|date:"d/m/Y H:i" }}</td>
                                                 <td>{{ campagne.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>

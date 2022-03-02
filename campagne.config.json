@@ -22,7 +22,6 @@
   },
   "superutilisateur": "dsi@neptunemedia.fr",
   "tradedoubler": {
-    "nbclicks": "https://reports.Tradedoubler.com/pan/aReport3Key.action?reportName=mMerchantOverviewReport&columns=clickNrOf&startDate=01/02/22&endDate=22/02/22&programId=320282&metric1.lastOperator=/&interval=MONTHS&currencyId=EUR&run_as_organization_id=2294738&metric1.summaryType=NONE&latestDayToExecute=0&metric1.operator1=/&reportTitleTextKey=REPORT3_SERVICE_REPORTS_MMERCHANTOVERVIEWREPORT_TITLE&metric1.columnName1=siteId&setColumns=true&metric1.columnName2=siteId&decorator=popupDecorator&metric1.midOperator=/&viewType=1&tabMenuName=TABMENU_MERCHANT_PROGRAM_REPORTS_OVERVIEW&allPrograms=false&customKeyMetricCount=0&applyNamedDecorator=true&programIds=320282&key=640aae6b412f2611bd555087c381c887&format=HTML",
-    "nbclicksunique": "https://reports.Tradedoubler.com/pan/aReport3Key.action?reportName=mMerchantOverviewReport&columns=uvNrOf&startDate=01/02/22&endDate=22/02/22&programId=320282&metric1.lastOperator=/&interval=MONTHS&currencyId=EUR&run_as_organization_id=2294738&metric1.summaryType=NONE&latestDayToExecute=0&metric1.operator1=/&reportTitleTextKey=REPORT3_SERVICE_REPORTS_MMERCHANTOVERVIEWREPORT_TITLE&metric1.columnName1=siteId&setColumns=true&metric1.columnName2=siteId&decorator=popupDecorator&metric1.midOperator=/&viewType=1&tabMenuName=TABMENU_MERCHANT_PROGRAM_REPORTS_OVERVIEW&allPrograms=false&customKeyMetricCount=0&applyNamedDecorator=true&programIds=320282&key=640aae6b412f2611bd555087c381c887&format=HTML"
+    "url" : "https://reports.Tradedoubler.com/pan/aReport3Key.action?reportName=mMerchantOverviewReport"
   }
 }

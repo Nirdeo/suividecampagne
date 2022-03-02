@@ -48,19 +48,16 @@ class CustomerForm(forms.Form):
     prenom = forms.CharField(widget=forms.TextInput(attrs={
         "placeholder": "Prénom", "class": "form-control"}), max_length=32, required=False)
     fonction = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Fonction", "class": "form-control"}), max_length=32, required=False)
+        attrs={"placeholder": "Fonction", "class": "form-control"}), max_length=80, required=False)
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         "placeholder": "Email", "class": "form-control"}), max_length=80, required=False)
     telephone_fixe = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Téléphone fixe", "class": "form-control"}), max_length=14, required=False)
     telephone_mobile = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Téléphone mobile", "class": "form-control"}), max_length=14, required=False)
-    leviers = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Leviers", "class": "form-control"}), max_length=32, required=False)
-    thematiques = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Thématiques", "class": "form-control"}), max_length=32, required=False)
-    thematiques_blacklist = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Thématiques blacklistées", "class": "form-control"}), max_length=32, required=False)
+    leviers = SimpleArrayField(forms.CharField(), required=False)
+    thematiques = SimpleArrayField(forms.CharField(), required=False)
+    thematiques_blacklist = SimpleArrayField(forms.CharField(), required=False)
     siret = forms.CharField(widget=forms.TextInput(attrs={
         "placeholder": "Siret", "class": "form-control", "onkeyup": "this.value = this.value.toUpperCase();"}),
         min_length=14, max_length=14)
@@ -70,6 +67,8 @@ class CustomerForm(forms.Form):
         attrs={"placeholder": "Commentaires", "class": "form-control"}), max_length=2048, required=False)
     code_postal = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Code postal", "class": "form-control"}), max_length=5, required=False)
+    skype = forms.CharField(widget=forms.TextInput(attrs={
+        "placeholder": "Skype", "class": "form-control"}), max_length=32, required=False)
 
 class UserForm(forms.Form):
     admin = forms.BooleanField(required=False)
@@ -113,6 +112,8 @@ class CategorieForm(forms.Form):
 class CampaignForm(forms.Form):
     libelle = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Libellé","class": "form-control"}), max_length=32)
+    id_tradedoubler = forms.IntegerField(widget=forms.NumberInput(
+        attrs={"placeholder": "Identifiant tradedoubler", "class": "form-control"}), required=False)
     client = forms.CharField(max_length=32)
     partenaires = SimpleArrayField(forms.CharField(), required=False)
     traffic_manager = forms.CharField(max_length=32)
@@ -124,13 +125,11 @@ class CampaignForm(forms.Form):
     levier = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Levier", "class": "form-control"}), max_length=32, required=False)
     modele_eco = forms.CharField(widget=forms.TextInput(
-        attrs={"placeholder": "Modèle économique", "class": "form-control"}), max_length=32)
+        attrs={"placeholder": "Modèle économique", "class": "form-control"}), max_length=32, required=False)
     tarif = forms.FloatField(widget=forms.NumberInput(
         attrs={"placeholder": "Tarif", "class": "form-control"}))
     prix_vendu = forms.FloatField(widget=forms.NumberInput(
         attrs={"placeholder": "Prix de vente", "class": "form-control"}), required=False)
-    prix_defini = forms.FloatField(widget=forms.NumberInput(
-        attrs={"placeholder": "Prix défini", "class": "form-control"}), required=False)
     prix_achat = forms.FloatField(widget=forms.NumberInput(
         attrs={"placeholder": "Prix d'achat", "class": "form-control"}), required=False)
     objectif_mensuel = forms.FloatField(widget=forms.NumberInput(
@@ -145,3 +144,13 @@ class CampaignForm(forms.Form):
     ca_realise = forms.BooleanField(required=False)
     achat_realise = forms.BooleanField(required=False)
     marge_realise = forms.BooleanField(required=False)
+    nb_leads = forms.IntegerField(widget=forms.NumberInput(
+        attrs={"placeholder": "Nombre de leads", "class": "form-control"}), required=False)
+    nb_cliques = forms.IntegerField(widget=forms.NumberInput(
+        attrs={"placeholder": "Nombre de cliques", "class": "form-control"}), required=False)
+    nb_cliques_uniques = forms.IntegerField(widget=forms.NumberInput(
+        attrs={"placeholder": "Nombre de cliques uniques", "class": "form-control"}), required=False)
+    nb_ventes = forms.IntegerField(widget=forms.NumberInput(
+        attrs={"placeholder": "Nombre de ventes", "class": "form-control"}), required=False)
+    nb_affiliates = forms.IntegerField(widget=forms.NumberInput(
+        attrs={"placeholder": "Nombre d'affiliations", "class": "form-control"}), required=False)
