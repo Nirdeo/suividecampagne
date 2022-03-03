@@ -9,7 +9,7 @@
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">
                             <i class="fas fa-bullhorn"></i>
-                            Dashboard
+                            Campagnes en cours
                         </h4>
                     </div>
                 </div>
@@ -35,10 +35,21 @@
                                         <tbody>
                                         {% for campagne in campagnes %}
                                             <tr role="row" class="odd">
-                                                <td>{{ campagne.libelle }}</td>
+                                                <td>
+                                                    {% if campagne.id_tradedoubler == "" or campagne.id_tradedoubler == None %}
+                                                        <i class="fas fa-exclamation-triangle" title="ID TradeDoubler manquant"></i>
+                                                    {% endif %}
+                                                    {{ campagne.libelle }}
+                                                </td>
                                                 <td>{{ campagne.client.nom_entreprise }}</td>
                                                 <td>{{ campagne.ca_realise }}</td>
-                                                <td style="color:#729D2C">{{ campagne.statut }}</td>
+                                                <td class="tdStatuts">
+                                                    <div class="selectgroup selectgroup-pills">
+                                                        <label class="selectgroup-item">
+                                                            <span class="selectgroup-button text-dark {% if campagne.statut == 'LIVE' %}bg-success{% elif campagne.statut == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{ campagne.statut }}</span>
+                                                        </label>
+                                                    </div>
+                                                </td>
                                                 <td>{{ campagne.trend }}</td>
                                                 <td>{{ campagne.pourcentage_atteinte }} %</td>
                                                 <td>

@@ -28,7 +28,8 @@
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="{% static '/assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static '/assets/css/atlantis.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/css/atlantis.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static '/assets/css/demo.css' %}"> -->
     <link rel="stylesheet" href="{% static '/assets/css/bootstrap-datepicker.min.css' %}">
     <link rel="stylesheet" href="{% static '/assets/selectize.js/css/selectize.bootstrap5.css' %}">
 
@@ -63,34 +64,34 @@
 {% include 'includes/scripts.html' %}
 <!-- JS commun à toutes les pages -->
 <script>
-    function supprObject(selecteur, text, debUrl){
-        $(selecteur).on("click", function(e) {
+    function supprObject(selecteur, text, debUrl) {
+        $(selecteur).on("click", function (e) {
             identifiant = $(this).data("id");
             swal({
                 title: "Confirmation de supression",
                 text: text,
                 icon: "warning",
-                buttons:{
+                buttons: {
                     confirm: {
-                        text : "Oui, supprimer!",
-                        className : "btn btn-success"
+                        text: "Oui, supprimer!",
+                        className: "btn btn-success"
                     },
                     cancel: {
-                        text : "Annuler",
+                        text: "Annuler",
                         visible: true,
                         className: "btn btn-danger"
                     }
                 }
             }).then((Delete) => {
                 if (Delete) {
-                    document.location= debUrl + identifiant
+                    document.location = debUrl + identifiant
                 } else {
                     swal.close();
                 }
             });
         })
     }
-    
+
 </script>
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}

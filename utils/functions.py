@@ -154,10 +154,13 @@ def uid_super_user():
 
 
 def get_value_tradedoubler(url) :
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    value = soup.find_all("td", class_="bS aR")
-    value = int(value[-1].string.replace('\xa0', ''))
+    try:
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        value = soup.find_all("td", class_="bS aR")
+        value = int(value[-1].string.replace('\xa0', ''))
+    except Exception:
+        value = None
     return value
 
 def get_all_values_tradedoubler(id_tradedoubler, date_debut, date_fin) :
@@ -192,15 +195,25 @@ def calculs_campagne(campaign):
     campaign_calc = {}
     model_eco = database.mongodb.suivicampagne.modeles_economiques.find_one(
         {"_id": campaign["modele_eco"]})
+    print(model_eco)
     # Récupération des informations de tradedoubler si id tradedoubler
-    values = {
-        "count_clicks" : campaign["nb_cliques"],
-        "count_unique_clicks" : campaign["nb_cliques_uniques"],
-        "count_leads" : campaign["nb_leads"],
-        "count_affiliates" : campaign["nb_affiliates"],
-        "count_mille" : campaign["nb_ventes"]
-    }
-    if campaign["id_tradedoubler"] != None :
+    try:
+        values = {
+            "count_clicks" : campaign["nb_cliques"],
+            "count_unique_clicks" : campaign["nb_cliques_uniques"],
+            "count_leads" : campaign["nb_leads"],
+            "count_affiliates" : campaign["nb_affiliates"],
+            "count_mille" : campaign["nb_ventes"]
+        }
+    except Exception:
+        values = {
+            "count_clicks" : 0,
+            "count_unique_clicks" : 0,
+            "count_leads" : 0,
+            "count_affiliates" : 0,
+            "count_mille" : 0
+        }
+    if "id_tradedoubler" in campaign and campaign["id_tradedoubler"] != None :
         tradedoubler_values = get_all_values_tradedoubler(campaign["id_tradedoubler"], campaign["date_debut"], campaign["date_fin"])
         values.update(tradedoubler_values)
         campaign_calc["tradedoubler_values"] = tradedoubler_values

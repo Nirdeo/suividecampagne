@@ -19,8 +19,8 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table id="basic-datatables"
-                                            class="display table table-striped table-hover dataTable" role="grid"
-                                            aria-describedby="basic-datatables_info">
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
                                         <thead>
                                         <tr>
                                             <th scope="col">Libellé</th>
@@ -35,21 +35,34 @@
                                         <tbody>
                                         {% for campagne in campagnes %}
                                             <tr role="row" class="odd">
-                                                <td>{{ campagne.libelle }}</td>
+                                                
+                                                <td>
+                                                    {% if campagne.id_tradedoubler == "" or campagne.id_tradedoubler == None %}
+                                                        <i class="fas fa-exclamation-triangle" title="ID TradeDoubler manquant"></i>
+                                                    {% endif %}
+                                                    {{ campagne.libelle }}
+                                                </td>
                                                 <td>{{ campagne.client.nom_entreprise }}</td>
                                                 <td>{{ campagne.traffic_manager.nom }} {{ campagne.traffic_manager.prenom }}</td>
                                                 <td class="tdStatuts">
                                                     <div class="selectgroup selectgroup-pills">
                                                         <label class="selectgroup-item">
-                                                            <span class="selectgroup-button text-dark {% if campagne.statut == 'LIVE' %}bg-success{% elif campagne.statut == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{campagne.statut}}</span>
+                                                            <span class="selectgroup-button text-dark {% if campagne.statut == 'LIVE' %}bg-success{% elif campagne.statut == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{ campagne.statut }}</span>
                                                         </label>
                                                     </div>
                                                 </td>
                                                 <td>{{ campagne.datecreation|date:"d/m/Y H:i" }}</td>
                                                 <td>{{ campagne.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>
-                                                    {% if archived == 1 %}<a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-restore' identifier=campagne.id %}"><i class="fas fa-window-restore"></i></a>{% else %}<a class="btn btn-secondary btn-round ml-auto" href="{% url 'campaign-detail' identifier=campagne.id %}"><i class="fas fa-pen-alt"></i></a>{% endif %}
-                                                    <button class="btn btn-danger btn-round ml-auto supprCampagne" data-id="{{ campagne.id }}"><i class="fas fa-trash"></i></button>
+                                                    {% if archived == 1 %}<a class="btn btn-secondary btn-round ml-auto"
+                                                                             href="{% url 'campaign-restore' identifier=campagne.id %}"><i
+                                                            class="fas fa-window-restore"></i></a>{% else %}
+                                                        <a class="btn btn-secondary btn-round ml-auto"
+                                                           href="{% url 'campaign-detail' identifier=campagne.id %}"><i
+                                                                class="fas fa-pen-alt"></i></a>{% endif %}
+                                                    <button class="btn btn-danger btn-round ml-auto supprCampagne"
+                                                            data-id="{{ campagne.id }}"><i class="fas fa-trash"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -67,8 +80,8 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script>
-    supprObject(".supprCampagne", "Etes vous sur de vouloir supprimer ce campagne ?", "/delete-campaign/")
-    $("#nav-campaigns").addClass("active")
-</script>
+    <script>
+        supprObject(".supprCampagne", "Etes vous sur de vouloir supprimer ce campagne ?", "/delete-campaign/")
+        $("#nav-campaigns").addClass("active")
+    </script>
 {% endblock javascripts %}
