@@ -19,8 +19,8 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table id="basic-datatables"
-                                            class="display table table-striped table-hover dataTable" role="grid"
-                                            aria-describedby="basic-datatables_info">
+                                           class="display table table-striped table-hover dataTable" role="grid"
+                                           aria-describedby="basic-datatables_info">
                                         <thead>
                                         <tr>
                                             <th scope="col" class="siret">Siret</th>
@@ -38,8 +38,12 @@
                                                 <td>{{ client.datecreation|date:"d/m/Y H:i" }}</td>
                                                 <td>{{ client.datemodification|date:"d/m/Y H:i" }}</td>
                                                 <td>
-                                                    <a class="btn btn-secondary btn-round ml-auto" href="{% url 'customer-detail' identifier=client.id %}"><i class="fas fa-pen-alt"></i></a>
-                                                    <button class="btn btn-danger btn-round ml-auto supprClient" data-id="{{ client.id }}"><i class="fas fa-trash"></i></button>
+                                                    <a class="btn btn-secondary btn-round ml-auto"
+                                                       href="{% url 'customer-detail' identifier=client.id %}"><i
+                                                            class="fas fa-pen-alt"></i></a>
+                                                    <button class="btn btn-danger btn-round ml-auto supprClient"
+                                                            data-id="{{ client.id }}"><i class="fas fa-trash"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -57,8 +61,8 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script>
-    supprObject(".supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
-    $("#nav-customers").addClass("active")
-</script>
+    <script>
+        supprObject(".supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
+        $("#nav-customers").addClass("active")
+    </script>
 {% endblock javascripts %}

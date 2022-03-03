@@ -26,7 +26,7 @@ def list_campaign(request, archived = 0):
                 context["archived"] = 1
             else :
                 match = {"$match": {"statut" : {"$ne" : "STOP"}}}
-            project = {"$project": {"libelle": 1, "statut": 1, "traffic_manager" : 1, "client" : 1, "datecreation": 1, "datemodification": 1}}
+            project = {"$project": {"libelle": 1, "statut": 1, "traffic_manager" : 1, "client" : 1, "datecreation": 1, "datemodification": 1, "id_tradedoubler": 1}}
             sort = {"$sort": {"libelle": 1}}
             lookup_uti = {"$lookup" : {"from" : "utilisateurs", "localField" : "traffic_manager", "foreignField" : "_id", "as" : "traffic_manager"}}
             unwind_uti = {"$unwind" : {"path" : "$traffic_manager", "preserveNullAndEmptyArrays": True}}
@@ -76,6 +76,7 @@ def campaign_detail(request, identifier=None):
                     for key, value in campaign.items():
                         values[key] = value
                     form = forms.CampaignForm(initial=values)
+                    context["id_td"] = campaign["id_tradedoubler"]
                     context["form"] = form
 
                     # Informations et calculs

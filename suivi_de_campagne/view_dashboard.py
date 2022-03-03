@@ -17,7 +17,7 @@ def home(request):
             match = {"$match": {"statut": "LIVE"}}
             project = {"$project": {"libelle": 1, "statut": 1, "traffic_manager": 1, "client": 1, "datecreation": 1,
                                     "datemodification": 1, "objectif_mensuel": 1, "ca_realise": 1, "trend": 1,
-                                    "trend_fin_mois": 1}}
+                                    "trend_fin_mois": 1, "id_tradedoubler": 1}}
             sort = {"$sort": {"libelle": 1}}
             lookup_uti = {"$lookup": {"from": "utilisateurs", "localField": "traffic_manager",
                                       "foreignField": "_id", "as": "traffic_manager"}}

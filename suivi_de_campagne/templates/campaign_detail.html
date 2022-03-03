@@ -3,13 +3,14 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-{% load humanize %}
     <div class="row">
         <div class="col-md-12">
             <div class="row justify-content-center">
                 {% include 'includes/messages.html' %}
             </div>
-            <form method="post" action="{% if identifier %} {% url 'edit-campaign' identifier=identifier %} {% else %} {% url 'create-campaign' %} {% endif %}" id="formCampaign">{% csrf_token %}
+            <form method="post"
+                  action="{% if identifier %} {% url 'edit-campaign' identifier=identifier %} {% else %} {% url 'create-campaign' %} {% endif %}"
+                  id="formCampaign">{% csrf_token %}
                 <!-- Campagne -->
                 <div class="card">
                     <div class="card-header">
@@ -26,17 +27,19 @@
                                 <!-- statut affichage -->
                                 <div class="selectgroup selectgroup-pills ml-2">
                                     <label class="selectgroup-item">
-                                        <span class="selectgroup-button text-dark {% if form.statut.value == 'LIVE' %}bg-success{% elif form.statut.value == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{form.statut.value}}</span>
+                                        <span class="selectgroup-button text-dark {% if form.statut.value == 'LIVE' %}bg-success{% elif form.statut.value == 'SETUP' %}bg-warning{% else %}bg-danger{% endif %}">{{ form.statut.value }}</span>
                                     </label>
                                 </div>
                                 <!-- Supression -->
-                                <a data-id="{{identifier}}" id="supprCampagne" class="btn btn-danger btn-round ml-auto float-right">Supprimer</a><span class="h4 float-right text-muted mt-2 mr-3">Dernière modification le {{datemodification|date:'d/m/Y à H:i'}}</span>
+                                <a data-id="{{ identifier }}" id="supprCampagne"
+                                   class="btn btn-danger btn-round ml-auto float-right">Supprimer</a>
+                                <span class="h4 float-right text-muted mt-2 mr-3">Dernière modification le {{ datemodification|date:'d/m/Y à H:i' }}</span>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <input type="hidden" id="identifier" name="identifier" value="{{identifier}}">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ identifier }}">
                         <div class="row">
                             <!-- libellé -->
                             <div class="col-12 col-md-6">
@@ -55,10 +58,14 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
+                                        
                                         <div class="input-group-prepend" title="Identifiant tradedoubler" data-toggle="tooltip">
-                                            <span class="input-group-text">
-                                                <i class="fas fa-hashtag"></i>
-                                            </span>
+                                            {% if id_td == "" and identifier != None or id_td == None and identifier != None%}
+                                                <i class="fas fa-exclamation-triangle" title="ID TradeDoubler manquant" style="position: absolute; z-index: 2;"></i>
+                                            {% endif %}
+                                                <span class="input-group-text" style="position: inherit; z-index: 1;">
+                                                    <i class="fas fa-hashtag"></i>
+                                                </span>
                                         </div>
                                         {{ form.id_tradedoubler }}
                                     </div>
@@ -76,7 +83,9 @@
                                         <select class="form-control selectize" id="selectClient" name="client" required>
                                             <option value=""></option>
                                             {% for un_client in clients %}
-                                                <option value="{{un_client.id}}" {% if form.client.value == un_client.id %} selected{% endif %}>{{un_client.nom_entreprise}}</option>
+                                                <option value="{{ un_client.id }}"
+                                                        {% if form.client.value == un_client.id %}
+                                                        selected{% endif %}>{{ un_client.nom_entreprise }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -94,7 +103,7 @@
                                         <select multiple="" class="form-control" id="selectPart" name="partenaires">
                                             <option value=""></option>
                                             {% for un_partenaire in partenaires %}
-                                                <option value="{{un_partenaire.id}}">{{un_partenaire.nom_partenaire}}</option>
+                                                <option value="{{ un_partenaire.id }}">{{ un_partenaire.nom_partenaire }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -109,10 +118,13 @@
                                                 <i class="fas fa-users"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control selectize" id="selectTraffic" name="traffic_manager" required>
+                                        <select class="form-control selectize" id="selectTraffic" name="traffic_manager"
+                                                required>
                                             <option value=""></option>
                                             {% for un_uti in utilisateurs %}
-                                                <option value="{{un_uti.id}}" {% if form.traffic_manager.value == un_uti.id %} selected{% endif %}>{{un_uti.nom}} {{un_uti.prenom}}</option>
+                                                <option value="{{ un_uti.id }}"
+                                                        {% if form.traffic_manager.value == un_uti.id %}
+                                                        selected{% endif %}>{{ un_uti.nom }} {{ un_uti.prenom }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -127,10 +139,13 @@
                                                 <i class="fas fa-users"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control selectize" id="selectReporter" name="reporter" required>
+                                        <select class="form-control selectize" id="selectReporter" name="reporter"
+                                                required>
                                             <option value=""></option>
                                             {% for un_uti in utilisateurs %}
-                                                <option value="{{un_uti.id}}" {% if form.reporter.value == un_uti.id %} selected{% endif %}>{{un_uti.nom}} {{un_uti.prenom}}</option>
+                                                <option value="{{ un_uti.id }}"
+                                                        {% if form.reporter.value == un_uti.id %}
+                                                        selected{% endif %}>{{ un_uti.nom }} {{ un_uti.prenom }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -145,10 +160,13 @@
                                                 <i class="fas fa-users"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control selectize" id="selectCommercial" name="commercial" required>
+                                        <select class="form-control selectize" id="selectCommercial" name="commercial"
+                                                required>
                                             <option value=""></option>
                                             {% for un_uti in utilisateurs %}
-                                                <option value="{{un_uti.id}}" {% if form.commercial.value == un_uti.id %} selected{% endif %}>{{un_uti.nom}} {{un_uti.prenom}}</option>
+                                                <option value="{{ un_uti.id }}"
+                                                        {% if form.commercial.value == un_uti.id %}
+                                                        selected{% endif %}>{{ un_uti.nom }} {{ un_uti.prenom }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -166,7 +184,9 @@
                                         <select class="form-control selectize" id="selectStatut" name="statut" required>
                                             <option value=""></option>
                                             {% for un_statut in statuts %}
-                                                <option value="{{un_statut}}" {% if form.statut.value == un_statut or un_statut == 'SETUP' and not identifier %} selected{% endif %}>{{un_statut}}</option>
+                                                <option value="{{ un_statut }}"
+                                                        {% if form.statut.value == un_statut or un_statut == 'SETUP' and not identifier %}
+                                                        selected{% endif %}>{{ un_statut }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -181,7 +201,8 @@
                                                 <i class="fa fa-calendar-check"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control datepicker" name="date_debut" id="date_debut" required>
+                                        <input type="text" class="form-control datepicker" name="date_debut"
+                                               id="date_debut" required>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +215,8 @@
                                                 <i class="fa fa-calendar-check"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control datepicker" name="date_fin" id="date_fin" required>
+                                        <input type="text" class="form-control datepicker" name="date_fin" id="date_fin"
+                                               required>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +232,9 @@
                                         <select class="form-control selectize" id="selectLevier" name="levier">
                                             <option value=""></option>
                                             {% for un_levier in leviers %}
-                                                <option value="{{un_levier.id}}" {% if form.levier.value == un_levier.id %} selected{% endif %}>{{un_levier.libelle}}</option>
+                                                <option value="{{ un_levier.id }}"
+                                                        {% if form.levier.value == un_levier.id %}
+                                                        selected{% endif %}>{{ un_levier.libelle }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -220,15 +244,19 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Modèle économique" data-toggle="tooltip">
+                                        <div class="input-group-prepend" title="Modèle économique"
+                                             data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-chart-line"></i>
                                             </span>
                                         </div>
-                                        <select class="form-control selectize" id="selectModEco" name="modele_eco" required {% if identifier %} disabled{% endif %}>
+                                        <select class="form-control selectize" id="selectModEco" name="modele_eco"
+                                                required {% if identifier %} disabled{% endif %}>
                                             <option value=""></option>
                                             {% for un_modele in modeles_eco %}
-                                                <option value="{{un_modele.id}}" {% if form.modele_eco.value == un_modele.id %} selected{% endif %}>{{un_modele.libelle}}</option>
+                                                <option value="{{ un_modele.id }}"
+                                                        {% if form.modele_eco.value == un_modele.id %}
+                                                        selected{% endif %}>{{ un_modele.libelle }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -249,7 +277,7 @@
                                                 <div class="col col-stats ml-3 ml-sm-0">
                                                     <div class="numbers">
                                                         <p class="card-category">Nombre de jours campagne</p>
-                                                        <h4 class="card-title">{{nb_jours}}</h4>
+                                                        <h4 class="card-title">{{ nb_jours }}</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -260,378 +288,419 @@
                         </div>
                     </div>
 
-                <!--  Comptabilité -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
+                    <!--  Comptabilité -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
                             <span>
                                 <i class="fas fa-calculator"></i>
                             </span>
-                            <span>
+                                <span>
                                 Comptabilité
                             </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- tarif -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Tarif" data-toggle="tooltip">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- tarif -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Tarif" data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-euro-sign"></i>
                                             </span>
+                                            </div>
+                                            {{ form.tarif }}
                                         </div>
-                                        {{ form.tarif }}
                                     </div>
                                 </div>
-                            </div>
-                            <!-- prix_vendu -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Prix de vente" data-toggle="tooltip">
+                                <!-- prix_vendu -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Prix de vente"
+                                                 data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-hand-holding-usd"></i>
                                             </span>
+                                            </div>
+                                            {{ form.prix_vendu }}
                                         </div>
-                                        {{ form.prix_vendu }}
                                     </div>
                                 </div>
-                            </div>
-                            <!-- prix_achat -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Prix d'achat" data-toggle="tooltip">
+                                <!-- prix_achat -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Prix d'achat" data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-hand-holding-usd"></i>
                                             </span>
+                                            </div>
+                                            {{ form.prix_achat }}
                                         </div>
-                                        {{ form.prix_achat }}
                                     </div>
                                 </div>
-                            </div>
-                            <!-- objectif_mensuel -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Objectif mensuel" data-toggle="tooltip">
+                                <!-- objectif_mensuel -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Objectif mensuel"
+                                                 data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="far fa-hand-point-right"></i>
                                             </span>
+                                            </div>
+                                            {{ form.objectif_mensuel }}
                                         </div>
-                                        {{ form.objectif_mensuel }}
                                     </div>
                                 </div>
-                            </div>
-                            <!-- objectif_ca_mois -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Objectif CA mois en cours" data-toggle="tooltip">
+                                <!-- objectif_ca_mois -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Objectif CA mois en cours"
+                                                 data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="far fa-hand-point-right"></i>
                                             </span>
+                                            </div>
+                                            {{ form.objectif_ca_mois }}
                                         </div>
-                                        {{ form.objectif_ca_mois }}
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Jour reporting -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Jour de reporting" data-toggle="tooltip">
+                                <!-- Jour reporting -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Jour de reporting"
+                                                 data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-file-alt"></i>
                                             </span>
+                                            </div>
+                                            <select class="form-control selectize" id="selectJourReport"
+                                                    name="jour_reporting" required>
+                                                <option value=""></option>
+                                                {% for un_jour in jours_semaine %}
+                                                    <option value="{{ un_jour }}"
+                                                            {% if form.jour_reporting.value == un_jour %}
+                                                            selected{% endif %}>{{ un_jour }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
-                                        <select class="form-control selectize" id="selectJourReport" name="jour_reporting" required>
-                                            <option value=""></option>
-                                            {% for un_jour in jours_semaine %}
-                                                <option value="{{un_jour}}" {% if form.jour_reporting.value == un_jour %} selected{% endif %}>{{un_jour}}</option>
-                                            {% endfor %}
-                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Trend -->
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Trend" data-toggle="tooltip">
+                                <!-- Trend -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Trend" data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-chart-bar"></i>
                                             </span>
+                                            </div>
+                                            {{ form.trend }}
                                         </div>
-                                        {{ form.trend }}
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Trend fin de mois --> 
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Trend fin de mois" data-toggle="tooltip">
+                                <!-- Trend fin de mois -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend" title="Trend fin de mois"
+                                                 data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fas fa-chart-bar"></i>
                                             </span>
+                                            </div>
+                                            <input type="number" name="trend_fin_mois"
+                                                   value="{{ form.trend_fin_mois.value }}"
+                                                   placeholder="Trend fin de mois" class="form-control" step="any"
+                                                   id="id_trend_fin_mois"{% now "d/m/Y" as today %}
+                                                    {% if form.date_fin.value|date:'d/m/Y' > today %}
+                                                   readonly{% endif %}>
                                         </div>
-                                        <input type="number" name="trend_fin_mois" value="{{ form.trend_fin_mois.value }}" placeholder="Trend fin de mois" class="form-control" step="any" id="id_trend_fin_mois" {% now "d/m/Y" as today %}{% if form.date_fin.value|date:'d/m/Y' > today %} readonly{% endif %}>
+                                    </div>
+                                </div>
+                                <!-- ca_realise -->
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="ca_realise"
+                                                   {% if form.ca_realise.value %}checked{% endif %}>
+                                            <span class="form-check-sign">CA réalisé</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- achat_realise -->
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="achat_realise"
+                                                   {% if form.achat_realise.value %}checked{% endif %}>
+                                            <span class="form-check-sign">Achat réalisé</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- marge_realise -->
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="marge_realise"
+                                                   {% if form.marge_realise.value %}checked{% endif %}>
+                                            <span class="form-check-sign">Marge réalisée</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            <!-- ca_realise -->
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="ca_realise" {% if form.ca_realise.value %}checked{% endif %}>
-                                        <span class="form-check-sign">CA réalisé</span>
-                                    </label>
-                                </div>
-                            </div>
-                           <!-- achat_realise -->
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="achat_realise" {% if form.achat_realise.value %}checked{% endif %}>
-                                        <span class="form-check-sign">Achat réalisé</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- marge_realise -->
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="marge_realise" {% if form.marge_realise.value %}checked{% endif %}>
-                                        <span class="form-check-sign">Marge réalisée</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        {% if identifier %}
-                            <!-- Valeurs tradedoubler -->
-                            <div class="row divChiffres">
-                                <label class="col-12 mb-3 mt-3"> Valeurs Tradedoubler</label>
-                                {% for un_modele in modeles_eco %}
-                                    {% if form.modele_eco.value == un_modele.id %}
-                                        {% if un_modele.libelle == "CPL" or un_modele.libelle == "CTL" %}
-                                            <!-- Nombre de leads -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre de leads" data-toggle="tooltip">
+                            {% if identifier %}
+                                <!-- Valeurs tradedoubler -->
+                                <div class="row divChiffres">
+                                    <label class="col-12 mb-3 mt-3"> Valeurs Tradedoubler</label>
+                                    {% for un_modele in modeles_eco %}
+                                        {% if form.modele_eco.value == un_modele.id %}
+                                            {% if un_modele.libelle == "CPL" or un_modele.libelle == "CTL" %}
+                                                <!-- Nombre de leads -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" title="Nombre de leads"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            {{ form.nb_leads }}
                                                         </div>
-                                                        {{ form.nb_leads }}
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- Nombre de leads Tradedoubler -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre de leads tradedoubler" data-toggle="tooltip">
+                                                <!-- Nombre de leads Tradedoubler -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend"
+                                                                 title="Nombre de leads tradedoubler"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            <input type="text"
+                                                                   value="{{ tradedoubler_values.count_leads_tradedoubler }}"
+                                                                   placeholder="Nombre de leads tradedoubler"
+                                                                   class="form-control" disabled>
                                                         </div>
-                                                        <input type="text" value="{{tradedoubler_values.count_leads_tradedoubler}}" placeholder="Nombre de leads tradedoubler" class="form-control" disabled>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% elif un_modele.libelle == "CPC" %}
-                                            <!-- Nombre de cliques -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre de cliques" data-toggle="tooltip">
+                                            {% elif un_modele.libelle == "CPC" %}
+                                                <!-- Nombre de cliques -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" title="Nombre de cliques"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            {{ form.nb_cliques }}
                                                         </div>
-                                                        {{ form.nb_cliques }}
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- Nombre de cliques Tradedoubler -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre de cliques Tradedoubler" data-toggle="tooltip">
+                                                <!-- Nombre de cliques Tradedoubler -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend"
+                                                                 title="Nombre de cliques Tradedoubler"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            <input type="text"
+                                                                   value="{{ tradedoubler_values.count_clicks_tradedoubler }}"
+                                                                   placeholder="Nombre de cliques Tradedoubler"
+                                                                   class="form-control" disabled>
                                                         </div>
-                                                        <input type="text" value="{{tradedoubler_values.count_clicks_tradedoubler}}" placeholder="Nombre de cliques Tradedoubler" class="form-control" disabled>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- Nombre de cliques uniques -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre de cliques uniques" data-toggle="tooltip">
+                                                <!-- Nombre de cliques uniques -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend"
+                                                                 title="Nombre de cliques uniques"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            {{ form.nb_cliques_uniques }}
                                                         </div>
-                                                        {{ form.nb_cliques_uniques }}
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- Nombre de cliques unique tradedoubler -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Objectif mensuel" data-toggle="tooltip">
+                                                <!-- Nombre de cliques unique tradedoubler -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" title="Objectif mensuel"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            <input type="text"
+                                                                   value="{{ tradedoubler_values.count_unique_clicks_tradedoubler }}"
+                                                                   placeholder="Nombre de cliques uniques tradedoubler"
+                                                                   class="form-control" disabled>
                                                         </div>
-                                                        <input type="text" value="{{tradedoubler_values.count_unique_clicks_tradedoubler}}" placeholder="Nombre de cliques uniques tradedoubler" class="form-control" disabled>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% elif un_modele.libelle == "CPM" %}
-                                            <!-- Nombre ventes -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre ventes" data-toggle="tooltip">
+                                            {% elif un_modele.libelle == "CPM" %}
+                                                <!-- Nombre ventes -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend" title="Nombre ventes"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            {{ form.nb_ventes }}
                                                         </div>
-                                                        {{ form.nb_ventes }}
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- Nombre ventes tradedoubler -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre ventes tradedoubler" data-toggle="tooltip">
+                                                <!-- Nombre ventes tradedoubler -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend"
+                                                                 title="Nombre ventes tradedoubler"
+                                                                 data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            <input type="text"
+                                                                   value="{{ tradedoubler_values.count_mille_tradedoubler }}"
+                                                                   placeholder="Nombre ventes tradedoubler"
+                                                                   class="form-control" disabled>
                                                         </div>
-                                                        <input type="text" value="{{tradedoubler_values.count_mille_tradedoubler}}" placeholder="Nombre ventes tradedoubler" class="form-control" disabled>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% elif un_modele.libelle == "CPA" %}
-                                            <!-- Nombre d'affilations -->
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend" title="Nombre d'affilations" data-toggle="tooltip">
+                                            {% elif un_modele.libelle == "CPA" %}
+                                                <!-- Nombre d'affilations -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend"
+                                                                 title="Nombre d'affilations" data-toggle="tooltip">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-calculator"></i>
                                                             </span>
+                                                            </div>
+                                                            {{ form.nb_affiliates }}
                                                         </div>
-                                                        {{ form.nb_affiliates }}
                                                     </div>
                                                 </div>
-                                            </div>
+                                            {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <!-- Chiffres calculés -->
-                            <div class="divChiffres row">
-                                <!-- Marge-->
-                                <div class="col-12 col-md-6">
-                                    <div class="card card-stats card-round">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-icon">
-                                                    <div class="icon-big text-center icon-info bubble-shadow-small">
-                                                        <i class="flaticon-coins"></i>
+                                    {% endfor %}
+                                </div>
+                                <!-- Chiffres calculés -->
+                                <div class="divChiffres row">
+                                    <!-- Marge-->
+                                    <div class="col-12 col-md-6">
+                                        <div class="card card-stats card-round">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-icon">
+                                                        <div class="icon-big text-center icon-info bubble-shadow-small">
+                                                            <i class="flaticon-coins"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col col-stats ml-3 ml-sm-0">
+                                                        <div class="numbers">
+                                                            <p class="card-category">Marge</p>
+                                                            <h4 class="card-title">{{ marge }} €</h4>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col col-stats ml-3 ml-sm-0">
-                                                    <div class="numbers">
-                                                        <p class="card-category">Marge</p>
-                                                        <h4 class="card-title">{{marge|intcomma}} €</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- pourcentage atteinte -->
+                                    <div class="col-12 col-md-6">
+                                        <div class="card card-stats card-round">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-icon">
+                                                        <div class="icon-big text-center icon-success bubble-shadow-small">
+                                                            <i class="flaticon-success"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col col-stats ml-3 ml-sm-0">
+                                                        <div class="numbers">
+                                                            <p class="card-category">Poucentage d'atteinte</p>
+                                                            <h4 class="card-title">{{ pourcentage_atteinte }} %</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- CA -->
+                                    <div class="col-12 col-md-6">
+                                        <div class="card card-stats card-round">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-icon">
+                                                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                                            <i class="flaticon-chart-pie"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col col-stats ml-3 ml-sm-0">
+                                                        <div class="numbers">
+                                                            <p class="card-category">CA</p>
+                                                            <h4 class="card-title">{{ ca_campagne }} €</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- achat réalisé -->
+                                    <div class="col-12 col-md-6">
+                                        <div class="card card-stats card-round">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-icon">
+                                                        <div class="icon-big text-center icon-warning bubble-shadow-small">
+                                                            <i class="flaticon-cart"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col col-stats ml-3 ml-sm-0">
+                                                        <div class="numbers">
+                                                            <p class="card-category">Achats réalisés</p>
+                                                            <h4 class="card-title">{{ achat_realise }} €</h4>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- pourcentage atteinte -->
-                                <div class="col-12 col-md-6">
-                                    <div class="card card-stats card-round">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-icon">
-                                                    <div class="icon-big text-center icon-success bubble-shadow-small">
-                                                        <i class="flaticon-success"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col col-stats ml-3 ml-sm-0">
-                                                    <div class="numbers">
-                                                        <p class="card-category">Poucentage d'atteinte</p>
-                                                        <h4 class="card-title">{{pourcentage_atteinte}} %</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- CA -->
-                                <div class="col-12 col-md-6">
-                                    <div class="card card-stats card-round">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-icon">
-                                                    <div class="icon-big text-center icon-primary bubble-shadow-small">
-                                                        <i class="flaticon-chart-pie"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col col-stats ml-3 ml-sm-0">
-                                                    <div class="numbers">
-                                                        <p class="card-category">CA</p>
-                                                        <h4 class="card-title">{{ca_campagne|intcomma}} €</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- achat réalisé -->
-                                <div class="col-12 col-md-6">
-                                    <div class="card card-stats card-round">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-icon">
-                                                    <div class="icon-big text-center icon-warning bubble-shadow-small">
-                                                        <i class="flaticon-cart"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col col-stats ml-3 ml-sm-0">
-                                                    <div class="numbers">
-                                                        <p class="card-category">Achats réalisés</p>
-                                                        <h4 class="card-title">{{achat_realise|intcomma}} €</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
+                        <!-- Action -->
+                        <div class="card-action text-center">
+                            <button type="submit" class="btn btn-success btn-round ml-auto col-lg-1">Envoyer</button>
+                        </div>
                     </div>
-                    <!-- Action -->
-                    <div class="card-action text-center">
-                        <button type="submit" class="btn btn-success btn-round ml-auto col-lg-1">Envoyer</button>
-                    </div>
-                </div>
             </form>
         </div>
     </div>
@@ -639,74 +708,74 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script>
-    supprObject("#supprCampagne", "Etes vous sur de vouloir supprimer cette campagne ?", "/delete-campaign/")
+    <script>
+        supprObject("#supprCampagne", "Etes vous sur de vouloir supprimer cette campagne ?", "/delete-campaign/")
 
-    // DatePicker
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        startDate: '-3d',
-        autoclose : true,
-        calendarWeeks : true,
-        clearBtn : true,
-        language : "fr-FR",
-        todayBtn : "linked",
-        toggleActive : true,
-        todayHighlight : true,
-        daysOfWeekDisabled: "0,1",
-        startDate : "01/01/2010",
-        format: "dd/mm/yyyy",
-    });
-    //datedeb
-    {% if form.date_debut.value != "" %}
-        $("#date_debut").datepicker('setDate', "{{form.date_debut.value|date:'d/m/Y'}}")
-        valeur = $("#date_debut").val()
-        $("#date_debut").attr("value", valeur)
-    {% endif %}
-    //datefin
-    {% if form.date_fin.value != "" %}
-        $("#date_fin").datepicker('setDate', "{{form.date_fin.value|date:'d/m/Y'}}")
-        valeur = $("#date_fin").val()
-        $("#date_fin").attr("value", valeur)
-    {% endif %}
+        // DatePicker
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '-3d',
+            autoclose: true,
+            calendarWeeks: true,
+            clearBtn: true,
+            language: "fr-FR",
+            todayBtn: "linked",
+            toggleActive: true,
+            todayHighlight: true,
+            daysOfWeekDisabled: "0,1",
+            startDate: "01/01/2010",
+            format: "dd/mm/yyyy",
+        });
+        //datedeb
+        {% if form.date_debut.value != "" %}
+            $("#date_debut").datepicker('setDate', "{{form.date_debut.value|date:'d/m/Y'}}")
+            valeur = $("#date_debut").val()
+            $("#date_debut").attr("value", valeur)
+        {% endif %}
+        //datefin
+        {% if form.date_fin.value != "" %}
+            $("#date_fin").datepicker('setDate', "{{form.date_fin.value|date:'d/m/Y'}}")
+            valeur = $("#date_fin").val()
+            $("#date_fin").attr("value", valeur)
+        {% endif %}
 
-    $('.datepicker').datepicker().on("changeDate", function(e) {
-        valeur = $(this).val()
-        $(this).attr("value", valeur)
-    });
+        $('.datepicker').datepicker().on("changeDate", function (e) {
+            valeur = $(this).val()
+            $(this).attr("value", valeur)
+        });
 
-    //Valeurs partenaires
-    partenaires = "{{form.partenaires.value}}"
-    partenaires = partenaires.split(",")
-    $("#selectPart option").each(function() {
-        for(var i = 0 ; i < partenaires.length ; i++){
-            if(partenaires[i] == $(this).val()){
-                $(this).attr("selected", true)
+        //Valeurs partenaires
+        partenaires = "{{form.partenaires.value}}"
+        partenaires = partenaires.split(",")
+        $("#selectPart option").each(function () {
+            for (var i = 0; i < partenaires.length; i++) {
+                if (partenaires[i] == $(this).val()) {
+                    $(this).attr("selected", true)
+                }
             }
-        }
-    })
-    // Selectized partenaires
-    $("#selectPart").selectize({
-        plugins: ['remove_button'],
-        valueField: 'value',
-        labelField: 'text',
-        searchField: ['text'],
-        delimiter: ',',
-        persist: false,
-        create: false
-    });
-    // Selectize simple
-    $(".selectize").selectize({
-        valueField: 'value',
-        labelField: 'text',
-        searchField: ['text'],
-        delimiter: ',',
-        persist: false,
-        create: false,
-        hideSelected : true
-    });
+        })
+        // Selectized partenaires
+        $("#selectPart").selectize({
+            plugins: ['remove_button'],
+            valueField: 'value',
+            labelField: 'text',
+            searchField: ['text'],
+            delimiter: ',',
+            persist: false,
+            create: false
+        });
+        // Selectize simple
+        $(".selectize").selectize({
+            valueField: 'value',
+            labelField: 'text',
+            searchField: ['text'],
+            delimiter: ',',
+            persist: false,
+            create: false,
+            hideSelected: true
+        });
 
 
-    $("#nav-campaigns").addClass("active")
-</script>
+        $("#nav-campaigns").addClass("active")
+    </script>
 {% endblock javascripts %}

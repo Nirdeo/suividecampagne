@@ -12,7 +12,8 @@
 .form-check-sign {
     color: white !important;
 }
-input:disabled{
+
+input:disabled {
     color: #202940 !important;
 }
 
@@ -21,30 +22,35 @@ input:disabled{
         min-width: 50rem;
     }
 }
+
 /*  Campagnes */
-.divChiffres{
+.divChiffres {
     border-top: 1px solid rgba(181, 181, 181, 0.1);
     margin-top: 1.25rem;
     padding-top: 1.25rem;
 }
-td.tdStatuts{
+
+td.tdStatuts {
     padding-left: 0.5rem ! important;
 }
-td.tdStatuts span{
+
+td.tdStatuts span {
     width: 5rem;
 }
 
 /* Selectize */
-.selectize-control .selectize-input{
+.selectize-control .selectize-input {
     border-color: #2f374b;
     box-shadow: 0 0 2px 2px #222222 inset;
     background-color: #1a2035;
 }
-.selectize-control .selectize-input input, .selectize-control .selectize-input{
+
+.selectize-control .selectize-input input, .selectize-control .selectize-input {
     color: white !important;
     background-color: #1a2035 !important;
 }
-.selectize-control .item{
+
+.selectize-control .item {
     border-color: #2f374b !important;
     box-shadow: 0 0 3px 1px #b9babf !important;
     background-color: rgb(32, 41, 64) !important;
@@ -53,12 +59,14 @@ td.tdStatuts span{
     margin-right: 0.5rem !important;
 
 }
-.selectize-control .selectize-dropdown-content .option{
+
+.selectize-control .selectize-dropdown-content .option {
     border-color: #2f374b;
     box-shadow: 0 0 1px 1px #b9babf;
     background-color: rgb(32, 41, 64);
     color: white;
 }
+
 /* Datepicker */
 .datepicker-dropdown {
     color: white;
@@ -80,3 +88,4 @@ td.tdStatuts span{
 .datepicker {
     padding: 0.6rem 1rem !important;
 }
+

@@ -8,7 +8,8 @@
             <div class="row justify-content-center">
                 {% include 'includes/messages.html' %}
             </div>
-            <form method="post" action="{% if identifier %} {% url 'edit-customer' identifier=identifier %} {% else %} {% url 'create-customer' %} {% endif %}">{% csrf_token %}
+            <form method="post"
+                  action="{% if identifier %} {% url 'edit-customer' identifier=identifier %} {% else %} {% url 'create-customer' %} {% endif %}">{% csrf_token %}
                 <!-- Client -->
                 <div class="card">
                     <div class="card-header">
@@ -22,13 +23,14 @@
                             {% endif %}
 
                             {% if identifier %}
-                                <a data-id="{{identifier}}" id="supprClient" class="btn btn-danger btn-round ml-auto float-right">Supprimer</a>
+                                <a data-id="{{ identifier }}" id="supprClient"
+                                   class="btn btn-danger btn-round ml-auto float-right">Supprimer</a>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <input type="hidden" id="identifier" name="identifier" value="{{identifier}}">
+                        <input type="hidden" id="identifier" name="identifier" value="{{ identifier }}">
                         <div class="row">
                             <!-- dénomination -->
                             <div class="col-12 col-md-6">
@@ -63,11 +65,15 @@
                                         <label class="form-label col-lg-2 labelInputgroup">Base</label>
                                         <div class="selectgroup w-100 col-lg-10">
                                             <label class="selectgroup-item">
-                                                <input type="checkbox" name="bases" value="interne" class="selectgroup-input" {% if "interne" in form.bases.value %}checked{% endif %}>
+                                                <input type="checkbox" name="bases" value="interne"
+                                                       class="selectgroup-input"
+                                                       {% if "interne" in form.bases.value %}checked{% endif %}>
                                                 <span class="selectgroup-button">Interne</span>
                                             </label>
                                             <label class="selectgroup-item">
-                                                <input type="checkbox" name="bases" value="externe" class="selectgroup-input" {% if "externe" in form.bases.value %}checked{% endif %}>
+                                                <input type="checkbox" name="bases" value="externe"
+                                                       class="selectgroup-input"
+                                                       {% if "externe" in form.bases.value %}checked{% endif %}>
                                                 <span class="selectgroup-button">Externe</span>
                                             </label>
                                         </div>
@@ -96,10 +102,11 @@
                                                 <i class="fas fa-rocket"></i>
                                             </span>
                                         </div>
-                                        <select multiple="" class="form-control selectize-multiple" id="selectLevier" name="leviers">
+                                        <select multiple="" class="form-control selectize-multiple" id="selectLevier"
+                                                name="leviers">
                                             <option value=""></option>
                                             {% for un_levier in leviers %}
-                                                <option value="{{un_levier.id}}">{{un_levier.libelle}}</option>
+                                                <option value="{{ un_levier.id }}">{{ un_levier.libelle }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -114,10 +121,11 @@
                                                 <i class="fab fa-affiliatetheme"></i>
                                             </span>
                                         </div>
-                                        <select multiple="" class="form-control selectize-multiple" id="selectThematique" name="thematiques">
+                                        <select multiple="" class="form-control selectize-multiple"
+                                                id="selectThematique" name="thematiques">
                                             <option value=""></option>
                                             {% for un_theme in themes %}
-                                                <option value="{{un_theme.id}}">{{un_theme.libelle}}</option>
+                                                <option value="{{ un_theme.id }}">{{ un_theme.libelle }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -127,15 +135,17 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                        <div class="input-group-prepend" title="Thématiques blacklistées" data-toggle="tooltip">
+                                        <div class="input-group-prepend" title="Thématiques blacklistées"
+                                             data-toggle="tooltip">
                                             <span class="input-group-text">
                                                 <i class="fab fa-affiliatetheme"></i>
                                             </span>
                                         </div>
-                                        <select multiple="" class="form-control selectize-multiple" id="selectThemeBL" name="thematiques_blacklist">
+                                        <select multiple="" class="form-control selectize-multiple" id="selectThemeBL"
+                                                name="thematiques_blacklist">
                                             <option value=""></option>
                                             {% for un_theme_bl in themes_bl %}
-                                                <option value="{{un_theme_bl.id}}">{{un_theme_bl.libelle}}</option>
+                                                <option value="{{ un_theme_bl.id }}">{{ un_theme_bl.libelle }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -276,50 +286,50 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script>
-    supprObject("#supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
-    $("#nav-customers").addClass("active")
+    <script>
+        supprObject("#supprClient", "Etes vous sur de vouloir supprimer ce client ?", "/delete-customer/")
+        $("#nav-customers").addClass("active")
 
-    //Valeurs leviers
-    leviers = "{{form.leviers.value}}"
-    leviers = leviers.split(",")
-    $("#selectLevier option").each(function() {
-        for(var i = 0 ; i < leviers.length ; i++){
-            if(leviers[i] == $(this).val()){
-                $(this).attr("selected", true)
+        //Valeurs leviers
+        leviers = "{{form.leviers.value}}"
+        leviers = leviers.split(",")
+        $("#selectLevier option").each(function () {
+            for (var i = 0; i < leviers.length; i++) {
+                if (leviers[i] == $(this).val()) {
+                    $(this).attr("selected", true)
+                }
             }
-        }
-    })
-    //Valeurs themes
-    thematiques = "{{form.thematiques.value}}"
-    thematiques = thematiques.split(",")
-    $("#selectThematique option").each(function() {
-        for(var i = 0 ; i < thematiques.length ; i++){
-            if(thematiques[i] == $(this).val()){
-                $(this).attr("selected", true)
+        })
+        //Valeurs themes
+        thematiques = "{{form.thematiques.value}}"
+        thematiques = thematiques.split(",")
+        $("#selectThematique option").each(function () {
+            for (var i = 0; i < thematiques.length; i++) {
+                if (thematiques[i] == $(this).val()) {
+                    $(this).attr("selected", true)
+                }
             }
-        }
-    })
-    //Valeurs themes_bl
-    thematiques_blacklist = "{{form.thematiques_blacklist.value}}"
-    thematiques_blacklist = thematiques_blacklist.split(",")
-    $("#selectThemeBL option").each(function() {
-        for(var i = 0 ; i < thematiques_blacklist.length ; i++){
-            if(thematiques_blacklist[i] == $(this).val()){
-                $(this).attr("selected", true)
+        })
+        //Valeurs themes_bl
+        thematiques_blacklist = "{{form.thematiques_blacklist.value}}"
+        thematiques_blacklist = thematiques_blacklist.split(",")
+        $("#selectThemeBL option").each(function () {
+            for (var i = 0; i < thematiques_blacklist.length; i++) {
+                if (thematiques_blacklist[i] == $(this).val()) {
+                    $(this).attr("selected", true)
+                }
             }
-        }
-    })
+        })
 
-    // Selectized
-    $(".selectize-multiple").selectize({
-        plugins: ['remove_button'],
-        valueField: 'value',
-        labelField: 'text',
-        searchField: ['text'],
-        delimiter: ',',
-        persist: false,
-        create: false
-    });
-</script>
+        // Selectized
+        $(".selectize-multiple").selectize({
+            plugins: ['remove_button'],
+            valueField: 'value',
+            labelField: 'text',
+            searchField: ['text'],
+            delimiter: ',',
+            persist: false,
+            create: false
+        });
+    </script>
 {% endblock javascripts %}
