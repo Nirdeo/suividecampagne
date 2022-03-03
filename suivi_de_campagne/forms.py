@@ -39,6 +39,8 @@ class PartnerForm(forms.Form):
         min_length=14, max_length=14)
     nom_partenaire = forms.CharField(widget=forms.TextInput(
         attrs={"placeholder": "Dénomination", "class": "form-control"}), max_length=32, required=False)
+    commentaire = forms.CharField(widget=forms.Textarea(
+        attrs={"placeholder": "Commentaires", "class": "form-control"}), max_length=2048, required=False)
 
 
 class CustomerForm(forms.Form):

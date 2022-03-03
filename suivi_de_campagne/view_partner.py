@@ -102,6 +102,7 @@ def create_partner(request):
                     mobile = form.cleaned_data["telephone"]
                     skype = form.cleaned_data["skype"]
                     categories = request.POST.getlist("categories")
+                    comments = form.cleaned_data["commentaire"]
                     collections = []
                     for categorie in categories :
                         if categorie != "" :
@@ -120,6 +121,7 @@ def create_partner(request):
                         "categories": collections,
                         "siret": siret,
                         "nom_partenaire": partner_name,
+                        "commentaire": comments,
                         "datecreation": datetime.now(),
                         "datemodification": datetime.now()
                     }
@@ -166,6 +168,7 @@ def edit_partner(request, identifier):
                     mobile = form.cleaned_data["telephone"]
                     skype = form.cleaned_data["skype"]
                     categories = request.POST.getlist("categories")
+                    comments = form.cleaned_data["commentaire"]
                     collections = []
                     for categorie in categories :
                         if categorie != "" :
@@ -187,6 +190,7 @@ def edit_partner(request, identifier):
                             "categories": collections,
                             "siret": siret,
                             "nom_partenaire": partner_name,
+                            "commentaire": comments,
                             "datemodification": datetime.now()
                         }
                     }
